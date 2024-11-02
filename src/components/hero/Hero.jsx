@@ -17,7 +17,7 @@ export default function Hero() {
         </p>
         <div className='flex flex-col sm:flex-row gap-4 mt-6'>
           <Link
-            href={"/products"}
+            to={"/all-product"}
             className={buttonVariants({ className: "!bg-olive" })}
           >
             Explore Plants
