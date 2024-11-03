@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  count: 1,
   isOpen: false,
   isDelete: false,
   productId: 0,
@@ -12,6 +13,15 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    increment: (state) => {
+      state.count += 1;
+    },
+    decrement: (state) => {
+      state.count -= 1;
+    },
+    resetCount: (state) => {
+      state.count = 1;
+    },
     setIsOpen: (state, action) => {
       state.isOpen = action.payload;
     },
@@ -21,6 +31,7 @@ const appSlice = createSlice({
     setProductId: (state, action) => {
       state.productId = action.payload;
     },
+
     setType: (state, action) => {
       state.type = action.payload;
     },
@@ -31,6 +42,9 @@ const appSlice = createSlice({
 });
 
 export const {
+  increment,
+  decrement,
+  resetCount,
   setIsOpen,
   setIsDelete,
   setProductId,

@@ -3,43 +3,76 @@ import { NavMenuItem } from "@/lib/mock/NavMentuItems";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 import PropTypes from "prop-types";
+import { useRef, useState, useEffect } from "react";
+import { useOnClickOutside } from "@/hooks/useClickOutside";
 
 export default function MobileNav({ user }) {
+  const [isOpen, setIsOpen] = useState(true);
+  const ref = useRef();
+  useOnClickOutside(ref, () => setIsOpen(false));
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      setIsOpen(false);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  if (!isOpen) return null;
+
   return (
-    <div className='lg:hidden bg-white p-4 mt-4 rounded-lg shadow-lg relative'>
-      <div className='flex flex-col space-y-4'>
-        <div className='flex flex-col items-start space-y-1'>
-          <div className='flex flex-col my-4 gap-2'>
-            {NavMenuItem.map((item, index) => (
-              <div key={index} className='flex flex-col'>
-                {item?.displayChildren ? (
-                  <div className='flex justify-between items-center cursor-pointer py-2 font-semibold'>
-                    <p className='font-thin'>{item?.name}</p>
-                  </div>
-                ) : (
-                  <Link to={item?.path} className='py-2'>
-                    {item?.name}
-                  </Link>
-                )}
-              </div>
-            ))}
+    <div className='relative z-50'>
+      <div
+        ref={ref}
+        className='relative lg:hidden bg-white p-4 mt-4 rounded-lg shadow-lg z-50'
+      >
+        <div className='flex flex-col space-y-4'>
+          <div className='flex flex-col items-start space-y-1'>
+            <div className='flex flex-col my-4 gap-2'>
+              {NavMenuItem.map((item, index) => (
+                <div key={index} className='flex flex-col'>
+                  {item?.displayChildren ? (
+                    <div className='flex justify-between items-center cursor-pointer py-2 font-semibold'>
+                      <p className='font-thin'>{item?.name}</p>
+                    </div>
+                  ) : (
+                    <Link to={item?.path} className='py-2'>
+                      {item?.name}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+            {!user && (
+              <>
+                <Link
+                  to='/login'
+                  className={cn(buttonVariants({ variant: "ghost" }))}
+                >
+                  Login
+                </Link>
+                <Link
+                  to='/register'
+                  className={cn(buttonVariants({ variant: "ghost" }))}
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
-          {!user && (
-            <>
-              <Link
-                to='/login'
-                className={cn(buttonVariants({ variant: "ghost" }))}
-              >
-                Login
-              </Link>
-              <Link
-                to='/register'
-                className={cn(buttonVariants({ variant: "ghost" }))}
-              >
-                Register
-              </Link>
-            </>
-          )}
         </div>
       </div>
     </div>

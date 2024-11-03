@@ -14,6 +14,7 @@ import ForgotPasswordPage from "./pages/ForgetPasswordPage/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage";
 import App from "./App";
 import HomePage from "./pages/HomePage/HomePage";
+import DetailProductPage from "./pages/DetailProductPage/DetailProductPage";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       { path: "/all-product", element: <ProductPages /> },
+      { path: "/detail", element: <DetailProductPage /> },
     ],
   },
 
