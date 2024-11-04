@@ -40,7 +40,7 @@ export default function Cart() {
         </SheetHeader>
         {isCart > 0 ? (
           <>
-            <div className='flex w-full flex-col pr-6 space-y-4'>
+            <div className='flex w-full flex-col pr-6 space-y-4 overflow-auto'>
               {isLoading
                 ? Array.from({ length: 3 }).map((_, i) => (
                     // <LoadingCartItems key={i} />
@@ -52,6 +52,7 @@ export default function Cart() {
                       image={item.Product.image}
                       quantity={item.quantity}
                       title={item.Product.title}
+                      price={item.Product.price}
                       productQuantity={item.Product.quantity}
                     />
                   ))}
@@ -79,7 +80,7 @@ export default function Cart() {
                   to='/cart'
                   className={buttonVariants({ className: "w-full" })}
                 >
-                  Checkout
+                  see cart
                 </Link>
               </SheetTrigger>
             </SheetFooter>
