@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, getUser } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import WidthWrapper from "../WidthWrapper";
 import SearchBar from "../Seacrhbar/Searchbar";
@@ -13,13 +13,22 @@ import { Menu } from "lucide-react";
 import MobileNav from "../MobileNav/MobileNav";
 
 export default function Navbar() {
-  const user = false;
-  const location = useLocation(); // Get the current location
+  // const user = false;
+  const [user, setUser] = useState(null);
+  console.log(user, "ini user");
+  const location = useLocation();
   const [visible, setVisible] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // when user scrolling down navbar will like hidden
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getUser();
+      setUser(userData);
+    };
+
+    fetchUser();
+  }, []);
   useEffect(() => {
     let timeout;
     const handleScroll = () => {
@@ -54,7 +63,6 @@ export default function Navbar() {
       <header className='relative h-full bg-transparent lg:mx-4 mt-2'>
         <WidthWrapper>
           <div className='flex h-16 items-center'>
-            {/* Logo */}
             <div className='hidden ml-4 lg:block lg:ml-0'>
               <Link to='/'>
                 <Icons.logo />
@@ -79,7 +87,7 @@ export default function Navbar() {
             <div className='hidden ml-auto lg:flex items-center'>
               <div className='md:mr-6 flex items-center space-x-6'>
                 <div className='ml-4 flow-root lg:ml-6'>
-                  {user ? null : <Cart />}
+                  <Cart />
                 </div>
                 {user ? null : (
                   <Separator
@@ -102,7 +110,7 @@ export default function Navbar() {
                   />
                 )}
                 {user ? (
-                  <p></p>
+                  <p>{user?.userName}</p>
                 ) : (
                   <Link
                     to='/Register'
