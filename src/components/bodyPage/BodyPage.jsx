@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { PaginationProduct } from "../paginationProduct/PaginationProduct";
+import { PaginationProduct } from "../PaginationProduct/PaginationProduct";
 export default function Bodypage({
   image,
   text,

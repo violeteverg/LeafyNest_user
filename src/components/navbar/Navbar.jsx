@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import WidthWrapper from "../WidthWrapper";
-import SearchBar from "../seacrhbar/Searchbar";
-import NavItem from "../navItems/NavItems";
+import SearchBar from "../Seacrhbar/Searchbar";
+import NavItem from "../NavItems/NavItems";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Style from "./Navbar.module.css";
 import { Icons } from "../Icons";
 import { Separator } from "../ui/separator";
-import Cart from "../cart/Cart";
+import Cart from "../Cart/Cart";
 import { Menu } from "lucide-react";
-import MobileNav from "../mobileNav/MobileNav";
+import MobileNav from "../MobileNav/MobileNav";
 
 export default function Navbar() {
   const user = false;

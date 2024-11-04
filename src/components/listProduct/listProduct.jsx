@@ -1,6 +1,6 @@
 import { DummyListProduct } from "@/lib/mock/DummyListProduct";
 import WidthWrapper from "../WidthWrapper";
-import ListCard from "./listCard/ListCard";
+import ListCard from "./ListCard/ListCard";
 
 export default function ListProduct() {
   return (

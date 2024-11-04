@@ -1,4 +1,4 @@
-import CartItems from "@/components/cartItems/CartItems";
+import CartItems from "@/components/CartItems/CartItems";
 import WidthWrapper from "@/components/WidthWrapper";
 import { mockCartData } from "@/lib/mock/DummyCartItems";
 

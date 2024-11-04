@@ -1,6 +1,6 @@
 import { ProductCategory } from "@/lib/mock/DummyProductCategory";
 import { useEffect, useRef, useState } from "react";
-import ListNavItems from "../listNaveItems/ListNavItems";
+import ListNavItems from "../ListNavItems/ListNavItems";
 import { useOnClickOutside } from "@/hooks/useClickOutside";
 
 export default function NavItems() {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Bodypage from "@/components/bodyPage/BodyPage";
-import CardProducts from "@/components/cardProduct/CardProduct";
+import Bodypage from "@/components/BodyPage/BodyPage";
+import CardProducts from "@/components/CardProduct/CardProduct";
 import { useGetProductQuery } from "@/redux/product/api";
 
 export default function ProductPages() {

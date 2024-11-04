@@ -15,7 +15,7 @@ import { Separator } from "../ui/separator";
 import { setIsOpen } from "@/redux/app/slice";
 import { Link } from "react-router-dom";
 import { mockCartData } from "@/lib/mock/DummyCartItems";
-import CartItems from "../cartItems/CartItems";
+import CartItems from "../CartItems/CartItems";
 import { buttonVariants } from "../ui/button";
 
 export default function Cart() {
