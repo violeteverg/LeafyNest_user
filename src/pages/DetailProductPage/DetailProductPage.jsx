@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
+import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/lib/functions/formatPrice";
+import { cn } from "@/lib/utils";
 import { decrement, increment } from "@/redux/app/slice";
+import { useAddCartMutation } from "@/redux/cart/api";
 import { useGetProductIdQuery } from "@/redux/product/api";
-import { Minus, Plus, Star } from "lucide-react";
+import { CircleCheckBigIcon, CircleX, Minus, Plus, Star } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
@@ -11,10 +14,11 @@ export default function DetailProductPage() {
   const [searchParams] = useSearchParams();
   const productId = searchParams.get("productId");
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   const { count } = useSelector((state) => state.app);
   const { data: productDetails } = useGetProductIdQuery({ id: productId });
-  console.log(productDetails);
+  const [addCart] = useAddCartMutation();
   const handleDecrement = () => {
     if (count > 1) {
       dispatch(decrement());
@@ -22,6 +26,40 @@ export default function DetailProductPage() {
   };
   const handleIncrement = () => {
     dispatch(increment());
+  };
+  const buttoAddCartHandler = async () => {
+    try {
+      await addCart({
+        productId: productDetails?.id,
+        quantity: count,
+      }).unwrap();
+      toast({
+        variant: "success",
+        description: (
+          <div className='flex gap-2 font-bold'>
+            <CircleCheckBigIcon className='text-green-600' />
+            <p>Succes add to Cart</p>
+          </div>
+        ),
+        className: cn(
+          "top-0 right-0 flex fixed !z-[99999] bg-white md:max-w-[420px] md:top-4 md:right-4"
+        ),
+      });
+    } catch (error) {
+      console.log(error, "ini error");
+      toast({
+        variant: "destructive",
+        description: (
+          <div className='flex gap-2 font-bold'>
+            <CircleX />
+            <p>{error.data?.message || "Failed to add product to cart"}</p>
+          </div>
+        ),
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+        ),
+      });
+    }
   };
 
   return (
@@ -88,7 +126,10 @@ export default function DetailProductPage() {
                   </div>
                 </div>
                 <div className='flex flex-col lg:flex-row justify-between gap-3 w-full'>
-                  <Button className='font-mono w-full lg:w-[24%]'>
+                  <Button
+                    className='font-mono w-full lg:w-[24%]'
+                    onClick={buttoAddCartHandler}
+                  >
                     <p className='font-bold'>+Cart</p>
                   </Button>
                   <Button className='w-full font-mono text-white font-bold'>

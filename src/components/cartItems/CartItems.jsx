@@ -4,9 +4,10 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { formatPrice } from "@/lib/functions/formatPrice";
-// import { formatPrice } from "@/lib/functions/formatPrice";
+import { useRemoveCartMutation, useUpdateCartMutation } from "@/redux/cart/api";
 
 export default function CartItems({
+  id,
   image,
   quantity,
   title,
@@ -16,11 +17,20 @@ export default function CartItems({
   isPaymentPage,
 }) {
   const [newQuantity, setNewQuantity] = useState(quantity);
-  console.log(price, "ini price");
-  const handleUpdateQuantity = (quantity) => {
-    setNewQuantity(quantity);
+
+  const [updateCart] = useUpdateCartMutation();
+  const [removeCart] = useRemoveCartMutation();
+
+  const handleUpdateQuantity = async (newQty) => {
+    if (newQty > 0) {
+      setNewQuantity(newQty);
+      await updateCart({ id, quantity: newQty });
+    }
   };
-  const handleRemoveCart = () => {};
+  console.log(newQuantity, "ini quantity");
+  const handleRemoveCart = (id) => {
+    removeCart({ id });
+  };
   if (!isCartPage || isPaymentPage) {
     return (
       <div className='w-full h-fit my-4'>
@@ -85,7 +95,7 @@ export default function CartItems({
               variant='transparant'
               size='xs'
               className='flex items-center justify-center h-full text-black'
-              onClick={handleRemoveCart}
+              onClick={() => handleRemoveCart(id)}
             >
               <Trash2 className='h-[80%] w-[80%] hover:text-red-500' />
             </Button>
@@ -96,6 +106,7 @@ export default function CartItems({
   );
 }
 CartItems.propTypes = {
+  id: PropTypes.number,
   image: PropTypes.string,
   quantity: PropTypes.number,
   title: PropTypes.string,

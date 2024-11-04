@@ -2,10 +2,11 @@ import CartItems from "@/components/CartItems/CartItems";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import DeliveryAddressCard from "@/components/DeliveryAddressCard/DeliveryAddressCard";
 import WidthWrapper from "@/components/WidthWrapper";
-import { mockCartData } from "@/lib/mock/DummyCartItems";
+import { useGetCartQuery } from "@/redux/cart/api";
 
 export default function PaymentPage() {
-  const isLoading = false;
+  const { data, isLoading, isFetching } = useGetCartQuery();
+  const loading = isLoading || isFetching;
   return (
     <>
       <WidthWrapper className='flex justify-center items-center'>
@@ -13,12 +14,12 @@ export default function PaymentPage() {
           <div className='lg:w-[70%] flex flex-col justify-center h-full items-center'>
             <DeliveryAddressCard />
             <div className='w-full flex flex-col p-4 h-[50vh] border border-black rounded-lg items-center overflow-y-auto my-2'>
-              {isLoading
+              {loading
                 ? Array.from({ length: 3 }).map((_, i) => (
                     // <LoadingCartItems key={i} />
                     <p key={i}>....Loading</p>
                   ))
-                : mockCartData?.map((item) => (
+                : data?.map((item) => (
                     <CartItems
                       key={item.id}
                       image={item.Product.image}

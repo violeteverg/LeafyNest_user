@@ -14,17 +14,22 @@ import { Separator } from "../ui/separator";
 // import LoadingCartItems from "../Loading/LoadingCartItems";
 import { setIsOpen } from "@/redux/app/slice";
 import { Link } from "react-router-dom";
-import { mockCartData } from "@/lib/mock/DummyCartItems";
 import CartItems from "../CartItems/CartItems";
 import { buttonVariants } from "../ui/button";
+import { useGetCartQuery } from "@/redux/cart/api";
 
 export default function Cart() {
   //   const fee = 2;
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state) => state.app);
+  const { data, isLoading, isFetching } = useGetCartQuery(
+    {},
+    { skip: !isOpen }
+  );
+  console.log(data, "cart data");
 
-  const isCart = 7;
-  const isLoading = false;
+  const isCart = data?.length || 0;
+  const loading = isLoading || isFetching;
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => dispatch(setIsOpen(open))}>
@@ -41,12 +46,12 @@ export default function Cart() {
         {isCart > 0 ? (
           <>
             <div className='flex w-full flex-col pr-6 space-y-4 overflow-auto'>
-              {isLoading
+              {loading
                 ? Array.from({ length: 3 }).map((_, i) => (
                     // <LoadingCartItems key={i} />
                     <p key={i}>....Loading</p>
                   ))
-                : mockCartData?.map((item) => (
+                : data?.map((item) => (
                     <CartItems
                       key={item.id}
                       image={item.Product.image}
