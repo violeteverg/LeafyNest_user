@@ -2,11 +2,18 @@ import CartItems from "@/components/CartItems/CartItems";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import DeliveryAddressCard from "@/components/DeliveryAddressCard/DeliveryAddressCard";
 import WidthWrapper from "@/components/WidthWrapper";
+import { calculateTotalSummary } from "@/lib/utils";
 import { useGetCartQuery } from "@/redux/cart/api";
+import { useMemo } from "react";
 
 export default function PaymentPage() {
   const { data, isLoading, isFetching } = useGetCartQuery();
   const loading = isLoading || isFetching;
+  const totalSummary = useMemo(() => {
+    return data
+      ? calculateTotalSummary(data)
+      : { totalQuantity: 0, totalPrice: 0 };
+  }, [data]);
   return (
     <>
       <WidthWrapper className='flex justify-center items-center'>
@@ -34,7 +41,7 @@ export default function PaymentPage() {
           </div>
           <div className='lg:w-[30%] p-4'>
             <CheckoutSummary
-              //   totalSummary={totalSummary}
+              summary={totalSummary}
               isPayment={true}
               //   sendBodyPayment={sendBodyPayment() || []}
             />

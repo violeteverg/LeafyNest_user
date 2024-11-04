@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "@/lib/functions/formatPrice";
 // import { formatPrice } from "@/lib/functions/formatPrice";
 
 export default function CheckoutSummary({
@@ -25,9 +26,8 @@ export default function CheckoutSummary({
             <h1 className='font-bold text-lg left-0'>Shopping Summary</h1>
             <div className='flex w-full justify-between'>
               <p>Total</p>
-              <span>{isPaymentPage ? ":" : 30}</span>
-              {/* <p>{formatPrice(summary?.totalPrice)}</p> */}
-              <p>12000000</p>
+              <span>{isPaymentPage ? ":" : summary.totalQuantity}</span>
+              <p>{formatPrice(summary?.totalPrice)}</p>
             </div>
             {!isPaymentPage ? (
               <Button

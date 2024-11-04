@@ -1,12 +1,20 @@
 import CartItems from "@/components/CartItems/CartItems";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import WidthWrapper from "@/components/WidthWrapper";
+import { calculateTotalSummary } from "@/lib/utils";
 import { useGetCartQuery } from "@/redux/cart/api";
+import { useMemo } from "react";
 
 export default function CartPage() {
   const { data, isLoading, isFetching } = useGetCartQuery();
   const loading = isLoading || isFetching;
   // const [updateCart] = useUpdateCartMutation();
+  const totalSummary = useMemo(() => {
+    return data
+      ? calculateTotalSummary(data)
+      : { totalQuantity: 0, totalPrice: 0 };
+  }, [data]);
+  console.log(totalSummary, "ini total summary");
   return (
     <WidthWrapper className='flex justify-center'>
       <div className='flex flex-col lg:flex-row lg:w-[80%] w-full mx-4 border rounded-lg border-black h-full'>
@@ -32,7 +40,7 @@ export default function CartPage() {
           </div>
         </div>
         <div className='lg:w-[30%] p-4'>
-          <CheckoutSummary />
+          <CheckoutSummary summary={totalSummary} />
         </div>
       </div>
     </WidthWrapper>

@@ -60,3 +60,14 @@ export const getUser = async () => {
     return null;
   }
 };
+
+export function calculateTotalSummary(cartItems) {
+  return cartItems.reduce(
+    (acc, item) => {
+      acc.totalQuantity += item.quantity;
+      acc.totalPrice += item.quantity * item.Product.price;
+      return acc;
+    },
+    { totalQuantity: 0, totalPrice: 0 }
+  );
+}
