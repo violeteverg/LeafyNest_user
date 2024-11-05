@@ -11,11 +11,15 @@ import { Separator } from "../ui/separator";
 import Cart from "../Cart/Cart";
 import { Menu } from "lucide-react";
 import MobileNav from "../MobileNav/MobileNav";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/redux/app/slice";
 
 export default function Navbar() {
   // const user = false;
-  const [user, setUser] = useState(null);
-  console.log(user, "ini user");
+  // const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.app);
+  console.log(user, "ini user navbar");
   const location = useLocation();
   const [visible, setVisible] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -24,11 +28,12 @@ export default function Navbar() {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await getUser();
-      setUser(userData);
+      dispatch(setUser(userData));
     };
 
     fetchUser();
-  }, []);
+  }, [dispatch]);
+
   useEffect(() => {
     let timeout;
     const handleScroll = () => {

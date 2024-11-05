@@ -7,6 +7,7 @@ const initialState = {
   productId: 0,
   type: "create",
   checkboxValue: { isActive: false },
+  user: null,
 };
 
 const appSlice = createSlice({
@@ -38,6 +39,9 @@ const appSlice = createSlice({
     setCheckboxValue: (state, action) => {
       state.checkboxValue = { isActive: action.payload.isActive };
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
@@ -50,6 +54,7 @@ export const {
   setProductId,
   setType,
   setCheckboxValue,
+  setUser,
 } = appSlice.actions;
 
 export default appSlice.reducer;

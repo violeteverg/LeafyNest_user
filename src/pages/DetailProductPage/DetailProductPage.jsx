@@ -5,8 +5,12 @@ import { formatPrice } from "@/lib/functions/formatPrice";
 import { cn } from "@/lib/utils";
 import { decrement, increment } from "@/redux/app/slice";
 import { useAddCartMutation } from "@/redux/cart/api";
-import { useGetProductIdQuery } from "@/redux/product/api";
+import {
+  useCreateCommentMutation,
+  useGetProductIdQuery,
+} from "@/redux/product/api";
 import { CircleCheckBigIcon, CircleX, Minus, Plus, Star } from "lucide-react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
@@ -15,10 +19,14 @@ export default function DetailProductPage() {
   const productId = searchParams.get("productId");
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const user = useSelector((state) => state.app.user);
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0);
 
   const { count } = useSelector((state) => state.app);
   const { data: productDetails } = useGetProductIdQuery({ id: productId });
   const [addCart] = useAddCartMutation();
+  const [createComment] = useCreateCommentMutation();
   const handleDecrement = () => {
     if (count > 1) {
       dispatch(decrement());
@@ -59,6 +67,28 @@ export default function DetailProductPage() {
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
+    }
+  };
+
+  const handleStarClick = (value) => {
+    setRating(value);
+  };
+  const handleCommentSubmit = async () => {
+    if (!comment && rating === 0) {
+      alert("Please enter a comment or select a rating.");
+      return;
+    }
+
+    try {
+      console.log(comment, rating, "rating");
+      await createComment({
+        id: productId,
+        body: { comment, rating },
+      });
+      setComment("");
+      setRating(0);
+    } catch (error) {
+      console.error("Failed to submit comment:", error);
     }
   };
 
@@ -173,6 +203,35 @@ export default function DetailProductPage() {
                 </div>
               </div>
             ))}
+            {user && (
+              <div className='mt-4'>
+                <textarea
+                  placeholder='Write a comment...'
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className='w-full p-2 border border-gray-300 rounded-md text-black'
+                />
+
+                <div className='flex items-center mt-2'>
+                  <label className='mr-2 text-sm font-medium text-gray-700'>
+                    Rating:
+                  </label>
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <Star
+                      key={value}
+                      onClick={() => handleStarClick(value)}
+                      className={`w-6 h-6 cursor-pointer ${
+                        value <= rating ? "text-yellow-500" : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <Button className='mt-2' onClick={handleCommentSubmit}>
+                  Submit Comment
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       ) : null}

@@ -7,11 +7,12 @@ export const productApi = createApi({
   tagTypes: ["PRODUCT_LIST", "PRODUCT_ID"],
   baseQuery: fetchBaseQuery({
     baseUrl,
+    // credentials: true,
   }),
   endpoints: (builder) => ({
     getProduct: builder.query({
       query: ({ page }) => ({
-        url: `/findAll?page=${page}&limit=10`,
+        url: `/findAll?page=${page}&limit=`,
       }),
       transformResponse: (response) => {
         return response.result;
@@ -28,7 +29,23 @@ export const productApi = createApi({
       },
       providesTags: ["PRODUCT_ID"],
     }),
+    createComment: builder.mutation({
+      query: ({ id, body }) => {
+        console.log(id, body, "ini body comment");
+        return {
+          url: `/review/${id}`,
+          method: "POST",
+          body,
+          credentials: "include",
+        };
+      },
+      invalidatesTags: ["PRODUCT_ID"],
+    }),
   }),
 });
 
-export const { useGetProductQuery, useGetProductIdQuery } = productApi;
+export const {
+  useGetProductQuery,
+  useGetProductIdQuery,
+  useCreateCommentMutation,
+} = productApi;
