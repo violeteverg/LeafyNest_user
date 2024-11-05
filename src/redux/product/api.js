@@ -12,7 +12,7 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     getProduct: builder.query({
       query: ({ page }) => ({
-        url: `/findAll?page=${page}&limit=`,
+        url: `/findAll?page=${page}`,
       }),
       transformResponse: (response) => {
         return response.result;

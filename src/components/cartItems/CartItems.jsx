@@ -27,7 +27,6 @@ export default function CartItems({
       await updateCart({ id, quantity: newQty });
     }
   };
-  console.log(newQuantity, "ini quantity");
   const handleRemoveCart = (id) => {
     removeCart({ id });
   };

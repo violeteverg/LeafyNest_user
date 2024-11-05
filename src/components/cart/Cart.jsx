@@ -26,7 +26,6 @@ export default function Cart() {
     {},
     { skip: !isOpen }
   );
-  console.log(data, "cart data");
 
   const isCart = data?.length || 0;
   const loading = isLoading || isFetching;

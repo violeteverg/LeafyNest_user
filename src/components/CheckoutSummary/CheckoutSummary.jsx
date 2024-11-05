@@ -17,6 +17,7 @@ export default function CheckoutSummary({
   const handleBuyButton = () => {
     navigate("/payment");
   };
+  // console.log(paymentDetails, "ini payment");
 
   return (
     <>

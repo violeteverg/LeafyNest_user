@@ -9,7 +9,6 @@ export function cn(...inputs) {
 
 export const getJwtSecretKey = () => {
   const secret = import.meta.env.VITE_JWT_SECRET;
-  console.log(secret, "m");
 
   if (!secret || secret.length === 0) {
     throw new Error("The environment variable JWT_SECRET_KEY is not set");
@@ -49,7 +48,6 @@ export const getUser = async () => {
       token,
       new TextEncoder().encode(getJwtSecretKey())
     );
-    console.log(payload, "ini payload");
     return {
       id: payload?.id,
       userName: payload?.userValue?.userName,
@@ -62,12 +60,36 @@ export const getUser = async () => {
 };
 
 export function calculateTotalSummary(cartItems) {
+  // const isArray = Array.isArray(cartItems);
+  // const items = isArray ? cartItems : [cartItems];
+
   return cartItems.reduce(
     (acc, item) => {
-      acc.totalQuantity += item.quantity;
-      acc.totalPrice += item.quantity * item.Product.price;
+      const productPrice = item?.price ?? item?.Product?.price ?? 0;
+      acc.totalQuantity += item.quantity || 1;
+      acc.totalPrice += (item.quantity || 1) * productPrice;
       return acc;
     },
     { totalQuantity: 0, totalPrice: 0 }
   );
+}
+
+export function setSessionStorage(key, value) {
+  const item = {
+    ...value,
+  };
+  sessionStorage.setItem(key, JSON.stringify(item));
+}
+
+export function getSessionStorageItem(key, _isBuyNow) {
+  const itemStr = sessionStorage?.getItem(key);
+  if (!itemStr) return null;
+
+  const { index: productId, isBuyNow, quantity, expired } = JSON.parse(itemStr);
+  if (Date.now() > expired || _isBuyNow) {
+    sessionStorage.removeItem(key);
+    return _isBuyNow ? { productId, isBuyNow } : null;
+  }
+
+  return { productId, isBuyNow, quantity };
 }

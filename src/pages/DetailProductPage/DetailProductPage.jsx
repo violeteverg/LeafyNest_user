@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
 import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/lib/functions/formatPrice";
-import { cn } from "@/lib/utils";
+import { cn, setSessionStorage } from "@/lib/utils";
 import { decrement, increment } from "@/redux/app/slice";
 import { useAddCartMutation } from "@/redux/cart/api";
 import {
@@ -12,9 +12,10 @@ import {
 import { CircleCheckBigIcon, CircleX, Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function DetailProductPage() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const productId = searchParams.get("productId");
   const dispatch = useDispatch();
@@ -91,6 +92,14 @@ export default function DetailProductPage() {
       console.error("Failed to submit comment:", error);
     }
   };
+  const handleBuyNow = async () => {
+    setSessionStorage("__Ttemp", {
+      index: productId,
+      isBuyNow: true,
+      quantity: count,
+    });
+    navigate("/payment");
+  };
 
   return (
     <WidthWrapper className='flex justify-center items-center text-white h-full'>
@@ -162,7 +171,10 @@ export default function DetailProductPage() {
                   >
                     <p className='font-bold'>+Cart</p>
                   </Button>
-                  <Button className='w-full font-mono text-white font-bold'>
+                  <Button
+                    className='w-full font-mono text-white font-bold'
+                    onClick={handleBuyNow}
+                  >
                     Buy Now
                   </Button>
                 </div>

@@ -19,7 +19,7 @@ export default function Navbar() {
   // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.app);
-  console.log(user, "ini user navbar");
+  // console.log(user, "ini user navbar");
   const location = useLocation();
   const [visible, setVisible] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
