@@ -1,43 +1,43 @@
 export const ProductCategory = [
   {
-    label: "Product",
-    value: "product",
+    label: "Plants",
+    value: "plants",
     featured: [
       {
-        name: "Editor picks",
+        name: "succulents",
         href: "#",
         imageSrc: "/nav/ui-kits/bestsellers_succulent.jpg",
       },
       {
-        name: "Best seller cactus",
+        name: "cactus",
         href: "#",
         imageSrc: "/nav/ui-kits/bestsellers_cactus.jpg",
       },
       {
-        name: "New arrival",
+        name: "plants",
         href: "#",
         imageSrc: "/nav/ui-kits/new_arrival.jpg",
       },
     ],
   },
   {
-    label: "Icons",
-    value: "icons",
+    label: "Utils",
+    value: "utils",
     featured: [
       {
-        name: "Best seller",
+        name: "pots",
         href: "#",
-        imageSrc: "/nav/icons/bestsellers.jpg",
+        imageSrc: "/nav/icons/pots-backround.jpeg",
       },
       {
-        name: "New icons",
+        name: "tools",
         href: "#",
-        imageSrc: "/nav/icons/new.jpg",
+        imageSrc: "/nav/icons/tools-background.jpeg",
       },
       {
-        name: "Most picks",
+        name: "growing media",
         href: "#",
-        imageSrc: "/nav/icons/picks.jpg",
+        imageSrc: "/nav/icons/growing_media-background.jpeg",
       },
     ],
   },
