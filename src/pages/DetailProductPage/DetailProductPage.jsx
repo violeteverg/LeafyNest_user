@@ -1,3 +1,4 @@
+import Review from "@/components/Review/Review";
 import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
 import { useToast } from "@/hooks/use-toast";
@@ -5,12 +6,8 @@ import { formatPrice } from "@/lib/functions/formatPrice";
 import { cn, setSessionStorage } from "@/lib/utils";
 import { decrement, increment } from "@/redux/app/slice";
 import { useAddCartMutation } from "@/redux/cart/api";
-import {
-  useCreateCommentMutation,
-  useGetProductIdQuery,
-} from "@/redux/product/api";
-import { CircleCheckBigIcon, CircleX, Minus, Plus, Star } from "lucide-react";
-import { useState } from "react";
+import { useGetProductIdQuery } from "@/redux/product/api";
+import { CircleCheckBigIcon, CircleX, Minus, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -21,21 +18,21 @@ export default function DetailProductPage() {
   const dispatch = useDispatch();
   const { toast } = useToast();
   const user = useSelector((state) => state.app.user);
-  const [comment, setComment] = useState("");
-  const [rating, setRating] = useState(0);
 
   const { count } = useSelector((state) => state.app);
   const { data: productDetails } = useGetProductIdQuery({ id: productId });
   const [addCart] = useAddCartMutation();
-  const [createComment] = useCreateCommentMutation();
+
   const handleDecrement = () => {
     if (count > 1) {
       dispatch(decrement());
     }
   };
+
   const handleIncrement = () => {
     dispatch(increment());
   };
+
   const buttoAddCartHandler = async () => {
     try {
       await addCart({
@@ -71,27 +68,6 @@ export default function DetailProductPage() {
     }
   };
 
-  const handleStarClick = (value) => {
-    setRating(value);
-  };
-  const handleCommentSubmit = async () => {
-    if (!comment && rating === 0) {
-      alert("Please enter a comment or select a rating.");
-      return;
-    }
-
-    try {
-      console.log(comment, rating, "rating");
-      await createComment({
-        id: productId,
-        body: { comment, rating },
-      });
-      setComment("");
-      setRating(0);
-    } catch (error) {
-      console.error("Failed to submit comment:", error);
-    }
-  };
   const handleBuyNow = async () => {
     setSessionStorage("__Ttemp", {
       index: productId,
@@ -182,69 +158,11 @@ export default function DetailProductPage() {
             </div>
           </div>
 
-          <div className='mt-8 border-black border  rounded-md p-4'>
-            <h2 className='text-2xl text-black font-semibold mb-4'>Reviews</h2>
-            {productDetails?.Reviews.map((review) => (
-              <div
-                key={review.id}
-                className='flex items-start gap-6 mb-4 bg-teal-900 py-4 px-2 '
-              >
-                <img
-                  src={review.User.avatar}
-                  alt={`${review.User.fullName}'s avatar`}
-                  className='w-10 h-10 rounded-full'
-                />
-                <div className='flex-1'>
-                  <p className='font-semibold'>{review.User.fullName}</p>
-                  <div className='flex items-center gap-1'>
-                    {[...Array(5)].map((_, index) => (
-                      <Star
-                        key={index}
-                        size={16}
-                        className={
-                          index < review.rating
-                            ? "text-yellow-500"
-                            : "text-gray-400"
-                        }
-                      />
-                    ))}
-                  </div>
-                  {review.comment && (
-                    <p className='text-gray-300 mt-1'>{review.comment}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-            {user && (
-              <div className='mt-4'>
-                <textarea
-                  placeholder='Write a comment...'
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  className='w-full p-2 border border-gray-300 rounded-md text-black'
-                />
-
-                <div className='flex items-center mt-2'>
-                  <label className='mr-2 text-sm font-medium text-gray-700'>
-                    Rating:
-                  </label>
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Star
-                      key={value}
-                      onClick={() => handleStarClick(value)}
-                      className={`w-6 h-6 cursor-pointer ${
-                        value <= rating ? "text-yellow-500" : "text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <Button className='mt-2' onClick={handleCommentSubmit}>
-                  Submit Comment
-                </Button>
-              </div>
-            )}
-          </div>
+          <Review
+            productDetails={productDetails}
+            isUser={user}
+            productId={productId}
+          />
         </div>
       ) : null}
     </WidthWrapper>
