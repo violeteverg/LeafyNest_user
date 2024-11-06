@@ -13,7 +13,7 @@ const CardProducts = ({ id, title, price, image, discount, additional }) => {
 
   const cardClickHandler = (id) => {
     // setProductId(id);
-    navigate(`/detail?productId=${id}`);
+    navigate(`/detail/${id}`);
   };
 
   return (

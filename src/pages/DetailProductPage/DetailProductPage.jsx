@@ -12,12 +12,12 @@ import {
 import { CircleCheckBigIcon, CircleX, Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function DetailProductPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const productId = searchParams.get("productId");
+  const { id: productId } = useParams();
+
   const dispatch = useDispatch();
   const { toast } = useToast();
   const user = useSelector((state) => state.app.user);
