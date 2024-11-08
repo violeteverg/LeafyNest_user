@@ -93,3 +93,14 @@ export function getSessionStorageItem(key, _isBuyNow) {
 
   return { productId, isBuyNow, quantity };
 }
+
+export function formatDate(isoDate) {
+  return new Date(isoDate).toLocaleString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}

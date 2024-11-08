@@ -30,4 +30,9 @@ export const NavMenuItem = [
     path: "/growing_media",
     displayChildren: false,
   },
+  {
+    name: "Order List",
+    path: "/order_list",
+    displayChildren: false,
+  },
 ];

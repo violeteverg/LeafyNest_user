@@ -17,6 +17,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import DetailProductPage from "./pages/DetailProductPage/DetailProductPage";
 import CartPage from "./pages/CartPage/CartPage";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
+import OrderListPage from "./pages/OrderListPage/OrderListPage";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { path: "/order", element: <p>ini order</p> },
+      { path: "/order-list", element: <OrderListPage /> },
       { path: "/cart", element: <CartPage /> },
       { path: "/payment", element: <PaymentPage /> },
       { path: "/order-history", element: <p>ini order history</p> },

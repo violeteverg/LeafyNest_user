@@ -15,11 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/app/slice";
 
 export default function Navbar() {
-  // const user = false;
-  // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.app);
-  // console.log(user, "ini user navbar");
   const location = useLocation();
   const [visible, setVisible] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -83,7 +80,7 @@ export default function Navbar() {
             </div>
 
             <div className='lg:hidden ml-auto mr-4 space-x-4 flex flex-row items-center justify-center'>
-              <div>{user ? null : <Cart />}</div>
+              <div>{<Cart />}</div>
               <button onClick={toggleMobileMenu}>
                 <Menu />
               </button>
@@ -94,11 +91,19 @@ export default function Navbar() {
                 <div className='ml-4 flow-root lg:ml-6'>
                   <Cart />
                 </div>
-                {user ? null : (
-                  <Separator
-                    className='h-6 w-px bg-gray-200'
-                    aria-hidden='true'
-                  />
+                {user && (
+                  <>
+                    <Separator
+                      className='h-6 w-px bg-gray-200'
+                      aria-hidden='true'
+                    />
+                    <Link
+                      to='/order-list'
+                      className={cn(buttonVariants({ variant: "ghost" }))}
+                    >
+                      Order List
+                    </Link>
+                  </>
                 )}
                 {user ? null : (
                   <Link
