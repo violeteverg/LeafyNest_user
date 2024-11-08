@@ -30,7 +30,6 @@ export default function NavItems() {
   return (
     <div className='flex gap-4 h-full' ref={ref}>
       {ProductCategory.map((category, i) => {
-        console.log(category, "ini category navbar");
         const openHandler = () => {
           if (active === i) {
             setActive(null);

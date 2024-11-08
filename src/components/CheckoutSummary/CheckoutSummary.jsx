@@ -5,19 +5,62 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { formatPrice } from "@/lib/functions/formatPrice";
-// import { formatPrice } from "@/lib/functions/formatPrice";
+import useSnap from "@/hooks/useSnap";
+import { useCreateOrderMutation } from "@/redux/order/api";
 
 export default function CheckoutSummary({
   summary,
   isPaymentPage,
+  isBuyNow,
   paymentDetails,
 }) {
   const navigate = useNavigate();
   const [isSnapVisible, setSnapVisible] = useState(false);
-  const handleBuyButton = () => {
-    navigate("/payment");
+
+  const [createOrder, { isLoading, isSuccess, isError, data }] =
+    useCreateOrderMutation();
+
+  const bodyPayment = {
+    totalAmount: summary.totalPrice,
+    orderItems: paymentDetails,
+    addressName: "jl bahagia",
+    isBuyNow,
   };
-  // console.log(paymentDetails, "ini payment");
+
+  const handleBuyButton = async () => {
+    if (!isPaymentPage) {
+      navigate("/payment");
+    } else {
+      try {
+        const result = await createOrder({ body: bodyPayment }).unwrap();
+        console.log("Order created:", result);
+
+        if (result?.token) {
+          setSnapVisible(true);
+          snapEmbed(result.token, "snap-container", {
+            onSuccess: (res) => {
+              console.log("Payment success:", res);
+              setSnapVisible(false);
+            },
+            onPending: (res) => {
+              console.log("Payment pending:", res);
+              setSnapVisible(false);
+            },
+            onClose: () => {
+              console.log("Payment closed");
+              setSnapVisible(false);
+            },
+          });
+        } else {
+          console.error("No token found in response");
+        }
+      } catch (error) {
+        console.error("Error in handleBuyButton:", error);
+      }
+    }
+  };
+
+  const { snapEmbed } = useSnap();
 
   return (
     <>
@@ -36,11 +79,18 @@ export default function CheckoutSummary({
                 size='lg'
                 className='w-full'
                 onClick={handleBuyButton}
+                disabled={isLoading}
               >
                 Buy
               </Button>
             ) : (
-              <Button>
+              <Button
+                variant='default'
+                size='lg'
+                className='w-full'
+                onClick={handleBuyButton}
+                disabled={isLoading}
+              >
                 <CreditCard className='mr-2' />
                 <p>Payment</p>
               </Button>
@@ -58,5 +108,6 @@ export default function CheckoutSummary({
 CheckoutSummary.propTypes = {
   summary: PropTypes.any,
   isPaymentPage: PropTypes.bool,
+  isBuyNow: PropTypes.bool,
   paymentDetails: PropTypes.any,
 };

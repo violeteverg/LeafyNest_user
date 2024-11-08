@@ -7,74 +7,65 @@ import { calculateTotalSummary, getSessionStorageItem } from "@/lib/utils";
 import { useGetCartQuery } from "@/redux/cart/api";
 import { useGetProductIdQuery } from "@/redux/product/api";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 
 export default function PaymentPage() {
-  const { count } = useSelector((state) => state.app);
   const getSessionData = getSessionStorageItem("__Ttemp", false);
   const isBuyNow = getSessionData?.isBuyNow || false;
+  const buyNowProductQuantity = getSessionData?.quantity || 1;
 
   const { data: cartData, isLoading, isFetching } = useGetCartQuery();
+
   const { data: productData } = useGetProductIdQuery(
     {
       id: getSessionData?.productId,
     },
     { skip: !isBuyNow }
   );
-  const buyNowProduct = getSessionData?.quantity || 1;
-
   const loading = isLoading || isFetching;
 
-  const updateProductQuantityById = useMemo(() => {
-    if (productData) {
-      const data = { ...productData, quantity: buyNowProduct };
-      return [data];
-    }
-    return [];
-  }, [productData, buyNowProduct]);
-
-  const paymentDetails = () => {
-    if (isBuyNow) {
+  const paymentDetails = useMemo(() => {
+    if (isBuyNow && productData) {
       return [
         {
-          productId: updateProductQuantityById?.id,
-          productName: updateProductQuantityById?.title,
-          quantity: count,
-          price: updateProductQuantityById?.price,
+          productId: productData.id,
+          productName: productData.title,
+          quantity: buyNowProductQuantity,
+          price: productData.price,
         },
       ];
     }
 
     return (
       cartData?.map((item) => ({
-        productId: item.id,
+        productId: item.productId,
         productName: item.Product.title,
         quantity: item.quantity,
         price: item.Product.price,
       })) || []
     );
-  };
+  }, [cartData, productData, isBuyNow, buyNowProductQuantity]);
 
   const totalSummary = useMemo(() => {
-    if (isBuyNow) {
-      return calculateTotalSummary(updateProductQuantityById);
+    if (isBuyNow && productData) {
+      return calculateTotalSummary([
+        { ...productData, quantity: buyNowProductQuantity },
+      ]);
     }
     return cartData
       ? calculateTotalSummary(cartData)
       : { totalQuantity: 0, totalPrice: 0 };
-  }, [cartData, updateProductQuantityById, isBuyNow]);
+  }, [cartData, productData, isBuyNow, buyNowProductQuantity]);
 
   const renderPaymentItems = () => {
-    if (isBuyNow) {
-      return updateProductQuantityById?.map((item, i) => (
+    if (isBuyNow && productData) {
+      return (
         <CartItems
-          key={i}
-          title={item.title}
-          quantity={item.quantity}
-          image={item.image}
-          price={item.price}
+          title={productData.title}
+          quantity={buyNowProductQuantity}
+          image={productData.image}
+          price={productData.price}
         />
-      ));
+      );
     }
 
     return cartData?.map((item) => (
@@ -100,7 +91,6 @@ export default function PaymentPage() {
               <div className='w-full flex flex-col p-4 h-[50vh] border border-black rounded-lg items-center overflow-y-auto my-2'>
                 {loading
                   ? Array.from({ length: 3 }).map((_, i) => (
-                      // <LoadingCartItems key={i} />
                       <p key={i}>....Loading</p>
                     ))
                   : renderPaymentItems()}
@@ -109,8 +99,9 @@ export default function PaymentPage() {
             <div className='lg:w-[30%] p-4'>
               <CheckoutSummary
                 summary={totalSummary}
-                isPayment={true}
-                paymentDetails={paymentDetails()}
+                isPaymentPage
+                isBuyNow={isBuyNow}
+                paymentDetails={paymentDetails}
               />
             </div>
           </div>
