@@ -28,9 +28,22 @@ export const orderApi = createApi({
       transformResponse: (response) => {
         return response.data;
       },
-      rovidesTags: ["ORDER_LIST"],
+      providesTags: ["ORDER_LIST"],
+    }),
+    getOrderById: builder.query({
+      query: ({ id }) => ({
+        url: `/findId/${id}`,
+      }),
+      transformResponse: (response) => {
+        return response.data;
+      },
+      providesTags: ["ORDER_LIST", "ORDER_ID"],
     }),
   }),
 });
 
-export const { useCreateOrderMutation, useGetOrderQuery } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useGetOrderQuery,
+  useGetOrderByIdQuery,
+} = orderApi;
