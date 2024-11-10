@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { formatPrice } from "@/lib/functions/formatPrice";
 import useSnap from "@/hooks/useSnap";
 import { useCreateOrderMutation } from "@/redux/order/api";
+import { useSelector } from "react-redux";
 
 export default function CheckoutSummary({
   summary,
@@ -14,6 +15,7 @@ export default function CheckoutSummary({
   isBuyNow,
   paymentDetails,
 }) {
+  const { address } = useSelector((state) => state.app);
   const navigate = useNavigate();
   const [isSnapVisible, setSnapVisible] = useState(false);
 
@@ -23,7 +25,7 @@ export default function CheckoutSummary({
   const bodyPayment = {
     totalAmount: summary.totalPrice,
     orderItems: paymentDetails,
-    addressName: "jl bahagia",
+    addressName: address?.fullAddress,
     isBuyNow,
   };
 

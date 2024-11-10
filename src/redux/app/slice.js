@@ -8,6 +8,7 @@ const initialState = {
   type: "create",
   checkboxValue: { isActive: false },
   user: null,
+  address: JSON.parse(sessionStorage.getItem("__Taddr")) || null,
 };
 
 const appSlice = createSlice({
@@ -42,6 +43,10 @@ const appSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setAddress: (state, action) => {
+      state.address = action.payload;
+      sessionStorage.setItem("__Taddr", JSON.stringify(action.payload));
+    },
   },
 });
 
@@ -55,6 +60,7 @@ export const {
   setType,
   setCheckboxValue,
   setUser,
+  setAddress,
 } = appSlice.actions;
 
 export default appSlice.reducer;
