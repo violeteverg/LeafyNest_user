@@ -4,7 +4,13 @@ import { Button } from "../ui/button";
 import { Star } from "lucide-react";
 import { useCreateCommentMutation } from "@/redux/product/api";
 
-export default function CardOrderReview({ id, image, title, quantity }) {
+export default function CardOrderReview({
+  id,
+  image,
+  title,
+  quantity,
+  orderStatus,
+}) {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [createComment] = useCreateCommentMutation();
@@ -44,34 +50,38 @@ export default function CardOrderReview({ id, image, title, quantity }) {
         <p className='text-lg font-semibold text-gray-800'>{title}</p>
         <p className='text-sm text-gray-600 mb-2'>Quantity: {quantity}</p>
 
-        <textarea
-          placeholder='Write a comment...'
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          className='w-full p-2 border border-gray-300 rounded-md text-black mb-2 resize-none'
-        />
-
-        <div className='flex items-center mb-2'>
-          <label className='mr-2 text-sm font-medium text-gray-700'>
-            Rating:
-          </label>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <Star
-              key={value}
-              onClick={() => handleStarClick(value)}
-              className={`w-6 h-6 cursor-pointer transition-colors ${
-                value <= rating ? "text-yellow-500" : "text-gray-300"
-              }`}
+        {orderStatus === "completed" && (
+          <>
+            <textarea
+              placeholder='Write a comment...'
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className='w-full p-2 border border-gray-300 rounded-md text-black mb-2 resize-none'
             />
-          ))}
-        </div>
 
-        <Button
-          className='self-start mt-2 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700'
-          onClick={handleCommentSubmit}
-        >
-          Submit Comment
-        </Button>
+            <div className='flex items-center mb-2'>
+              <label className='mr-2 text-sm font-medium text-gray-700'>
+                Rating:
+              </label>
+              {[1, 2, 3, 4, 5].map((value) => (
+                <Star
+                  key={value}
+                  onClick={() => handleStarClick(value)}
+                  className={`w-6 h-6 cursor-pointer transition-colors ${
+                    value <= rating ? "text-yellow-500" : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <Button
+              className='self-start mt-2 px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+              onClick={handleCommentSubmit}
+            >
+              Submit Comment
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );
@@ -82,4 +92,5 @@ CardOrderReview.propTypes = {
   image: PropTypes.string,
   title: PropTypes.string,
   quantity: PropTypes.number,
+  orderStatus: PropTypes.any,
 };

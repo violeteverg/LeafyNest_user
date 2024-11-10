@@ -10,13 +10,18 @@ export default function OrderListPage() {
   const { data: orderData } = useGetOrderQuery();
   const { snapEmbed } = useSnap();
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const { data: orderDataId } = useGetOrderByIdQuery({ id: selectedOrderId });
+  const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
+  const { data: orderDataId } = useGetOrderByIdQuery(
+    { id: selectedOrderId },
+    { skip: !selectedOrderId }
+  );
   const orderProduct = orderDataId?.products;
 
   const [isSnapVisible, setIsSnapVisible] = useState(false);
 
-  const handleReviewClick = (orderId) => {
+  const handleReviewClick = (orderId, orderStatus) => {
     console.log("plerrr", orderId);
+    setSelectedOrderStatus(orderStatus);
     setSelectedOrderId(orderId);
     setIsSnapVisible(true);
   };
@@ -50,7 +55,9 @@ export default function OrderListPage() {
                 orderId={item?.orderId}
                 orderDate={item?.orderDate}
                 orderStatus={item?.orderStatus}
-                onReviewClick={() => handleReviewClick(item?.id)}
+                onReviewClick={() =>
+                  handleReviewClick(item?.id, item?.orderStatus)
+                }
                 onStatusClick={() => handleOpenMidtrans(item?.paymentId)}
               />
             ))}
@@ -66,6 +73,7 @@ export default function OrderListPage() {
                   image={item?.image}
                   title={item?.title}
                   quantity={item?.quantity}
+                  orderStatus={selectedOrderStatus}
                 />
               ))}
               <Button onClick={handleCloseButton}>close</Button>
