@@ -13,6 +13,7 @@ import { Menu } from "lucide-react";
 import MobileNav from "../MobileNav/MobileNav";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/app/slice";
+import DropdownUser from "../DropdownUser/DropdownUser";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -120,7 +121,8 @@ export default function Navbar() {
                   />
                 )}
                 {user ? (
-                  <p>{user?.userName}</p>
+                  // <p>{user?.userName}</p>
+                  <DropdownUser user={user} />
                 ) : (
                   <Link
                     to='/Register'
