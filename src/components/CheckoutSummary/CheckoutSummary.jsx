@@ -3,7 +3,7 @@ import { CreditCard } from "lucide-react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { formatPrice } from "@/lib/functions/formatPrice";
 import useSnap from "@/hooks/useSnap";
 import { useCreateOrderMutation } from "@/redux/order/api";
@@ -16,7 +16,13 @@ export default function CheckoutSummary({
   paymentDetails,
 }) {
   const { address } = useSelector((state) => state.app);
+
+  const { snapEmbed } = useSnap();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const paramsToken = searchParams.get("token");
+  console.log(paramsToken, "ini params token");
   const [isSnapVisible, setSnapVisible] = useState(false);
 
   const [createOrder, { isLoading, isSuccess, isError, data }] =
@@ -29,30 +35,42 @@ export default function CheckoutSummary({
     isBuyNow,
   };
 
+  console.log(isSnapVisible, "ini snpa visible");
+  const openSnap = (token) => {
+    setSnapVisible(true);
+    snapEmbed(token, "snap-container", {
+      onSuccess: (res) => {
+        console.log("Payment success:", res);
+        setSnapVisible(false);
+      },
+      onPending: (res) => {
+        console.log("Payment pending:", res);
+        setSnapVisible(false);
+      },
+      onClose: () => {
+        console.log("Payment closed");
+        setSnapVisible(false);
+      },
+    });
+  };
+
   const handleBuyButton = async () => {
     if (!isPaymentPage) {
       navigate("/payment");
+      return;
+    }
+
+    if (paramsToken) {
+      openSnap(paramsToken);
     } else {
       try {
         const result = await createOrder({ body: bodyPayment }).unwrap();
         console.log("Order created:", result);
 
         if (result?.token) {
-          setSnapVisible(true);
-          snapEmbed(result.token, "snap-container", {
-            onSuccess: (res) => {
-              console.log("Payment success:", res);
-              setSnapVisible(false);
-            },
-            onPending: (res) => {
-              console.log("Payment pending:", res);
-              setSnapVisible(false);
-            },
-            onClose: () => {
-              console.log("Payment closed");
-              setSnapVisible(false);
-            },
-          });
+          openSnap(result.token);
+          const newUrl = `${location.pathname}?token=${result.token}`;
+          navigate(newUrl, { replace: true });
         } else {
           console.error("No token found in response");
         }
@@ -61,8 +79,6 @@ export default function CheckoutSummary({
       }
     }
   };
-
-  const { snapEmbed } = useSnap();
 
   return (
     <>
@@ -86,16 +102,30 @@ export default function CheckoutSummary({
                 Buy
               </Button>
             ) : (
-              <Button
-                variant='default'
-                size='lg'
-                className='w-full'
-                onClick={handleBuyButton}
-                disabled={isLoading}
-              >
-                <CreditCard className='mr-2' />
-                <p>Payment</p>
-              </Button>
+              <div className='space-y-4'>
+                <Button
+                  variant='default'
+                  size='lg'
+                  className='w-full'
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                  disabled={isLoading}
+                >
+                  <CreditCard className='mr-2' />
+                  <p>Cancel</p>
+                </Button>
+                <Button
+                  variant='default'
+                  size='lg'
+                  className='w-full'
+                  onClick={handleBuyButton}
+                  disabled={isLoading}
+                >
+                  <CreditCard className='mr-2' />
+                  <p>Payment</p>
+                </Button>
+              </div>
             )}
           </div>
         </div>

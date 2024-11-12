@@ -4,10 +4,11 @@ import WidthWrapper from "@/components/WidthWrapper";
 import { useToast } from "@/hooks/use-toast";
 import { formatPrice } from "@/lib/functions/formatPrice";
 import { cn, setSessionStorage } from "@/lib/utils";
-import { decrement, increment } from "@/redux/app/slice";
+import { decrement, increment, resetCount } from "@/redux/app/slice";
 import { useAddCartMutation } from "@/redux/cart/api";
 import { useGetProductIdQuery } from "@/redux/product/api";
 import { CircleCheckBigIcon, CircleX, Minus, Plus } from "lucide-react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,6 +23,10 @@ export default function DetailProductPage() {
   const { count } = useSelector((state) => state.app);
   const { data: productDetails } = useGetProductIdQuery({ id: productId });
   const [addCart] = useAddCartMutation();
+
+  useEffect(() => {
+    dispatch(resetCount());
+  }, [dispatch]);
 
   const handleDecrement = () => {
     if (count > 1) {

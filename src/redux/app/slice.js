@@ -24,6 +24,7 @@ const appSlice = createSlice({
     resetCount: (state) => {
       state.count = 1;
     },
+
     setIsOpen: (state, action) => {
       state.isOpen = action.payload;
     },

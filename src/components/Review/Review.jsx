@@ -8,13 +8,8 @@ export default function Review({ productDetails }) {
       {productDetails?.Reviews?.map((review) => (
         <div
           key={review?.id}
-          className='flex items-start gap-6 mb-4 bg-teal-900 py-4 px-2 '
+          className='flex items-start gap-6 mb-4 bg-teal-900 py-4 px-6 space-y-2 '
         >
-          <img
-            src={review?.User?.avatar}
-            alt={`${review?.User?.fullName}'s avatar`}
-            className='w-10 h-10 rounded-full'
-          />
           <div className='flex-1'>
             <p className='font-semibold'>{review?.User?.fullName}</p>
             <div className='flex items-center gap-1'>

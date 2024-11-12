@@ -20,22 +20,25 @@ export default function OrderListPage() {
   const [isSnapVisible, setIsSnapVisible] = useState(false);
 
   const handleReviewClick = (orderId, orderStatus) => {
-    console.log("plerrr", orderId);
     setSelectedOrderStatus(orderStatus);
     setSelectedOrderId(orderId);
     setIsSnapVisible(true);
   };
   const handleOpenMidtrans = (paymentId) => {
     setIsSnapVisible(false);
+    console.log(paymentId, "ini payment id");
     snapEmbed(paymentId, "snap-container", {
       onSuccess: (res) => {
         console.log("Payment successful:", res);
+        setIsSnapVisible(false);
       },
       onPending: (res) => {
         console.log("Payment pending:", res);
+        setIsSnapVisible(false);
       },
       onClose: () => {
         console.log("Payment closed by user");
+        setIsSnapVisible(false);
       },
     });
   };

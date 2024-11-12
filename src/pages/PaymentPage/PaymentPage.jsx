@@ -11,13 +11,14 @@ import { useMemo } from "react";
 export default function PaymentPage() {
   const getSessionData = getSessionStorageItem("__Ttemp", false);
   const isBuyNow = getSessionData?.isBuyNow || false;
+  const productId = getSessionData?.productId;
   const buyNowProductQuantity = getSessionData?.quantity || 1;
 
   const { data: cartData, isLoading, isFetching } = useGetCartQuery();
 
   const { data: productData } = useGetProductIdQuery(
     {
-      id: getSessionData?.productId,
+      id: productId,
     },
     { skip: !isBuyNow }
   );
