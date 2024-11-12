@@ -3,14 +3,18 @@ import CardOrderReview from "@/components/CardOrderReview/CardOrderReview";
 import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
 import useSnap from "@/hooks/useSnap";
-import { useGetOrderByIdQuery, useGetOrderQuery } from "@/redux/order/api";
+import {
+  // useCancelOrderMutation,
+  useGetOrderByIdQuery,
+  useGetOrderQuery,
+} from "@/redux/order/api";
 import { useState } from "react";
 
 export default function OrderListPage() {
-  const { data: orderData } = useGetOrderQuery();
   const { snapEmbed } = useSnap();
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
+  const { data: orderData } = useGetOrderQuery();
   const { data: orderDataId } = useGetOrderByIdQuery(
     { id: selectedOrderId },
     { skip: !selectedOrderId }
@@ -66,7 +70,7 @@ export default function OrderListPage() {
             ))}
           </div>
         </div>
-        <div className='lg:w-fit  p-4 '>
+        <div className='lg:w-fit p-4'>
           {isSnapVisible && orderDataId && (
             <div className='h-full overflow-auto border border-black p-2'>
               {orderProduct.map((item) => (

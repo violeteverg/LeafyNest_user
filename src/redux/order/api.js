@@ -19,7 +19,7 @@ export const orderApi = createApi({
       transformResponse: (response) => {
         return response.result;
       },
-      providesTags: ["ORDER_LIST"],
+      invalidatesTags: ["ORDER_LIST"],
     }),
     getOrder: builder.query({
       query: () => ({
@@ -39,6 +39,14 @@ export const orderApi = createApi({
       },
       providesTags: ["ORDER_LIST", "ORDER_ID"],
     }),
+    cancelOrder: builder.mutation({
+      query: ({ body }) => ({
+        url: "/cancel",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["ORDER_LIST", "ORDER_ID"],
+    }),
   }),
 });
 
@@ -46,4 +54,5 @@ export const {
   useCreateOrderMutation,
   useGetOrderQuery,
   useGetOrderByIdQuery,
+  useCancelOrderMutation,
 } = orderApi;
