@@ -59,7 +59,6 @@ export default function CartItems({
         <div className='flex justify-between w-full items-center p-2'>
           <div className='flex flex-col size-[80%] items-start justify-center gap-y-2'>
             <h1 className='text-4xl'>{title}</h1>
-            {/* <p>{formatPrice(price)}</p> */}
           </div>
           <div className='flex justify-center items-center gap-1'>
             <div className='bg-white justify-between flex items-center border border-black rounded-md p-1'>

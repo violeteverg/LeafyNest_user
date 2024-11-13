@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ShoppingCart } from "lucide-react";
 import {
   Sheet,
   SheetTrigger,
@@ -29,15 +28,12 @@ export default function Cart() {
 
   const isCart = data?.length || 0;
   const loading = isLoading || isFetching;
+  const handleClose = () => {
+    dispatch(setIsOpen(false));
+  };
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => dispatch(setIsOpen(open))}>
-      <SheetTrigger className='group -m-2 flex items-center p-2'>
-        <ShoppingCart className={`h-6 w-6 flex-shrink-0`} />
-        <span className='ml-2 text-sm font-medium text-white group-hover:text-gray-800'>
-          {isCart}
-        </span>
-      </SheetTrigger>
+    <Sheet open={isOpen} onOpenChange={handleClose}>
       <SheetContent className='flex w-full flex-col pr-2 sm:max-w-lg'>
         <SheetHeader className='space-y-2.5 pr-6'>
           <SheetTitle>{`Cart ${isCart}`}</SheetTitle>

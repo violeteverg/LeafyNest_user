@@ -1,5 +1,5 @@
 import { cn, getUser } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import WidthWrapper from "../WidthWrapper";
 import SearchBar from "../Seacrhbar/Searchbar";
 import NavItem from "../NavItems/NavItems";
@@ -9,11 +9,12 @@ import Style from "./Navbar.module.css";
 import { Icons } from "../Icons";
 import { Separator } from "../ui/separator";
 import Cart from "../Cart/Cart";
-import { Menu } from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 import MobileNav from "../MobileNav/MobileNav";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/redux/app/slice";
+import { setIsOpen, setUser } from "@/redux/app/slice";
 import DropdownUser from "../DropdownUser/DropdownUser";
+import { useCountCartQuery } from "@/redux/cart/api";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data } = useCountCartQuery();
+  console.log(data, "ini cart data");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,6 +58,10 @@ export default function Navbar() {
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
   const isRootPath = location.pathname === "/";
 
+  const handleOpenSheet = () => {
+    dispatch(setIsOpen(true));
+  };
+
   return (
     <div
       className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
@@ -81,7 +88,14 @@ export default function Navbar() {
             </div>
 
             <div className='lg:hidden ml-auto mr-4 space-x-4 flex flex-row items-center justify-center'>
-              <div>{<Cart />}</div>
+              <div>
+                <Button onClick={handleOpenSheet}>
+                  <ShoppingCart className={`h-6 w-6 flex-shrink-0`} />
+                  <span className='ml-2 text-sm font-medium text-white group-hover:text-gray-800'>
+                    {data?.totalQuantity}
+                  </span>
+                </Button>
+              </div>
               <button onClick={toggleMobileMenu}>
                 <Menu />
               </button>
@@ -90,7 +104,12 @@ export default function Navbar() {
             <div className='hidden ml-auto lg:flex items-center'>
               <div className='md:mr-6 flex items-center space-x-6'>
                 <div className='ml-4 flow-root lg:ml-6'>
-                  <Cart />
+                  <Button onClick={handleOpenSheet}>
+                    <ShoppingCart className={`h-6 w-6 flex-shrink-0`} />
+                    <span className='ml-2 text-sm font-medium text-white group-hover:text-gray-800'>
+                      {data?.totalQuantity}
+                    </span>
+                  </Button>
                 </div>
                 {user && (
                   <>
@@ -139,6 +158,7 @@ export default function Navbar() {
           {isMobileMenuOpen && <MobileNav user={user} />}
         </WidthWrapper>
       </header>
+      <Cart />
     </div>
   );
 }

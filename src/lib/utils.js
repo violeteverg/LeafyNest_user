@@ -104,3 +104,7 @@ export function formatDate(isoDate) {
     hour12: false,
   });
 }
+
+export function generateAvatar(username) {
+  return username ? username.slice(0, 2).toUpperCase() : "US";
+}

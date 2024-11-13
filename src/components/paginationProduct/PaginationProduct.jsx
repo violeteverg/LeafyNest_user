@@ -67,9 +67,9 @@ export function PaginationProduct({ pageCount, currentPage, onPageChange }) {
   );
 }
 PaginationProduct.propTypes = {
-  pageCount: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
+  pageCount: PropTypes.number,
+  currentPage: PropTypes.number,
+  onPageChange: PropTypes.func,
 };
 
 export default PaginationProduct;

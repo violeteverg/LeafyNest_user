@@ -27,6 +27,12 @@ export const cartApi = createApi({
       },
       providesTags: ["CART_LIST"],
     }),
+    countCart: builder.query({
+      query: () => ({
+        url: "/count",
+      }),
+      providesTags: ["CART_LIST"],
+    }),
     updateCart: builder.mutation({
       query: ({ id, quantity }) => ({
         url: `/update/${id}`,
@@ -35,13 +41,12 @@ export const cartApi = createApi({
       }),
       invalidatesTags: ["CART_ID", "CART_LIST"],
     }),
-
     removeCart: builder.mutation({
       query: ({ id }) => ({
         url: `/delete/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["CART_ID", "CART_LIST"],
+      invalidatesTags: ["CART_LIST"],
     }),
   }),
 });
@@ -49,6 +54,7 @@ export const cartApi = createApi({
 export const {
   useAddCartMutation,
   useGetCartQuery,
+  useCountCartQuery,
   useUpdateCartMutation,
   useRemoveCartMutation,
 } = cartApi;

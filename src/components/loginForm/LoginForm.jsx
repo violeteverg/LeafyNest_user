@@ -8,6 +8,7 @@ import { useLoginMutation } from "@/redux/auth/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "@/schemas/SchemaLoginForm";
+import LoginGoogleButton from "../LoginGoogleButton/LoginGoogleButton";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -98,6 +99,7 @@ export default function LoginForm() {
               </div>
             </form>
           </div>
+          <LoginGoogleButton />
         </div>
       </div>
     </>

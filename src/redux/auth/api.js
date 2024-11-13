@@ -15,6 +15,16 @@ export const authApi = createApi({
         body,
       }),
     }),
+    loginGoogle: builder.mutation({
+      query: (idToken) => {
+        console.log(idToken, "ini id token");
+        return {
+          url: "/login-google",
+          method: "POST",
+          body: { idToken },
+        };
+      },
+    }),
     register: builder.mutation({
       query: (body) => ({
         url: "/register",
@@ -47,6 +57,7 @@ export const authApi = createApi({
 
 export const {
   useLoginMutation,
+  useLoginGoogleMutation,
   useRegisterMutation,
   useLogoutMutation,
   useForgetPasswordMutation,

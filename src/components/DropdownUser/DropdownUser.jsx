@@ -8,6 +8,7 @@ import {
 } from "../ui/dropdown-menu";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { generateAvatar } from "@/lib/utils";
 
 export default function DropdownUser({ user }) {
   const navigate = useNavigate();
@@ -21,7 +22,9 @@ export default function DropdownUser({ user }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <p>{user?.userName}</p>
+        <div className='flex items-center justify-center w-10 h-10 rounded-full bg-teal-500 text-white text-lg font-bold'>
+          {generateAvatar(user?.userName)}
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
@@ -35,5 +38,5 @@ export default function DropdownUser({ user }) {
 }
 
 DropdownUser.propTypes = {
-  user: PropTypes.string,
+  user: PropTypes.any,
 };

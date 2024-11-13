@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import { PaginationProduct } from "../PaginationProduct/PaginationProduct";
-export default function Bodypage({
+import PaginationProduct from "@/components/PaginationProduct/PaginationProduct";
+export default function Layoutpage({
   image,
   text,
   children,
@@ -9,6 +9,7 @@ export default function Bodypage({
   onPageChange,
   isHasData,
 }) {
+  console.log(children, "ini childrean");
   return (
     <div className='flex-1 overflow-y-auto'>
       <div className='flex flex-col justify-center items-center'>
@@ -55,13 +56,12 @@ export default function Bodypage({
   );
 }
 
-// Define PropTypes for the component
-Bodypage.propTypes = {
-  image: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  pageCount: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
+Layoutpage.propTypes = {
+  image: PropTypes.string,
+  text: PropTypes.string,
+  children: PropTypes.node,
+  pageCount: PropTypes.number,
+  currentPage: PropTypes.number,
   isHasData: PropTypes.bool,
-  onPageChange: PropTypes.func.isRequired,
+  onPageChange: PropTypes.func,
 };

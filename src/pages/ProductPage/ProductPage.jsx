@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Bodypage from "@/components/BodyPage/BodyPage";
 import CardProducts from "@/components/CardProduct/CardProduct";
 import { useGetProductQuery } from "@/redux/product/api";
+import Layoutpage from "@/layout/LayoutPage";
 
 export default function ProductPages() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function ProductPages() {
   }, [currentPage]);
 
   return (
-    <Bodypage
+    <Layoutpage
       image='/bgProduct/bg-all_product.jpg'
       text='Plants'
       pageCount={pagination?.totalPages}
@@ -47,6 +47,6 @@ export default function ProductPages() {
       ) : (
         <div>No products available</div>
       )}
-    </Bodypage>
+    </Layoutpage>
   );
 }
