@@ -83,12 +83,12 @@ export default function PaymentPage() {
   };
 
   return (
-    <WidthWrapper className='flex justify-center items-center'>
+    <WidthWrapper className='flex justify-center items-center my-10 lg:mt-10 lg:mb-0 '>
       {cartData || productData ? (
-        <div className='flex flex-col lg:flex-row lg:w-[80%] mx-2'>
+        <div className='flex flex-col lg:flex-row lg:w-[80%] lg:gap-3 lg:p-2'>
           <div className='lg:w-[70%] flex flex-col justify-center h-full items-center'>
             <DeliveryAddress />
-            <div className='w-full flex flex-col p-4 h-[50vh] border border-black rounded-lg items-center overflow-y-auto my-2'>
+            <div className='w-full flex flex-col px-3 h-[50vh] border shadow-2xl rounded-lg items-center overflow-y-auto my-2'>
               {loading
                 ? Array.from({ length: 3 }).map((_, i) => (
                     <p key={i}>....Loading</p>
@@ -96,7 +96,7 @@ export default function PaymentPage() {
                 : renderPaymentItems()}
             </div>
           </div>
-          <div className='lg:w-[30%] p-4'>
+          <div className='lg:w-[30%]'>
             <CheckoutSummary
               summary={totalSummary}
               isPaymentPage

@@ -9,6 +9,7 @@ import {
   useGetOrderByIdQuery,
   useGetOrderQuery,
 } from "@/redux/order/api";
+import { ClipboardList } from "lucide-react";
 import { useState } from "react";
 
 export default function OrderListPage() {
@@ -31,7 +32,7 @@ export default function OrderListPage() {
   };
   const handleOpenMidtrans = (paymentId) => {
     setIsSnapVisible(false);
-    console.log(paymentId, "ini payment id");
+
     snapEmbed(paymentId, "snap-container", {
       onSuccess: (res) => {
         console.log("Payment successful:", res);
@@ -57,45 +58,67 @@ export default function OrderListPage() {
   }
 
   return (
-    <WidthWrapper className='flex justify-center items-center'>
+    <WidthWrapper className='flex justify-center lg:h-[88vh] py-6 '>
       {orderData && orderData.length > 0 ? (
-        <div className='flex flex-col lg:flex-row w-full lg:w-[90%] mx-2 lg:gap-5'>
-          <div className='lg:w-[70%] w-full flex flex-col justify-center h-full items-center'>
-            <div className='w-full flex flex-col px-2 lg:h-[80vh] h-[70vh] border border-black rounded-lg items-center overflow-y-auto my-2'>
-              {orderData.map((item) => (
-                <CardOrderList
-                  key={item.id}
-                  orderId={item?.orderId}
-                  orderDate={item?.orderDate}
-                  orderStatus={item?.orderStatus}
-                  onReviewClick={() =>
-                    handleReviewClick(item?.id, item?.orderStatus)
-                  }
-                  onStatusClick={() => handleOpenMidtrans(item?.paymentId)}
-                />
-              ))}
+        <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3 overflow-hidden'>
+          <div className='lg:w-[70%] flex flex-col'>
+            <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
+              <ClipboardList className='mr-2' />
+              My Orders
+            </h1>
+            <div className='w-full flex flex-col px-1 lg:px-3 h-[calc(100vh-230px)] lg:h-[70vh] overflow-y-auto my-2 space-y-4'>
+              {isLoading
+                ? Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className='animate-pulse flex space-x-4'>
+                      <div className='rounded-lg bg-teal-200 h-24 w-24'></div>
+                      <div className='flex-1 space-y-4 py-1'>
+                        <div className='h-4 bg-teal-200 rounded w-3/4'></div>
+                        <div className='space-y-2'>
+                          <div className='h-4 bg-teal-200 rounded'></div>
+                          <div className='h-4 bg-teal-200 rounded w-5/6'></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                : orderData.map((item) => (
+                    <CardOrderList
+                      key={item.id}
+                      orderId={item?.orderId}
+                      orderDate={item?.orderDate}
+                      orderStatus={item?.orderStatus}
+                      onReviewClick={() =>
+                        handleReviewClick(item.id, item.orderStatus)
+                      }
+                      onStatusClick={() => handleOpenMidtrans(item.paymentId)}
+                    />
+                  ))}
             </div>
           </div>
-
-          <div className='lg:w-fit p-4'>
-            {isSnapVisible && orderDataId && (
-              <div className='h-full overflow-auto border border-black p-2'>
-                {orderProduct.map((item) => (
+          <div className='lg:w-[30%]'>
+            {isSnapVisible && orderDataId ? (
+              <div className='h-full overflow-auto   rounded-lg p-3 space-y-6'>
+                {orderProduct?.map((item) => (
                   <CardOrderReview
-                    key={item?.id}
-                    id={item?.id}
-                    image={item?.image}
-                    title={item?.title}
-                    quantity={item?.quantity}
+                    key={item.id}
+                    id={item.id}
+                    image={item.image}
+                    title={item.title}
+                    quantity={item.quantity}
                     orderStatus={selectedOrderStatus}
                   />
                 ))}
-                <Button onClick={handleCloseButton}>close</Button>
+                <Button
+                  onClick={handleCloseButton}
+                  className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white'
+                >
+                  Close
+                </Button>
+              </div>
+            ) : (
+              <div className='lg:w-fit border border-black'>
+                <div id='snap-container' className='w-full'></div>
               </div>
             )}
-            <div className='lg:w-fit border border-black'>
-              <div id='snap-container'></div>
-            </div>
           </div>
         </div>
       ) : (

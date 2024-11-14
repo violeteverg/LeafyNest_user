@@ -7,7 +7,13 @@ import { cn, setSessionStorage } from "@/lib/utils";
 import { decrement, increment, resetCount } from "@/redux/app/slice";
 import { useAddCartMutation } from "@/redux/cart/api";
 import { useGetProductIdQuery } from "@/redux/product/api";
-import { CircleCheckBigIcon, CircleX, Minus, Plus } from "lucide-react";
+import {
+  CircleCheckBigIcon,
+  CircleX,
+  Minus,
+  Plus,
+  ShoppingCart,
+} from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -49,7 +55,7 @@ export default function DetailProductPage() {
         description: (
           <div className='flex gap-2 font-bold'>
             <CircleCheckBigIcon className='text-green-600' />
-            <p>Succes add to Cart</p>
+            <p>Success add to Cart</p>
           </div>
         ),
         className: cn(
@@ -85,75 +91,73 @@ export default function DetailProductPage() {
   return (
     <WidthWrapper className='flex justify-center items-center text-white h-full'>
       {productDetails ? (
-        <div className='flex flex-col border border-black rounded-lg lg:w-[80%] px-5 py-2 my-6 '>
-          <div className='flex flex-col lg:flex-row  w-full justify-center items-center my-6'>
+        <div className='flex flex-col w-full max-w-6xl rounded-lg px-5 py-8 my-6'>
+          <div className='flex flex-col lg:flex-row w-full justify-center items-start gap-8 mb-8'>
             <img
               src={productDetails?.image}
               alt={productDetails?.title}
-              className='drop-shadow-xl mb-4 lg:mb-0 lg:mr-4 lg:w-[45%] w-[100%]'
+              className='drop-shadow-xl mb-4 lg:mb-0 lg:w-[45%] w-full object-cover rounded-lg'
               loading='lazy'
             />
 
-            <div className='w-full lg:w-[80%]  bg-teal-800 rounded-md flex flex-col justify-center items-center p-4 lg:p-0'>
-              <div className='w-full lg:w-[80%] py-4'>
-                <h1 className='text-2xl lg:text-4xl font-semibold'>
+            <div className='w-full lg:w-[55%] bg-gradient-to-br from-teal-700 to-teal-900 rounded-lg shadow-2xl flex flex-col justify-between p-6'>
+              <div className='space-y-4'>
+                <h1 className='text-3xl lg:text-4xl font-bold text-white'>
                   {productDetails?.title}
                 </h1>
                 <div className='w-full h-[150px] lg:h-[200px] mt-4 lg:mt-6 overflow-auto'>
-                  <p>{productDetails?.description}</p>
+                  <p className='text-teal-100 text-lg leading-relaxed'>
+                    {productDetails?.description}
+                  </p>
                 </div>
               </div>
 
-              <div className='flex flex-col w-full lg:w-[80%] py-4 space-y-4'>
-                <div className='w-full'>
-                  <div className='flex flex-col lg:flex-row gap-2 leading-loose'>
-                    <div className='bg-white w-[20%] justify-between flex items-center border border-black rounded-md p-1'>
-                      <Button
-                        variant='transparant'
-                        size='xs'
-                        className='flex items-center justify-center h-full text-black'
-                        onClick={handleDecrement}
-                      >
-                        <Minus className='h-[80%] w-[80%]' />
-                      </Button>
-                      <input
-                        type='number'
-                        className=' placeholder:leading-loose text-black w-[30%] h-full font-mono mx-2 placeholder:text-center focus:outline-none focus:border-none focus:ring-0 text-center [&::-webkit-inner-spin-button]:appearance-none'
-                        placeholder='0'
-                        value={count}
-                        min={1}
-                        max={100}
-                        readOnly
-                      />
-                      <Button
-                        variant='transparant'
-                        size='xs'
-                        className='flex items-center justify-center h-full text-black'
-                        onClick={handleIncrement}
-                        disabled={count >= productDetails.quantity}
-                      >
-                        <Plus className='h-[80%] w-[80%]' />
-                      </Button>
-                    </div>
-                    <div className='flex justify-between items-center w-full'>
-                      <p className='italic font-mono'>
-                        Stock: {productDetails?.quantity}
-                      </p>
-                      <p className='font-mono'>
-                        {formatPrice(productDetails?.price)}
-                      </p>
-                    </div>
+              <div className='mt-8 space-y-6'>
+                <div className='flex items-center justify-between'>
+                  <div className='bg-white rounded-md flex items-center'>
+                    <Button
+                      variant='ghost'
+                      size='icon'
+                      className='text-teal-800'
+                      onClick={handleDecrement}
+                    >
+                      <Minus className='h-4 w-4' />
+                    </Button>
+                    <input
+                      type='number'
+                      className='w-16 text-center text-teal-800 font-semibold bg-transparent focus:outline-none'
+                      value={count}
+                      min={1}
+                      max={100}
+                      readOnly
+                    />
+                    <Button
+                      variant='ghost'
+                      size='icon'
+                      className='text-teal-800'
+                      onClick={handleIncrement}
+                      disabled={count >= productDetails.quantity}
+                    >
+                      <Plus className='h-4 w-4' />
+                    </Button>
                   </div>
+                  <p className='text-2xl font-bold text-white'>
+                    {formatPrice(productDetails?.price)}
+                  </p>
                 </div>
-                <div className='flex flex-col lg:flex-row justify-between gap-3 w-full'>
+                <p className='text-teal-200 text-sm'>
+                  Stock: {productDetails?.quantity} available
+                </p>
+                <div className='flex gap-4'>
                   <Button
-                    className='font-mono w-full lg:w-[24%]'
+                    className='flex-1 bg-white text-teal-800 hover:bg-teal-100 transition-colors'
                     onClick={buttoAddCartHandler}
                   >
-                    <p className='font-bold'>+Cart</p>
+                    <ShoppingCart className='mr-2 h-5 w-5' />
+                    Add to Cart
                   </Button>
                   <Button
-                    className='w-full font-mono text-white font-bold'
+                    className='flex-1 bg-teal-600 text-white hover:bg-teal-700 transition-colors'
                     onClick={handleBuyNow}
                   >
                     Buy Now

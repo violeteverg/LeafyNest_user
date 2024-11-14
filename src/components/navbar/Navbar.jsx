@@ -40,7 +40,7 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentPosition = window.pageYOffset;
 
-      setVisible(currentPosition <= 80);
+      setVisible(currentPosition <= 20);
       setScrollPosition(currentPosition);
 
       clearTimeout(timeout);
@@ -65,8 +65,8 @@ export default function Navbar() {
   return (
     <div
       className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
-        isRootPath ? "fixed" : ""
-      } z-50 top-0 inset-x-0 h-[80px] ${
+        isRootPath ? "fixed" : "sticky top-0 shadow-xl"
+      } z-50 inset-x-0 h-[80px] ${
         scrollPosition > 80 ? Style.blurredBackground : ""
       }`}
     >
@@ -89,8 +89,14 @@ export default function Navbar() {
 
             <div className='lg:hidden ml-auto mr-4 space-x-4 flex flex-row items-center justify-center'>
               <div>
-                <Button onClick={handleOpenSheet}>
-                  <ShoppingCart className={`h-6 w-6 flex-shrink-0`} />
+                <Button
+                  size='icon'
+                  className='bg-transparent'
+                  onClick={handleOpenSheet}
+                >
+                  <ShoppingCart
+                    className={`h-6 w-6 flex-shrink-0 text-black`}
+                  />
                   <span className='ml-2 text-sm font-medium text-white group-hover:text-gray-800'>
                     {data?.totalQuantity}
                   </span>
@@ -104,9 +110,15 @@ export default function Navbar() {
             <div className='hidden ml-auto lg:flex items-center'>
               <div className='md:mr-6 flex items-center space-x-6'>
                 <div className='ml-4 flow-root lg:ml-6'>
-                  <Button onClick={handleOpenSheet}>
-                    <ShoppingCart className={`h-6 w-6 flex-shrink-0`} />
-                    <span className='ml-2 text-sm font-medium text-white group-hover:text-gray-800'>
+                  <Button
+                    className='bg-transparent'
+                    size='icon'
+                    onClick={handleOpenSheet}
+                  >
+                    <ShoppingCart
+                      className={`h-6 w-6 flex-shrink-0 text-black`}
+                    />
+                    <span className='ml-2 text-sm font-medium text-black '>
                       {data?.totalQuantity}
                     </span>
                   </Button>
@@ -121,7 +133,7 @@ export default function Navbar() {
                       to='/order-list'
                       className={cn(buttonVariants({ variant: "ghost" }))}
                     >
-                      Order List
+                      My Orders
                     </Link>
                   </>
                 )}
@@ -140,7 +152,6 @@ export default function Navbar() {
                   />
                 )}
                 {user ? (
-                  // <p>{user?.userName}</p>
                   <DropdownUser user={user} />
                 ) : (
                   <Link

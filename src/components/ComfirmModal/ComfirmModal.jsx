@@ -31,7 +31,10 @@ export default function ConfirmModal({
           <p>{buttonDescription}</p>
         </div>
         <DialogFooter>
-          <Button className='w-full' onClick={onClickConfirm}>
+          <Button
+            className='w-full bg-amber-500 hover:bg-amber-600'
+            onClick={onClickConfirm}
+          >
             Ok
           </Button>
         </DialogFooter>

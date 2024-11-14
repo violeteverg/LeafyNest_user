@@ -32,19 +32,19 @@ export default function CartItems({
   };
   if (!isCartPage || isPaymentPage) {
     return (
-      <div className='w-full h-fit my-4'>
-        <div className='w-full flex rounded-xl border border-black p-2'>
-          <img src={image} alt='product' width={100} height={100} />
-          <div className='flex justify-between w-full items-center p-2'>
-            <div className='flex flex-col size-[80%] items-start justify-center gap-y-2'>
-              <h1 className='text-4xl'>{title}</h1>
-            </div>
-            <div className='flex w-[20vh]'>
-              <div className='bg-white w-full justify-center gap-3 flex items-center p-1'>
-                <p>{quantity}</p>
-                <p>x</p>
-                <p>{formatPrice(price)}</p>
-              </div>
+      <div className='w-full my-3'>
+        <div className='w-full flex items-center bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg p-4  transition-all duration-200 hover:shadow-md'>
+          <img
+            src={image}
+            alt={title}
+            className='w-24 h-24 object-cover rounded-md mr-3'
+          />
+          <div className='flex justify-between w-full items-center gap-2'>
+            <h2 className='text-lg font-semibold text-white'>{title}</h2>
+            <div className='flex items-center space-x-2 text-white'>
+              <span>{quantity}</span>
+              <span>x</span>
+              <span className='font-bold'>{formatPrice(price)}</span>
             </div>
           </div>
         </div>
@@ -53,49 +53,56 @@ export default function CartItems({
   }
 
   return (
-    <div className='w-full h-fit my-4'>
-      <div className='w-full flex rounded-xl border border-black p-2'>
-        <img src={image} alt='product' width={90} height={90} />
-        <div className='flex justify-between w-full items-center p-2'>
-          <div className='flex flex-col size-[80%] items-start justify-center gap-y-2'>
-            <h1 className='text-4xl'>{title}</h1>
+    <div className='w-full my-4'>
+      <div className='w-full flex items-center bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg p-2 transition-all duration-200 hover:shadow-xl'>
+        <img
+          src={image}
+          alt={title}
+          className='w-24 h-24 object-cover rounded-md mr-4'
+        />
+        <div className='flex justify-between w-full gap-1 items-center'>
+          <div className='flex flex-col'>
+            <h2 className='text-lg font-semibold text-white'>
+              {title.length > 7 ? `${title.substring(0, 6)}...` : title}
+            </h2>
+            <span className='text-sm text-white'>{formatPrice(price)}</span>
           </div>
-          <div className='flex justify-center items-center gap-1'>
-            <div className='bg-white justify-between flex items-center border border-black rounded-md p-1'>
+          <div className='flex items-center  lg:space-x-2'>
+            <div className='bg-white w-fit flex items-center  rounded-md'>
               <Button
                 variant='transparant'
-                size='xs'
-                className='flex items-center justify-center h-full text-black'
+                size='icon'
+                className='text-teal-600 '
                 onClick={() => handleUpdateQuantity(newQuantity - 1)}
                 disabled={newQuantity <= 1}
               >
-                <Minus className='h-[80%] w-[80%]' />
+                <Minus className='h-4 w-4' />
               </Button>
               <input
                 type='number'
-                className=' placeholder:leading-loose text-black w-[30%] h-full font-mono  placeholder:text-center focus:outline-none focus:border-none focus:ring-0 text-center [&::-webkit-inner-spin-button]:appearance-none'
-                placeholder='0'
+                className=' placeholder:leading-loose text-black w-[40%] h-full font-mono  placeholder:text-center focus:outline-none focus:border-none focus:ring-0 text-center [&::-webkit-inner-spin-button]:appearance-none'
                 value={newQuantity}
+                readOnly
                 min={1}
                 max={100}
               />
               <Button
                 variant='transparant'
-                size='xs'
-                className='flex items-center justify-center h-full text-black'
+                size='icon'
+                className='text-teal-600'
                 onClick={() => handleUpdateQuantity(newQuantity + 1)}
                 disabled={!!checkQuantity(productQuantity, newQuantity + 1)}
               >
-                <Plus className='h-[80%] w-[80%]' />
+                <Plus className='h-4 w-4' />
               </Button>
             </div>
             <Button
-              variant='transparant'
-              size='xs'
-              className='flex items-center justify-center h-full text-black'
+              variant='transparent'
+              size='icon'
+              className='text-red-400 hover:text-red-700'
               onClick={() => handleRemoveCart(id)}
             >
-              <Trash2 className='h-[80%] w-[80%] hover:text-red-500' />
+              <Trash2 className='h-7 w-7' />
             </Button>
           </div>
         </div>

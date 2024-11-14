@@ -19,25 +19,29 @@ export default function DeliveryAddress() {
   };
 
   return (
-    <div className='w-full flex flex-col p-2 h-fit border border-black rounded-lg items-center overflow-y-auto my-2'>
-      <div className='flex justify-between w-full items-center p-2'>
-        <div className='flex flex-col items-start justify-center gap-y-4'>
-          <h1 className='text-4xl'>Delivery Address</h1>
-          <div className='flex gap-2 items-center'>
-            <MapPinned />
-            <h2>Kost:</h2>
-            <h2>{address ? address.fullAddress : "Pilih alamat"}</h2>
-          </div>
-          <p>
+    <div className='w-full  p-4 border border-gray-200 shadow-lg rounded-lg bg-white flex flex-col items-start space-y-4'>
+      <h1 className='text-2xl font-semibold text-gray-800'>Delivery Address</h1>
+      <div className='flex items-start space-x-2 w-full'>
+        <MapPinned className='text-teal-500' size={24} />
+        <div className='flex flex-col space-y-1'>
+          <h2 className='text-lg font-medium text-gray-700'>
+            {address ? "Your Address:" : "Kost:"}
+          </h2>
+          <p className='text-gray-600'>
             {address
-              ? `${address.city}, ${address.state}, ${address.postalCode}, ${address.country}`
+              ? `${address.fullAddress}, ${address.city}, ${address.state}, ${address.postalCode}, ${address.country}`
               : "Pilih atau tambahkan alamat pengiriman Anda."}
           </p>
-          <Button variant='outline' size='default' onClick={handleOpenModal}>
-            <p>Change Address</p>
-          </Button>
         </div>
       </div>
+      <Button
+        variant='outline'
+        size='lg'
+        className=' bg-teal-500 text-white hover:bg-teal-600 hover:text-white transition-colors'
+        onClick={handleOpenModal}
+      >
+        Change Address
+      </Button>
 
       <DeliveryAddressModal
         isOpen={isModalOpen}

@@ -9,8 +9,6 @@ import {
 } from "../ui/sheet";
 
 import { Separator } from "../ui/separator";
-
-// import LoadingCartItems from "../Loading/LoadingCartItems";
 import { setIsOpen } from "@/redux/app/slice";
 import { Link } from "react-router-dom";
 import CartItems from "../CartItems/CartItems";
@@ -18,7 +16,6 @@ import { buttonVariants } from "../ui/button";
 import { useGetCartQuery } from "@/redux/cart/api";
 
 export default function Cart() {
-  //   const fee = 2;
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state) => state.app);
   const { data, isLoading, isFetching } = useGetCartQuery(
@@ -61,10 +58,6 @@ export default function Cart() {
               <Separator />
               <div className='space-y-1.5 pr-6'>
                 <div className='flex'>
-                  <span className='flex-1'>Shipping</span>
-                  <span>Free</span>
-                </div>
-                <div className='flex'>
                   <span className='flex-1'>Transaction Fee</span>
                   {/* <span>{formatPrice(fee)}</span> */}
                 </div>
@@ -78,7 +71,9 @@ export default function Cart() {
               <SheetTrigger asChild>
                 <Link
                   to='/cart'
-                  className={buttonVariants({ className: "w-full" })}
+                  className={buttonVariants({
+                    className: "w-full bg-amber-500 hover:bg-amber-600",
+                  })}
                 >
                   see cart
                 </Link>
@@ -98,7 +93,10 @@ export default function Cart() {
               This Cart is empty
             </span>
             <SheetTrigger asChild>
-              <Link to='/product' className='text-sm text-muted-foreground'>
+              <Link
+                to='/product'
+                className={buttonVariants({ className: "w-full bg-amber-500" })}
+              >
                 Add items to your cart
               </Link>
             </SheetTrigger>
