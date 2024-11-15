@@ -4,16 +4,18 @@ import CardProducts from "@/components/CardProduct/CardProduct";
 import { useGetProductQuery } from "@/redux/product/api";
 import Layoutpage from "@/layout/LayoutPage";
 
-export default function ProductPages() {
+export default function PlantsPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
   const currentPage = Number(queryParams.get("page")) || 1;
-  const search = queryParams.get("search") || "";
   const [page, setPage] = useState(currentPage);
 
-  const { data } = useGetProductQuery({ page, search });
+  const { data } = useGetProductQuery({
+    page: page,
+    categoryName: "plants",
+  });
 
   const productData = data?.data;
   const pagination = data?.pagination;
@@ -22,7 +24,7 @@ export default function ProductPages() {
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    navigate(`?page=${newPage}&search=${search}`);
+    navigate(`?page=${newPage}`);
   };
 
   useEffect(() => {
@@ -31,8 +33,8 @@ export default function ProductPages() {
 
   return (
     <Layoutpage
-      image='/bgProduct/bg-all_product.jpg'
-      text='Plants'
+      image='/bgProduct/bg-plants-product.jpg'
+      text='Cactus'
       pageCount={pagination?.totalPages}
       currentPage={pagination?.currentPage}
       onPageChange={handlePageChange}
@@ -49,7 +51,7 @@ export default function ProductPages() {
           />
         ))
       ) : (
-        <div>No products available</div>
+        <div>No cactus products available</div>
       )}
     </Layoutpage>
   );

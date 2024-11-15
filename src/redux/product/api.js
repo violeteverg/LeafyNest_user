@@ -11,9 +11,16 @@ export const productApi = createApi({
   }),
   endpoints: (builder) => ({
     getProduct: builder.query({
-      query: ({ page }) => ({
-        url: `/findAll?page=${page}`,
-      }),
+      query: ({ page, categoryName, search }) => {
+        const params = {
+          page,
+          ...(categoryName && { categoryName }),
+          ...(search && { search }),
+        };
+        const queryString = new URLSearchParams(params).toString();
+
+        return { url: `/findAll?${queryString}` };
+      },
       transformResponse: (response) => {
         return response.result;
       },

@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Style from "./ListNavItems.module.css";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export default function ListNavItems({
   category,
@@ -70,15 +71,17 @@ export default function ListNavItems({
                         />
                       </div>
 
-                      <a
-                        href={item.href}
-                        className='mt-6 block font-medium text-gray-900'
-                      >
+                      <p className='mt-6 block font-medium text-gray-900'>
                         {item.name}
-                      </a>
-                      <p className='mt-1' aria-hidden='true'>
-                        Shop now
                       </p>
+                      <Link
+                        to={item.href}
+                        className='mt-1'
+                        aria-hidden='true'
+                        onClick={openhandler}
+                      >
+                        Shop now
+                      </Link>
                     </div>
                   ))}
                 </div>

@@ -18,6 +18,12 @@ import DetailProductPage from "./pages/DetailProductPage/DetailProductPage";
 import CartPage from "./pages/CartPage/CartPage";
 import PaymentPage from "./pages/PaymentPage/PaymentPage";
 import OrderListPage from "./pages/OrderListPage/OrderListPage";
+import CactusPage from "./pages/CactusPage/CactusPage";
+import SucculentPage from "./pages/SucculentPage/SucculentPage";
+import PlantsPage from "./pages/PlantsPage/PlantsPage";
+import PotsPage from "./pages/PotsPage/PotsPage";
+import GrowingMediaPage from "./pages/GrowingMediaPage/GrowingMediaPage";
+import ToolsPage from "./pages/ToolsPage/ToolsPage";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +34,12 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       { path: "/all-product", element: <ProductPages /> },
+      { path: "/cactus", element: <CactusPage /> },
+      { path: "/succulents", element: <SucculentPage /> },
+      { path: "/plants", element: <PlantsPage /> },
+      { path: "/pots", element: <PotsPage /> },
+      { path: "/tools", element: <ToolsPage /> },
+      { path: "/growing-media", element: <GrowingMediaPage /> },
       { path: "/detail/:id", element: <DetailProductPage /> },
     ],
   },
@@ -35,7 +47,7 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { path: "/order-list", element: <OrderListPage /> },
+      { path: "/my-orders", element: <OrderListPage /> },
       { path: "/cart", element: <CartPage /> },
       { path: "/payment", element: <PaymentPage /> },
       { path: "/order-history", element: <p>ini order history</p> },

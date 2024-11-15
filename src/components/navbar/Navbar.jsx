@@ -40,7 +40,7 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentPosition = window.pageYOffset;
 
-      setVisible(currentPosition <= 20);
+      setVisible(currentPosition <= 10);
       setScrollPosition(currentPosition);
 
       clearTimeout(timeout);
@@ -67,7 +67,7 @@ export default function Navbar() {
       className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
         isRootPath ? "fixed" : "sticky top-0 shadow-xl"
       } z-50 inset-x-0 h-[80px] ${
-        scrollPosition > 80 ? Style.blurredBackground : ""
+        scrollPosition > 10 ? Style.blurredBackground : ""
       }`}
     >
       <header className='relative h-full bg-transparent lg:mx-4 mt-2'>
@@ -130,7 +130,7 @@ export default function Navbar() {
                       aria-hidden='true'
                     />
                     <Link
-                      to='/order-list'
+                      to='/my-orders'
                       className={cn(buttonVariants({ variant: "ghost" }))}
                     >
                       My Orders

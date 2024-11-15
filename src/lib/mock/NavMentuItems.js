@@ -27,12 +27,12 @@ export const NavMenuItem = [
   },
   {
     name: "Growing Media",
-    path: "/growing_media",
+    path: "/growing-media",
     displayChildren: false,
   },
   {
-    name: "Order List",
-    path: "/order_list",
+    name: "My Orders",
+    path: "/my-orders",
     displayChildren: false,
   },
 ];

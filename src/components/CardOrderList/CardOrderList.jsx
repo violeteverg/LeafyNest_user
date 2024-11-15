@@ -89,19 +89,22 @@ export default function CardOrderList({
             <div className='flex justify-between items-center h-[20%] py-2'>
               <p>{formatDate(orderDate)}</p>
               <div className='flex justify-center gap-2'>
-                <Button
-                  className='w-fit bg-white text-teal-700 hover:bg-teal-100'
-                  onClick={onStatusClick}
-                >
-                  Status
-                </Button>
                 {orderStatus === "pending" ? (
-                  <Button
-                    className='w-fit bg-rose-700 text-white hover:bg-rose-800'
-                    onClick={handleOpenModal}
-                  >
-                    Cancel
-                  </Button>
+                  <div>
+                    <Button
+                      className='w-fit bg-white text-teal-700 hover:bg-teal-100'
+                      onClick={onStatusClick}
+                    >
+                      Status
+                    </Button>
+
+                    <Button
+                      className='w-fit bg-rose-700 text-white hover:bg-rose-800'
+                      onClick={handleOpenModal}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 ) : (
                   <Button
                     className='w-fit bg-amber-500 text-white hover:bg-amber-600'

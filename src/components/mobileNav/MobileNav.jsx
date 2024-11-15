@@ -1,16 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavMenuItem } from "@/lib/mock/NavMentuItems";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import PropTypes from "prop-types";
 import { useRef, useState, useEffect } from "react";
 import { useOnClickOutside } from "@/hooks/useClickOutside";
+import { Separator } from "../ui/separator";
+import { useLogoutMutation } from "@/redux/auth/api";
+import { FileStack, LogIn, LogOut } from "lucide-react";
 
 export default function MobileNav({ user }) {
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
   const [isOpen, setIsOpen] = useState(true);
   const ref = useRef();
   useOnClickOutside(ref, () => setIsOpen(false));
 
+  const handleLogout = async () => {
+    await logout();
+    navigate(0);
+  };
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -56,21 +65,29 @@ export default function MobileNav({ user }) {
                 </div>
               ))}
             </div>
-            {!user && (
+            <Separator />
+            {!user ? (
               <>
                 <Link
                   to='/login'
                   className={cn(buttonVariants({ variant: "ghost" }))}
                 >
+                  <LogIn />
                   Login
                 </Link>
                 <Link
                   to='/register'
                   className={cn(buttonVariants({ variant: "ghost" }))}
                 >
+                  <FileStack />
                   Register
                 </Link>
               </>
+            ) : (
+              <Button onClick={handleLogout}>
+                <LogOut />
+                Logout
+              </Button>
             )}
           </div>
         </div>

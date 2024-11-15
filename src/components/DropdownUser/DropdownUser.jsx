@@ -9,6 +9,7 @@ import {
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { generateAvatar } from "@/lib/utils";
+import { LogOut } from "lucide-react";
 
 export default function DropdownUser({ user }) {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export default function DropdownUser({ user }) {
       <DropdownMenuContent>
         <DropdownMenuItem>
           <Button variant='default' className='w-full' onClick={handleLogout}>
+            <LogOut />
             Logout
           </Button>
         </DropdownMenuItem>
