@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CardProducts from "@/components/CardProduct/CardProduct";
+import CardProduct from "@/components/CardProduct/CardProduct";
 import { useGetProductQuery } from "@/redux/product/api";
 import Layoutpage from "@/layout/LayoutPage";
 
@@ -40,7 +40,7 @@ export default function ProductPages() {
     >
       {isHasData ? (
         productData?.map((item) => (
-          <CardProducts
+          <CardProduct
             key={item.id}
             id={item.id}
             title={item.title}
