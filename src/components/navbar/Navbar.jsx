@@ -9,13 +9,13 @@ import { Icons } from "../Icons";
 import { Separator } from "../ui/separator";
 import Cart from "../Cart/Cart";
 import { Menu, ShoppingCart } from "lucide-react";
-import MobileNav from "../MobileNav/MobileNav";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsOpen, setUser } from "@/redux/app/slice";
 import DropdownUser from "../DropdownUser/DropdownUser";
 import { useCountCartQuery } from "@/redux/cart/api";
 import Searchbar from "../Searchbar/Searchbar";
 import NavItems from "../NavItems/NavItems";
+import MobileNav from "../MobileNav/MobileNav";
 
 export default function Navbar() {
   const dispatch = useDispatch();
