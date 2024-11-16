@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import CardProduct from "@/components/CardProduct/CardProduct";
 import { useGetProductQuery } from "@/redux/product/api";
 import Layoutpage from "@/layout/LayoutPage";
+import CardProduct from "@/components/CardProduct/CardProduct";
 
 export default function CactusPage() {
   const navigate = useNavigate();
