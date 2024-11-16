@@ -58,7 +58,11 @@ export default function MobileNav({ user }) {
                       <p className='font-thin'>{item?.name}</p>
                     </div>
                   ) : (
-                    <Link to={item?.path} className='py-2'>
+                    <Link
+                      to={item?.path}
+                      className='py-2'
+                      onClick={() => setIsOpen(false)}
+                    >
                       {item?.name}
                     </Link>
                   )}

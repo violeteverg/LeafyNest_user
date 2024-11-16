@@ -91,13 +91,13 @@ export default function Navbar() {
               <div>
                 <Button
                   size='icon'
-                  className='bg-transparent'
+                  variant='tranparant'
                   onClick={handleOpenSheet}
                 >
                   <ShoppingCart
                     className={`h-6 w-6 flex-shrink-0 text-black`}
                   />
-                  <span className='ml-2 text-sm font-medium text-white group-hover:text-gray-800'>
+                  <span className='ml-2 text-sm font-medium text-white'>
                     {data?.totalQuantity}
                   </span>
                 </Button>
@@ -111,8 +111,8 @@ export default function Navbar() {
               <div className='md:mr-6 flex items-center space-x-6'>
                 <div className='ml-4 flow-root lg:ml-6'>
                   <Button
-                    className='bg-transparent'
-                    size='icon'
+                    variant='tranparant'
+                    // size='icon'
                     onClick={handleOpenSheet}
                   >
                     <ShoppingCart
