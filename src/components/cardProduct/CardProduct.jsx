@@ -2,7 +2,14 @@ import { formatPrice } from "@/lib/functions/formatPrice";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const CardProducts = ({ id, title, price, image, discount, additional }) => {
+export default function CardProduct({
+  id,
+  title,
+  price,
+  image,
+  discount,
+  additional,
+}) {
   const navigate = useNavigate();
 
   const priceNumber = typeof price === "string" ? parseFloat(price) : price;
@@ -49,10 +56,10 @@ const CardProducts = ({ id, title, price, image, discount, additional }) => {
       </div>
     </div>
   );
-};
+}
 
 // Define PropTypes for the component
-CardProducts.propTypes = {
+CardProduct.propTypes = {
   id: PropTypes.number,
   title: PropTypes.string,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -60,5 +67,3 @@ CardProducts.propTypes = {
   additional: PropTypes.number,
   discount: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([null])]),
 };
-
-export default CardProducts;
