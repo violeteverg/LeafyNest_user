@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { checkToken } from "@/lib/utils";
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 
 export default function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
