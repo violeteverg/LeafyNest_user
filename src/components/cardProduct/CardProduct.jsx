@@ -19,7 +19,6 @@ export default function CardProduct({
   const HargaFixBanget = parseFloat(finalPrice.toFixed(3));
 
   const cardClickHandler = (id) => {
-    // setProductId(id);
     navigate(`/detail/${id}`);
   };
 
