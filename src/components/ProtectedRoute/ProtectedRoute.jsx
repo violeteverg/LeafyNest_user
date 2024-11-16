@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { checkToken } from "@/lib/utils";
 import Navbar from "@/components/Navbar/Navbar";
 
-const ProtectedRoute = () => {
+export default function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   useEffect(() => {
     const verifyToken = async () => {
@@ -25,6 +25,4 @@ const ProtectedRoute = () => {
   ) : (
     <Navigate to='/login' />
   );
-};
-
-export default ProtectedRoute;
+}
