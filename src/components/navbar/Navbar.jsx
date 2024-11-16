@@ -2,7 +2,6 @@ import { cn, getUser } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import WidthWrapper from "../WidthWrapper";
 
-import NavItem from "../NavItems/NavItems";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Style from "./Navbar.module.css";
@@ -16,6 +15,7 @@ import { setIsOpen, setUser } from "@/redux/app/slice";
 import DropdownUser from "../DropdownUser/DropdownUser";
 import { useCountCartQuery } from "@/redux/cart/api";
 import Searchbar from "../Searchbar/Searchbar";
+import NavItems from "../NavItems/NavItems";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ export default function Navbar() {
             </div>
 
             <div className='hidden lg:ml-8 lg:block lg:self-stretch'>
-              <NavItem />
+              <NavItems />
             </div>
 
             <div className='lg:hidden ml-auto mr-4 space-x-4 flex flex-row items-center justify-center'>
