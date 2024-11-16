@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import { getSessionStorageItem } from "./lib/utils";
+import Navbar from "@/components/Navbar/Navbar";
+import { getSessionStorageItem } from "@/lib/utils";
 // import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
