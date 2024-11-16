@@ -11,9 +11,10 @@ import {
 import { Separator } from "../ui/separator";
 import { setIsOpen } from "@/redux/app/slice";
 import { Link } from "react-router-dom";
-import CartItems from "../CartItems/CartItems";
+
 import { buttonVariants } from "../ui/button";
 import { useGetCartQuery } from "@/redux/cart/api";
+import CartItem from "../CartItem/CartItem";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export default function Cart() {
                     <p key={i}>....Loading</p>
                   ))
                 : data?.map((item) => (
-                    <CartItems
+                    <CartItem
                       key={item.id}
                       image={item.Product.image}
                       quantity={item.quantity}

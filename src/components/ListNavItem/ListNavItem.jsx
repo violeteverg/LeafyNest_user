@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Style from "./ListNavItems.module.css";
+import Style from "./ListNavItem.module.css";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-export default function ListNavItems({
+export default function ListNavItem({
   category,
   openhandler,
   isAnyOpen,
@@ -94,7 +94,7 @@ export default function ListNavItems({
   );
 }
 
-ListNavItems.propTypes = {
+ListNavItem.propTypes = {
   category: PropTypes.shape({
     label: PropTypes.string,
     featured: PropTypes.arrayOf(

@@ -1,4 +1,4 @@
-import CartItems from "@/components/CartItems/CartItems";
+import CartItem from "@/components/CartItem/CartItem";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import DeliveryAddress from "@/components/DeliveryAddress/DeliveryAddress";
 import { Button } from "@/components/ui/button";
@@ -60,7 +60,7 @@ export default function PaymentPage() {
   const renderPaymentItems = () => {
     if (isBuyNow && productData) {
       return (
-        <CartItems
+        <CartItem
           title={productData.title}
           quantity={buyNowProductQuantity}
           image={productData.image}
@@ -70,7 +70,7 @@ export default function PaymentPage() {
     }
 
     return cartData?.map((item) => (
-      <CartItems
+      <CartItem
         key={item.id}
         image={item.Product.image}
         quantity={item.quantity}

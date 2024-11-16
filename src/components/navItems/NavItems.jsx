@@ -1,7 +1,7 @@
 import { ProductCategory } from "@/lib/mock/DummyProductCategory";
 import { useEffect, useRef, useState } from "react";
-import ListNavItems from "../ListNavItems/ListNavItems";
 import { useOnClickOutside } from "@/hooks/useClickOutside";
+import ListNavItem from "../ListNavItem/ListNavItem";
 
 export default function NavItems() {
   const [active, setActive] = useState(null);
@@ -40,7 +40,7 @@ export default function NavItems() {
 
         const isOpen = active === i;
         return (
-          <ListNavItems
+          <ListNavItem
             category={category}
             openhandler={openHandler}
             isOpen={isOpen}

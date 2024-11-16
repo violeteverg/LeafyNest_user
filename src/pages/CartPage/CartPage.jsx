@@ -1,4 +1,4 @@
-import CartItems from "@/components/CartItems/CartItems";
+import CartItem from "@/components/CartItem/CartItem";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import NoContent from "@/components/NoContent/NoContent";
 import WidthWrapper from "@/components/WidthWrapper";
@@ -43,7 +43,7 @@ export default function CartPage() {
                     </div>
                   ))
                 : cartData?.map((item) => (
-                    <CartItems
+                    <CartItem
                       key={item.id}
                       id={item.id}
                       image={item.Product.image}

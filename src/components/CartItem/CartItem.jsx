@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { formatPrice } from "@/lib/functions/formatPrice";
 import { useRemoveCartMutation, useUpdateCartMutation } from "@/redux/cart/api";
 
-export default function CartItems({
+export default function CartItem({
   id,
   image,
   quantity,
@@ -110,7 +110,7 @@ export default function CartItems({
     </div>
   );
 }
-CartItems.propTypes = {
+CartItem.propTypes = {
   id: PropTypes.number,
   image: PropTypes.string,
   quantity: PropTypes.number,
