@@ -1,4 +1,4 @@
-import CartItems from "../../components/CartItems/CartItems";
+import CartItems from "@/components/CartItems/CartItems";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import DeliveryAddress from "@/components/DeliveryAddress/DeliveryAddress";
 import { Button } from "@/components/ui/button";
