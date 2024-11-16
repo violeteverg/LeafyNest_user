@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar.jsx";
 import { getSessionStorageItem } from "./lib/utils";
 // import HomePage from "./pages/HomePage/HomePage";
 
