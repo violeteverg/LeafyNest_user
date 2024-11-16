@@ -1,7 +1,7 @@
 import { cn, getUser } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import WidthWrapper from "../WidthWrapper";
-import SearchBar from "../Seacrhbar/Searchbar";
+
 import NavItem from "../NavItems/NavItems";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsOpen, setUser } from "@/redux/app/slice";
 import DropdownUser from "../DropdownUser/DropdownUser";
 import { useCountCartQuery } from "@/redux/cart/api";
+import Searchbar from "../Searchbar/Searchbar";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -80,7 +81,7 @@ export default function Navbar() {
             </div>
 
             <div className='mx-auto lg:mx-8 lg:block'>
-              <SearchBar />
+              <Searchbar />
             </div>
 
             <div className='hidden lg:ml-8 lg:block lg:self-stretch'>

@@ -2,7 +2,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "../ui/input";
 
-export default function SearchBar() {
+export default function Searchbar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [inputValue, setInputValue] = useState(
     searchParams.get("search") || ""
