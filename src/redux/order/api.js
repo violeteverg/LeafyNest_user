@@ -1,12 +1,11 @@
+import { baseUrl } from "@/utils/constants/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const baseUrl = "http://localhost:3000/api/order";
 
 export const orderApi = createApi({
   reducerPath: "orderApi",
   tagTypes: ["ORDER_LIST", "ORDER_ID"],
   baseQuery: fetchBaseQuery({
-    baseUrl,
+    baseUrl: `${baseUrl}/order`,
     credentials: "include",
   }),
   endpoints: (builder) => ({
