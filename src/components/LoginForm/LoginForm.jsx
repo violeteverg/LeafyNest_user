@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "@/schemas/SchemaLoginForm";
 import LoginGoogleButton from "../LoginGoogleButton/LoginGoogleButton";
+import Cookies from "js-cookie";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -26,7 +27,13 @@ export default function LoginForm() {
   const onSubmit = async (val) => {
     try {
       const body = { input: val.input, password: val.password };
-      await login(body).unwrap();
+      const response = await login(body).unwrap();
+
+      if (response?.result?.token) {
+        Cookies.set("token", response.result.token, {
+          expires: "1h",
+        });
+      }
       navigate("/");
     } catch (err) {
       console.error("Error saat login:", err);
