@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/auth/api";
 import { loginSchema } from "@/schemas/SchemaLoginForm";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Cookies from "js-cookie";
 import { ArrowRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,7 +27,9 @@ export default function LoginPage() {
   const onSubmit = async (val) => {
     try {
       const body = { input: val.input, password: val.password };
-      await login(body).unwrap();
+      const response = await login(body).unwrap();
+
+      Cookies.set("token", response?.result?.token);
       navigate("/");
     } catch (err) {
       console.error("Error saat login:", err);
