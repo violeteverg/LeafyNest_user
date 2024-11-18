@@ -1,3 +1,4 @@
+import { getToken } from "@/lib/utils";
 import { baseUrl } from "@/utils/constants/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -7,6 +8,13 @@ export const orderApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/order`,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      const token = getToken();
+      if (token) {
+        headers.set("token", `${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     createOrder: builder.mutation({
