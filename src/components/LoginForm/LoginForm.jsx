@@ -30,6 +30,7 @@ export default function LoginForm() {
       const response = await login(body).unwrap();
 
       if (response?.result?.token) {
+        console.log(response?.result?.token, "><><>");
         Cookies.set("token", response.result.token, {
           expires: "1h",
         });
