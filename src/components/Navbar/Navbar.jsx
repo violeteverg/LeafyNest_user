@@ -17,6 +17,7 @@ import Searchbar from "../Searchbar/Searchbar";
 import NavItems from "../NavItems/NavItems";
 import MobileNav from "../MobileNav/MobileNav";
 import Cart from "../Cart/Cart";
+import Cookies from "js-cookie";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -39,10 +40,8 @@ export default function Navbar() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
-      console.log("data user : ", user);
-    }
-  }, [user]);
+    console.log("token dari js cookie", Cookies.get("token"));
+  }, []);
 
   useEffect(() => {
     let timeout;
