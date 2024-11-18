@@ -9,6 +9,7 @@ export function cn(...inputs) {
 
 export const getJwtSecretKey = () => {
   const secret = import.meta.env.VITE_JWT_SECRET;
+  console.log(secret, "get jwt secret");
 
   if (!secret || secret.length === 0) {
     throw new Error("The environment variable JWT_SECRET_KEY is not set");
@@ -18,6 +19,7 @@ export const getJwtSecretKey = () => {
 
 export const checkToken = async () => {
   const token = Cookies.get("token");
+  console.log(token, "ini check token");
 
   if (!token) {
     return null;
@@ -39,6 +41,7 @@ export const checkToken = async () => {
 export const getUser = async () => {
   try {
     const token = Cookies.get("token");
+    console.log(token, "getUser");
 
     if (!token) {
       return null;

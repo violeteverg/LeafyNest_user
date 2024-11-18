@@ -31,11 +31,18 @@ export default function Navbar() {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await getUser();
+      console.log("data dari cookie : ", userData);
       dispatch(setUser(userData));
     };
 
     fetchUser();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      console.log("data user : ", user);
+    }
+  }, [user]);
 
   useEffect(() => {
     let timeout;
