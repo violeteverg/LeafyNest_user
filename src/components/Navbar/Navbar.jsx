@@ -2,9 +2,9 @@ import { cn, getUser } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import WidthWrapper from "../WidthWrapper";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Style from "./Navbar.module.css";
+// import Style from "./Navbar.module.css";
 import { Icons } from "../Icons";
 import { Separator } from "../ui/separator";
 
@@ -22,9 +22,9 @@ import Cookies from "js-cookie";
 export default function Navbar() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.app);
-  const location = useLocation();
-  const [visible, setVisible] = useState(true);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  // const location = useLocation();
+  // const [visible, setVisible] = useState(true);
+  // const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useCountCartQuery();
   console.log(data, "ini cart data");
@@ -43,28 +43,28 @@ export default function Navbar() {
     console.log("token dari js cookie", Cookies.get("token"));
   }, []);
 
-  useEffect(() => {
-    let timeout;
-    const handleScroll = () => {
-      const currentPosition = window.pageYOffset;
+  // useEffect(() => {
+  //   let timeout;
+  //   const handleScroll = () => {
+  //     const currentPosition = window.pageYOffset;
 
-      setVisible(currentPosition <= 10);
-      setScrollPosition(currentPosition);
+  //     setVisible(currentPosition <= 10);
+  //     setScrollPosition(currentPosition);
 
-      clearTimeout(timeout);
-      timeout = setTimeout(() => setVisible(true), 500);
-    };
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(() => setVisible(true), 500);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timeout);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //     clearTimeout(timeout);
+  //   };
+  // }, []);
 
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
-  const isRootPath = location.pathname === "/";
+  // const isRootPath = location.pathname === "/";
 
   const handleOpenSheet = () => {
     dispatch(setIsOpen(true));
@@ -72,11 +72,11 @@ export default function Navbar() {
 
   return (
     <div
-      className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
-        isRootPath ? "fixed" : "sticky top-0 shadow-xl"
-      } z-50 inset-x-0 h-[80px] ${
-        scrollPosition > 10 ? Style.blurredBackground : ""
-      }`}
+    // className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
+    //   isRootPath ? "fixed" : "sticky top-0 shadow-xl"
+    // } z-50 inset-x-0 h-[80px] ${
+    //   scrollPosition > 10 ? Style.blurredBackground : ""
+    // }`}
     >
       <header className='relative h-full bg-transparent lg:mx-4 mt-2'>
         <WidthWrapper>
