@@ -40,7 +40,8 @@ export default function Navbar() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("token dari js cookie", Cookies);
+    console.log("token dari js cookie", Cookies.get("token"));
+    console.log(document.cookie);
   }, []);
 
   useEffect(() => {

@@ -26,7 +26,7 @@ export const checkToken = async () => {
   }
 
   try {
-    const { payload } = await jwtVerify(
+    const { payload } = jwtVerify(
       token,
       new TextEncoder().encode(getJwtSecretKey())
     );
@@ -47,7 +47,7 @@ export const getUser = async () => {
       return null;
     }
 
-    const { payload } = await jwtVerify(
+    const { payload } = jwtVerify(
       token,
       new TextEncoder().encode(getJwtSecretKey())
     );
