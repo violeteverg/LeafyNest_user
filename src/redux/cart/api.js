@@ -30,7 +30,7 @@ export const cartApi = createApi({
         url: `/findAll`,
       }),
       transformResponse: (response) => {
-        return response?.cartItems;
+        return response?.result;
       },
       providesTags: ["CART_LIST"],
     }),

@@ -7,6 +7,8 @@ import { formatPrice } from "@/lib/functions/formatPrice";
 import useSnap from "@/hooks/useSnap";
 import { useCreateOrderMutation } from "@/redux/order/api";
 import { useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export default function CheckoutSummary({
   summary,
@@ -18,6 +20,7 @@ export default function CheckoutSummary({
   const { snapEmbed } = useSnap();
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const paramsToken = searchParams.get("token");
   const [isSnapVisible, setSnapVisible] = useState(false);
@@ -58,6 +61,21 @@ export default function CheckoutSummary({
         }
       } catch (error) {
         console.error("Error:", error);
+        const errorMessage =
+          error?.data?.message || error?.error || "Failed to create order.";
+
+        toast({
+          variant: "destructive",
+          description: (
+            <div className='flex gap-2 font-bold'>
+              <CircleX />
+              <p>{errorMessage}</p>
+            </div>
+          ),
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+        });
       }
     }
   };
@@ -107,7 +125,7 @@ export default function CheckoutSummary({
                   size='lg'
                   className='w-full bg-amber-500 text-white hover:bg-amber-600'
                   onClick={handleBuyButton}
-                  disabled={isLoading}
+                  disabled={isLoading || !address}
                 >
                   <CreditCard />
                   Payment

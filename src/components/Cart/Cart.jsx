@@ -29,6 +29,7 @@ export default function Cart() {
   const handleClose = () => {
     dispatch(setIsOpen(false));
   };
+  console.log(data, "ini data cart");
 
   return (
     <Sheet open={isOpen} onOpenChange={handleClose}>
@@ -85,7 +86,7 @@ export default function Cart() {
           <div className='flex h-full flex-col items-center justify-center space-y-1'>
             <div className='relative mb-4 h-96 w-96 text-muted-foreground'>
               <img
-                src='/Tiger-Cart.png'
+                src='/bg-cactus-cart  .png'
                 alt='tiger with a cart'
                 className='h-full w-full object-cover'
               />
