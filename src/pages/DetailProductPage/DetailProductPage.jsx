@@ -1,3 +1,4 @@
+import DetailProductLoading from "@/components/Loading/DetailProductLoading";
 import Review from "@/components/Review/Review";
 import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
@@ -27,9 +28,15 @@ export default function DetailProductPage() {
   const user = useSelector((state) => state.app.user);
 
   const { count } = useSelector((state) => state.app);
-  const { data: productDetails } = useGetProductIdQuery({ id: productId });
+  const {
+    data: productDetails,
+    isLoading,
+    isFetching,
+  } = useGetProductIdQuery({ id: productId });
+
   const [addCart] = useAddCartMutation();
 
+  const loading = isLoading || isFetching;
   useEffect(() => {
     dispatch(resetCount());
   }, [dispatch]);
@@ -89,90 +96,94 @@ export default function DetailProductPage() {
 
   return (
     <WidthWrapper className='flex justify-center items-center text-white h-full'>
-      {productDetails ? (
-        <div className='flex flex-col w-full max-w-6xl rounded-lg px-5 py-8 my-6'>
-          <div className='flex flex-col lg:flex-row w-full justify-center items-start gap-8 mb-8'>
-            <img
-              src={productDetails?.image}
-              alt={productDetails?.title}
-              className='drop-shadow-xl mb-4 lg:mb-0 lg:w-[45%] w-full object-cover rounded-lg'
-              loading='lazy'
-            />
+      <div className='flex flex-col w-full max-w-6xl rounded-lg px-5 py-8 my-6'>
+        {loading ? (
+          <DetailProductLoading />
+        ) : productDetails ? (
+          <>
+            <div className='flex flex-col lg:flex-row w-full justify-center items-start gap-8 mb-8'>
+              <img
+                src={productDetails?.image}
+                alt={productDetails?.title}
+                className='drop-shadow-xl mb-4 lg:mb-0 lg:w-[45%] w-full object-cover rounded-lg'
+                loading='lazy'
+              />
 
-            <div className='w-full lg:w-[55%] bg-gradient-to-br from-teal-700 to-teal-900 rounded-lg shadow-2xl flex flex-col justify-between p-6'>
-              <div className='space-y-4'>
-                <h1 className='text-3xl lg:text-4xl font-bold text-white'>
-                  {productDetails?.title}
-                </h1>
-                <div className='w-full h-[150px] lg:h-[200px] mt-4 lg:mt-6 overflow-auto'>
-                  <p className='text-teal-100 text-lg leading-relaxed'>
-                    {productDetails?.description}
-                  </p>
+              <div className='w-full lg:w-[55%] bg-gradient-to-br from-teal-700 to-teal-900 rounded-lg shadow-2xl flex flex-col justify-between p-6'>
+                <div className='space-y-4'>
+                  <h1 className='text-3xl lg:text-4xl font-bold text-white'>
+                    {productDetails?.title}
+                  </h1>
+                  <div className='w-full h-[150px] lg:h-[200px] mt-4 lg:mt-6 overflow-auto'>
+                    <p className='text-teal-100 text-lg leading-relaxed'>
+                      {productDetails?.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className='mt-8 space-y-6'>
-                <div className='flex items-center justify-between'>
-                  <div className='bg-white rounded-md flex items-center'>
+                <div className='mt-8 space-y-6'>
+                  <div className='flex items-center justify-between'>
+                    <div className='bg-white rounded-md flex items-center'>
+                      <Button
+                        variant='ghost'
+                        size='icon'
+                        className='text-teal-800'
+                        onClick={handleDecrement}
+                      >
+                        <Minus className='h-4 w-4' />
+                      </Button>
+                      <input
+                        type='number'
+                        className='w-16 text-center text-teal-800 font-semibold bg-transparent focus:outline-none'
+                        value={count}
+                        min={1}
+                        max={100}
+                        readOnly
+                      />
+                      <Button
+                        variant='ghost'
+                        size='icon'
+                        className='text-teal-800'
+                        onClick={handleIncrement}
+                        disabled={count >= productDetails.quantity}
+                      >
+                        <Plus className='h-4 w-4' />
+                      </Button>
+                    </div>
+                    <p className='text-2xl font-bold text-white'>
+                      {formatPrice(productDetails?.price)}
+                    </p>
+                  </div>
+                  <p className='text-teal-200 text-sm'>
+                    Stock: {productDetails?.quantity} available
+                  </p>
+                  <div className='flex gap-4'>
                     <Button
-                      variant='ghost'
-                      size='icon'
-                      className='text-teal-800'
-                      onClick={handleDecrement}
+                      className='flex-1 bg-white text-teal-800 hover:bg-teal-100 transition-colors'
+                      onClick={buttoAddCartHandler}
                     >
-                      <Minus className='h-4 w-4' />
+                      <ShoppingCart className='mr-2 h-5 w-5' />
+                      Add to Cart
                     </Button>
-                    <input
-                      type='number'
-                      className='w-16 text-center text-teal-800 font-semibold bg-transparent focus:outline-none'
-                      value={count}
-                      min={1}
-                      max={100}
-                      readOnly
-                    />
                     <Button
-                      variant='ghost'
-                      size='icon'
-                      className='text-teal-800'
-                      onClick={handleIncrement}
-                      disabled={count >= productDetails.quantity}
+                      className='flex-1 bg-teal-600 text-white hover:bg-teal-700 transition-colors'
+                      onClick={handleBuyNow}
                     >
-                      <Plus className='h-4 w-4' />
+                      Buy Now
                     </Button>
                   </div>
-                  <p className='text-2xl font-bold text-white'>
-                    {formatPrice(productDetails?.price)}
-                  </p>
-                </div>
-                <p className='text-teal-200 text-sm'>
-                  Stock: {productDetails?.quantity} available
-                </p>
-                <div className='flex gap-4'>
-                  <Button
-                    className='flex-1 bg-white text-teal-800 hover:bg-teal-100 transition-colors'
-                    onClick={buttoAddCartHandler}
-                  >
-                    <ShoppingCart className='mr-2 h-5 w-5' />
-                    Add to Cart
-                  </Button>
-                  <Button
-                    className='flex-1 bg-teal-600 text-white hover:bg-teal-700 transition-colors'
-                    onClick={handleBuyNow}
-                  >
-                    Buy Now
-                  </Button>
                 </div>
               </div>
             </div>
-          </div>
 
-          <Review
-            productDetails={productDetails}
-            isUser={user}
-            productId={productId}
-          />
-        </div>
-      ) : null}
+            <Review
+              productDetails={productDetails}
+              isUser={user}
+              productId={productId}
+            />
+          </>
+        ) : null}
+      </div>
     </WidthWrapper>
   );
 }
