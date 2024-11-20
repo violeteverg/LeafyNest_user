@@ -1,11 +1,18 @@
 import { baseUrl } from "@/utils/constants/constants";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
 
 export const productApi = createApi({
   reducerPath: "productApi",
   tagTypes: ["PRODUCT_LIST", "PRODUCT_ID"],
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/product`,
+    prepareHeaders: (headers, { endpoint }) => {
+      if (endpoint === "createComment") {
+        headers.set("token", `${Cookies.get("token")}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getProduct: builder.query({

@@ -36,7 +36,7 @@ export default function PlantsPage() {
   return (
     <Layoutpage
       image='/bgProduct/bg-plants-product.jpg'
-      text='Cactus'
+      text='Plants'
       pageCount={pagination?.totalPages}
       currentPage={pagination?.currentPage}
       onPageChange={handlePageChange}

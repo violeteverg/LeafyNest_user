@@ -36,7 +36,7 @@ export default function SucculentPage() {
   return (
     <Layoutpage
       image='/bgProduct/bg-succulents-product.jpg'
-      text='Cactus'
+      text='Succulents'
       pageCount={pagination?.totalPages}
       currentPage={pagination?.currentPage}
       onPageChange={handlePageChange}
