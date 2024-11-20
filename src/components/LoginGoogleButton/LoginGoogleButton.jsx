@@ -33,7 +33,7 @@ export default function LoginGoogleButton() {
       const user = result.user;
       const idToken = await user.getIdToken();
       const login = await loginGoogle(idToken).unwrap();
-      console.log(login, "ini login");
+
       if (login) {
         Cookies.set("token", login?.result?.token);
         navigate("/all-product");

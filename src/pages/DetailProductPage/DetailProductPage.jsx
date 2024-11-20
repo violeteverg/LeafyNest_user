@@ -63,7 +63,6 @@ export default function DetailProductPage() {
         ),
       });
     } catch (error) {
-      console.log(error, "ini error");
       toast({
         variant: "destructive",
         description: (

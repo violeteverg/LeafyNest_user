@@ -25,8 +25,7 @@ export default function RegisterForm() {
   const passwordValue = watch("password");
   const emailValue = watch("email");
 
-  const [register, { error }] = useRegisterMutation();
-  console.log(error, "<>< ini error");
+  const [register] = useRegisterMutation();
 
   const onSubmit = async (val) => {
     try {
@@ -37,7 +36,7 @@ export default function RegisterForm() {
         password: val.password,
       };
       await register(body);
-      console.log(body);
+
       reset({
         fullName: "",
         userName: "",

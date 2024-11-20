@@ -10,7 +10,6 @@ export default function Layoutpage({
   onPageChange,
   isHasData,
 }) {
-  console.log(children, "ini childrean");
   return (
     <div className='flex-1 overflow-y-auto'>
       <div className='flex flex-col justify-center items-center'>

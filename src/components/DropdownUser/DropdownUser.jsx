@@ -1,4 +1,3 @@
-import { useLogoutMutation } from "@/redux/auth/api";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -10,14 +9,14 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { generateAvatar } from "@/lib/utils";
 import { LogOut } from "lucide-react";
+import Cookies from "js-cookie";
 
 export default function DropdownUser({ user }) {
   const navigate = useNavigate();
-  const [logout] = useLogoutMutation();
 
   const handleLogout = async () => {
-    await logout();
-    navigate(0);
+    Cookies.remove("token");
+    navigate(0, { replace: false });
   };
 
   return (

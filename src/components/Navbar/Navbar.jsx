@@ -17,7 +17,6 @@ import Searchbar from "../Searchbar/Searchbar";
 import NavItems from "../NavItems/NavItems";
 import MobileNav from "../MobileNav/MobileNav";
 import Cart from "../Cart/Cart";
-import Cookies from "js-cookie";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -27,22 +26,16 @@ export default function Navbar() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useCountCartQuery();
-  console.log(data, "ini cart data");
 
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await getUser();
-      console.log("data dari cookie : ", userData);
+
       dispatch(setUser(userData));
     };
 
     fetchUser();
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log("token dari js cookie", Cookies.get("token"));
-    console.log(document.cookie);
-  }, []);
 
   useEffect(() => {
     let timeout;

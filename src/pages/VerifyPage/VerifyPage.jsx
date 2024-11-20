@@ -6,8 +6,7 @@ export default function VerifyPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const isVerifySuccess = location.pathname === "/verify-success";
-  console.log(isVerifySuccess);
-  console.log(location.pathname, "pathname");
+
   const handleDirectButton = () => {
     if (isVerifySuccess) {
       return navigate("/login");

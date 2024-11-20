@@ -30,13 +30,12 @@ export default function Cart() {
   const handleClose = () => {
     dispatch(setIsOpen(false));
   };
-  console.log(data, "ini data cart");
 
   return (
     <Sheet open={isOpen} onOpenChange={handleClose}>
       <SheetContent className='flex w-full flex-col pr-2 sm:max-w-lg'>
         <SheetHeader className='space-y-2.5 pr-6'>
-          <SheetTitle>{`Cart ${isCart}`}</SheetTitle>
+          <SheetTitle>Cart</SheetTitle>
         </SheetHeader>
         {isCart > 0 ? (
           <>
@@ -56,18 +55,9 @@ export default function Cart() {
                     />
                   ))}
             </div>
-            <div className='space-y-4 text-sm'>
-              <Separator />
-              <div className='space-y-1.5 pr-6'>
-                <div className='flex'>
-                  <span className='flex-1'>Transaction Fee</span>
-                </div>
-                <div className='flex'>
-                  <span className='flex-1'>Total</span>
-                  <span>{}</span>
-                </div>
-              </div>
-            </div>
+
+            <Separator />
+
             <SheetFooter>
               <SheetTrigger asChild>
                 <Link

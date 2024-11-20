@@ -36,7 +36,6 @@ export const productApi = createApi({
     }),
     createComment: builder.mutation({
       query: ({ id, body }) => {
-        console.log(id, body, "ini body comment");
         return {
           url: `/review/${id}`,
           method: "POST",

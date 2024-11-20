@@ -17,7 +17,6 @@ export const authApi = createApi({
     }),
     loginGoogle: builder.mutation({
       query: (idToken) => {
-        console.log(idToken, "ini id token");
         return {
           url: "/login-google",
           method: "POST",

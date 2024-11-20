@@ -8,7 +8,7 @@ export default function ProtectedRoute() {
   useEffect(() => {
     const verifyToken = async () => {
       const user = await checkToken();
-      console.log(user, "ini user");
+
       setIsAuthenticated(!!user);
     };
     verifyToken();
