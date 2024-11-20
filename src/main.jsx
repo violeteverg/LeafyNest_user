@@ -26,6 +26,7 @@ import GrowingMediaPage from "./pages/GrowingMediaPage/GrowingMediaPage";
 import ToolsPage from "./pages/ToolsPage/ToolsPage";
 import VerifyPage from "./pages/VerifyPage/VerifyPage";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
   { path: "/verify-success", element: <VerifyPage /> },
   { path: "/verify-failed", element: <VerifyPage /> },
   { path: "/email-verify", element: <EmailVerifyPage /> },
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 createRoot(document.getElementById("root")).render(
