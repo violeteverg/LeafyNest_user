@@ -1,6 +1,7 @@
 import CartItem from "@/components/CartItem/CartItem";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
 import DeliveryAddress from "@/components/DeliveryAddress/DeliveryAddress";
+import CardCartLoading from "@/components/Loading/CardCartLoading";
 import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
 import { calculateTotalSummary, getSessionStorageItem } from "@/lib/utils";
@@ -58,6 +59,11 @@ export default function PaymentPage() {
   }, [cartData, productData, isBuyNow, buyNowProductQuantity]);
 
   const renderPaymentItems = () => {
+    if (loading) {
+      return Array.from({ length: 3 }).map((_, i) => (
+        <CardCartLoading key={i} />
+      ));
+    }
     if (isBuyNow && productData) {
       return (
         <CartItem
@@ -82,6 +88,10 @@ export default function PaymentPage() {
     ));
   };
 
+  if (loading) {
+    return null;
+  }
+
   return (
     <WidthWrapper className='flex justify-center items-center my-10 lg:mt-10 lg:mb-0 '>
       {cartData || productData ? (
@@ -89,11 +99,7 @@ export default function PaymentPage() {
           <div className='lg:w-[70%] flex flex-col justify-center h-full items-center'>
             <DeliveryAddress />
             <div className='w-full flex flex-col px-3 h-[50vh] border shadow-2xl rounded-lg items-center overflow-y-auto my-2'>
-              {loading
-                ? Array.from({ length: 3 }).map((_, i) => (
-                    <p key={i}>....Loading</p>
-                  ))
-                : renderPaymentItems()}
+              {renderPaymentItems()}
             </div>
           </div>
           <div className='lg:w-[30%]'>

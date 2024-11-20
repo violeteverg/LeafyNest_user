@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { buttonVariants } from "../ui/button";
 import { useGetCartQuery } from "@/redux/cart/api";
 import CartItem from "../CartItem/CartItem";
+import CardCartLoading from "../Loading/CardCartLoading";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -41,9 +42,8 @@ export default function Cart() {
           <>
             <div className='flex w-full flex-col pr-6 space-y-4 overflow-auto'>
               {loading
-                ? Array.from({ length: 3 }).map((_, i) => (
-                    // <LoadingCartItems key={i} />
-                    <p key={i}>....Loading</p>
+                ? Array.from({ length: 5 }).map((_, i) => (
+                    <CardCartLoading key={i} />
                   ))
                 : data?.map((item) => (
                     <CartItem
@@ -61,7 +61,6 @@ export default function Cart() {
               <div className='space-y-1.5 pr-6'>
                 <div className='flex'>
                   <span className='flex-1'>Transaction Fee</span>
-                  {/* <span>{formatPrice(fee)}</span> */}
                 </div>
                 <div className='flex'>
                   <span className='flex-1'>Total</span>
@@ -96,7 +95,7 @@ export default function Cart() {
             </span>
             <SheetTrigger asChild>
               <Link
-                to='/product'
+                to='/all-product'
                 className={buttonVariants({ className: "w-full bg-amber-500" })}
               >
                 Add items to your cart

@@ -72,7 +72,7 @@ export default function CardOrderList({
 
   return (
     <>
-      <div className='w-full h-full my-3 text-white bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg shadow-xl'>
+      <div className='w-full h-[20vh] my-3 text-white bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg shadow-xl'>
         <div className='w-full h-fit py-1 px-2'>
           <div className='flex flex-col h-full gap-2'>
             <div className='flex justify-between items-center h-[80%] flex-grow py-4'>
@@ -88,9 +88,9 @@ export default function CardOrderList({
 
             <div className='flex justify-between items-center h-[20%] py-2'>
               <p>{formatDate(orderDate)}</p>
-              <div className='flex justify-center gap-2'>
+              <div>
                 {orderStatus === "pending" ? (
-                  <div>
+                  <div className='flex justify-center gap-2'>
                     <Button
                       className='w-fit bg-white text-teal-700 hover:bg-teal-100'
                       onClick={onStatusClick}

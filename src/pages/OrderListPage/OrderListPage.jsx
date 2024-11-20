@@ -1,5 +1,6 @@
 import CardOrderList from "@/components/CardOrderList/CardOrderList";
 import CardOrderReview from "@/components/CardOrderReview/CardOrderReview";
+import CardOrderLoading from "@/components/Loading/CardOrderLoading";
 import NoContent from "@/components/NoContent/NoContent";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,11 +22,12 @@ export default function OrderListPage() {
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
-  const { data: orderData, isLoading } = useGetOrderQuery();
+  const { data: orderData, isLoading, isFetching } = useGetOrderQuery();
   const { data: orderDataId } = useGetOrderByIdQuery(
     { id: selectedOrderId },
     { skip: !selectedOrderId }
   );
+  const loading = isLoading || isFetching;
   const orderProduct = orderDataId?.products;
 
   const [isSnapVisible, setIsSnapVisible] = useState(false);
@@ -90,21 +92,21 @@ export default function OrderListPage() {
     );
   }, []);
 
-  if (isLoading) {
-    return null;
-  }
-
   return (
     <WidthWrapper className='flex justify-center lg:h-[88vh] py-6'>
-      {orderData && orderData.length > 0 ? (
-        <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3 overflow-hidden'>
-          <div className='lg:w-[70%] flex flex-col'>
-            <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
-              <ClipboardList className='mr-2' />
-              My Orders
-            </h1>
-            <div className='w-full flex flex-col px-1 lg:px-3 h-[calc(100vh-230px)] lg:h-[70vh] overflow-y-auto my-2 space-y-4'>
-              {orderData.map((item) => (
+      <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3 overflow-hidden'>
+        <div className='lg:w-[70%] flex flex-col'>
+          <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
+            <ClipboardList className='mr-2' />
+            My Orders
+          </h1>
+          <div className='w-full flex flex-col px-1 lg:px-3 h-[calc(100vh-230px)] lg:h-[70vh] overflow-y-auto my-2 space-y-4'>
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <CardOrderLoading key={i} />
+              ))
+            ) : orderData && orderData.length > 0 ? (
+              orderData.map((item) => (
                 <CardOrderList
                   key={item.id}
                   orderId={item?.orderId}
@@ -115,33 +117,33 @@ export default function OrderListPage() {
                   }
                   onStatusClick={() => handleOpenMidtrans(item.paymentId)}
                 />
-              ))}
-            </div>
-          </div>
-
-          <div className='lg:w-[30%]'>
-            {isDesktop ? (
-              isSnapVisible && orderDataId ? (
-                renderOrderReview
-              ) : (
-                renderSnapContainer
-              )
+              ))
             ) : (
-              <Drawer open={isSnapVisible} onOpenChange={setIsSnapVisible}>
-                <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>Order Review</DrawerTitle>
-                  </DrawerHeader>
-                  {orderDataId ? renderOrderReview : null}
-                </DrawerContent>
-              </Drawer>
+              <NoContent description='There are no orders to display. Please buy products to view your orders.' />
             )}
           </div>
-          {!isDesktop && renderSnapContainer}
         </div>
-      ) : (
-        <NoContent description='There are no orders to display. Please buy products to view your orders.' />
-      )}
+
+        <div className='lg:w-[30%]'>
+          {isDesktop ? (
+            isSnapVisible && orderDataId ? (
+              renderOrderReview
+            ) : (
+              renderSnapContainer
+            )
+          ) : (
+            <Drawer open={isSnapVisible} onOpenChange={setIsSnapVisible}>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Order Review</DrawerTitle>
+                </DrawerHeader>
+                {orderDataId ? renderOrderReview : null}
+              </DrawerContent>
+            </Drawer>
+          )}
+        </div>
+        {!isDesktop && renderSnapContainer}
+      </div>
     </WidthWrapper>
   );
 }

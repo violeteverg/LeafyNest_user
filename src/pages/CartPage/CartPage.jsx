@@ -1,5 +1,6 @@
 import CartItem from "@/components/CartItem/CartItem";
 import CheckoutSummary from "@/components/CheckoutSummary/CheckoutSummary";
+import CardCartLoading from "@/components/Loading/CardCartLoading";
 import NoContent from "@/components/NoContent/NoContent";
 import WidthWrapper from "@/components/WidthWrapper";
 import { calculateTotalSummary } from "@/lib/utils";
@@ -15,7 +16,7 @@ export default function CartPage() {
       ? calculateTotalSummary(cartData)
       : { totalQuantity: 0, totalPrice: 0 };
   }, [cartData]);
-  console.log(totalSummary, "ini total summary");
+
   if (isLoading) {
     return null;
   }
@@ -31,16 +32,7 @@ export default function CartPage() {
             <div className='w-full flex flex-col px-1 lg:px-3 h-[calc(100vh-230px)] lg:h-[70vh] overflow-y-auto my-2 space-y-4'>
               {loading
                 ? Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className='animate-pulse flex space-x-4'>
-                      <div className='rounded-lg bg-teal-200 h-24 w-24'></div>
-                      <div className='flex-1 space-y-4 py-1'>
-                        <div className='h-4 bg-teal-200 rounded w-3/4'></div>
-                        <div className='space-y-2'>
-                          <div className='h-4 bg-teal-200 rounded'></div>
-                          <div className='h-4 bg-teal-200 rounded w-5/6'></div>
-                        </div>
-                      </div>
-                    </div>
+                    <CardCartLoading key={i} isCartPage />
                   ))
                 : cartData?.map((item) => (
                     <CartItem
