@@ -79,17 +79,7 @@ export default function RegisterForm() {
       <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[360px]'>
         <div className='flex flex-col items-center space-y-2 text-center'>
           <h1 className='text-2xl font-bold'>Create an account</h1>
-
-          <Link
-            to='/login'
-            className={buttonVariants({
-              variant: "link",
-              className: "gap-1.5",
-            })}
-          >
-            Already have an account? sign-in
-            <ArrowRight className='h-4 w-4' />
-          </Link>
+          <p>Enter your information to create your account</p>
         </div>
         <div className='grid gap-6'>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -211,6 +201,16 @@ export default function RegisterForm() {
               <Button type='submit'>Sign Up</Button>
             </div>
           </form>
+          <Link
+            to='/login'
+            className={buttonVariants({
+              variant: "link",
+              className: "gap-1.5",
+            })}
+          >
+            Already have an account? sign-in
+            <ArrowRight className='h-4 w-4' />
+          </Link>
         </div>
       </div>
     </div>

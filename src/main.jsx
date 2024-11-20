@@ -24,6 +24,8 @@ import PlantsPage from "./pages/PlantsPage/PlantsPage";
 import PotsPage from "./pages/PotsPage/PotsPage";
 import GrowingMediaPage from "./pages/GrowingMediaPage/GrowingMediaPage";
 import ToolsPage from "./pages/ToolsPage/ToolsPage";
+import VerifyPage from "./pages/VerifyPage/VerifyPage";
+import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 
 const router = createBrowserRouter([
   {
@@ -61,8 +63,9 @@ const router = createBrowserRouter([
       { path: "/reset-password", element: <ResetPasswordPage /> },
     ],
   },
-  { path: "/verify-success", element: <h1>ini success</h1> },
-  { path: "/verify-failed", element: <h1>ini gagal</h1> },
+  { path: "/verify-success", element: <VerifyPage /> },
+  { path: "/verify-failed", element: <VerifyPage /> },
+  { path: "/email-verify", element: <EmailVerifyPage /> },
 ]);
 
 createRoot(document.getElementById("root")).render(

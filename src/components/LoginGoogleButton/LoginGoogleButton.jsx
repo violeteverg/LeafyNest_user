@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { CircleX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Cookies from "js-cookie";
+import { Icons } from "../Icons";
 
 export default function LoginGoogleButton() {
   const { toast } = useToast();
@@ -57,7 +58,8 @@ export default function LoginGoogleButton() {
   };
 
   return (
-    <Button className='' onClick={loginWithGoogle}>
+    <Button className='w-full' onClick={loginWithGoogle}>
+      <Icons.google />
       Login with google
     </Button>
   );

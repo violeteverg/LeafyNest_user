@@ -2,6 +2,7 @@ import LoginGoogleButton from "@/components/LoginGoogleButton/LoginGoogleButton"
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/auth/api";
 import { loginSchema } from "@/schemas/SchemaLoginForm";
@@ -42,16 +43,7 @@ export default function LoginPage() {
         <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[360px]'>
           <div className='flex flex-col space-y-2 text-center'>
             <h1 className='text-2xl font-bold'>Login</h1>
-            <Link
-              to='/Register'
-              className={buttonVariants({
-                variant: "link",
-                className: "gap-1.5",
-              })}
-            >
-              New to the site? Sign up now.
-              <ArrowRight className='h-4 w-4' />
-            </Link>
+            <p>Enter your credentials to access your account</p>
           </div>
           <div className='grid gap-6'>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,6 +69,7 @@ export default function LoginPage() {
                   </Label>
                   <Input
                     {...register("password")}
+                    isPassword
                     placeholder='password'
                     type='password'
                     className={cn({
@@ -90,19 +83,39 @@ export default function LoginPage() {
                     <p className='text-red-500'>{error?.data?.message}</p>
                   )}
                 </div>
-                <Link
-                  to='/forget-password'
-                  className='text-sm  hover:underline mt-2'
-                >
-                  Forgot your password?
-                </Link>
                 <Button type='submit' disabled={isLoading}>
                   {isLoading ? "Loading..." : "Sign in"}
                 </Button>
+                <div className='flex justify-between'>
+                  <Link
+                    to='/forget-password'
+                    className='text-sm  hover:underline mt-2'
+                  >
+                    Forgot your password?
+                  </Link>
+                  <Link
+                    to='/email-verify'
+                    className='text-sm  hover:underline mt-2'
+                  >
+                    Verify Email?
+                  </Link>
+                </div>
               </div>
             </form>
           </div>
-          <LoginGoogleButton />
+          <Separator />
+          <div className='w-full space-y-2'>
+            <LoginGoogleButton />
+            <Link
+              to='/Register'
+              className={buttonVariants({
+                variant: "link",
+                className: "gap-1.5 w-full",
+              })}
+            >
+              Don&apos;t have an account? <ArrowRight className='h-4 w-4' />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
