@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import PaginationProduct from "@/components/PaginationProduct/PaginationProduct";
+import NoData from "@/components/NoData/NoData";
 export default function Layoutpage({
   image,
   text,
@@ -47,9 +48,7 @@ export default function Layoutpage({
             </div>
           </>
         ) : (
-          <div>
-            <p>no data</p>
-          </div>
+          <NoData />
         )}
       </div>
     </div>

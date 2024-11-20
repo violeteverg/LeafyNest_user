@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useGetProductQuery } from "@/redux/product/api";
 import Layoutpage from "@/layout/LayoutPage";
 import CardProduct from "@/components/CardProduct/CardProduct";
+import CardLoading from "@/components/Loading/CardLoading";
 
 export default function ProductPages() {
   const navigate = useNavigate();
@@ -13,12 +14,13 @@ export default function ProductPages() {
   const search = queryParams.get("search") || "";
   const [page, setPage] = useState(currentPage);
 
-  const { data } = useGetProductQuery({ page, search });
+  const { data, isLoading, isFetching } = useGetProductQuery({ page, search });
 
   const productData = data?.data;
   const pagination = data?.pagination;
 
   const isHasData = productData?.length !== 0;
+  const loading = isLoading || isFetching;
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -38,19 +40,17 @@ export default function ProductPages() {
       onPageChange={handlePageChange}
       isHasData={isHasData}
     >
-      {isHasData ? (
-        productData?.map((item) => (
-          <CardProduct
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            price={item.price}
-            image={item.image}
-          />
-        ))
-      ) : (
-        <div>No products available</div>
-      )}
+      {loading
+        ? Array.from({ length: 5 }).map((_, i) => <CardLoading key={i} />)
+        : productData?.map((item) => (
+            <CardProduct
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              price={item.price}
+              image={item.image}
+            />
+          ))}
     </Layoutpage>
   );
 }
