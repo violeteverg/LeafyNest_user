@@ -1,6 +1,7 @@
 import CardOrderList from "@/components/CardOrderList/CardOrderList";
 import CardOrderReview from "@/components/CardOrderReview/CardOrderReview";
 import CardOrderLoading from "@/components/Loading/CardOrderLoading";
+import { CardOrderReviewLoading } from "@/components/Loading/CardOrderReviewLoading";
 import NoContent from "@/components/NoContent/NoContent";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,11 +24,13 @@ export default function OrderListPage() {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
   const { data: orderData, isLoading, isFetching } = useGetOrderQuery();
-  const { data: orderDataId } = useGetOrderByIdQuery(
-    { id: selectedOrderId },
-    { skip: !selectedOrderId }
-  );
+  const {
+    data: orderDataId,
+    isLoading: isOrderLoading,
+    isFetching: isOrderFetching,
+  } = useGetOrderByIdQuery({ id: selectedOrderId }, { skip: !selectedOrderId });
   const loading = isLoading || isFetching;
+  const orderLoading = isOrderLoading || isOrderFetching;
   const orderProduct = orderDataId?.products;
 
   const [isSnapVisible, setIsSnapVisible] = useState(false);
@@ -63,26 +66,32 @@ export default function OrderListPage() {
 
   const renderOrderReview = useMemo(() => {
     return (
-      <div className='h-full overflow-auto rounded-lg p-3 space-y-6'>
-        {orderProduct?.map((item) => (
-          <CardOrderReview
-            key={item.id}
-            id={item.id}
-            image={item.image}
-            title={item.title}
-            quantity={item.quantity}
-            orderStatus={selectedOrderStatus}
-          />
-        ))}
-        <Button
-          onClick={handleCloseButton}
-          className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white'
-        >
-          Close
-        </Button>
+      <div className='h-full  overflow-auto rounded-lg p-3 space-y-6'>
+        {orderLoading ? (
+          <CardOrderReviewLoading />
+        ) : (
+          <>
+            {orderProduct?.map((item) => (
+              <CardOrderReview
+                key={item.id}
+                id={item.id}
+                image={item.image}
+                title={item.title}
+                quantity={item.quantity}
+                orderStatus={selectedOrderStatus}
+              />
+            ))}
+            <Button
+              onClick={handleCloseButton}
+              className='w-full mt-6 bg-teal-600 hover:bg-teal-700 text-white'
+            >
+              Close
+            </Button>
+          </>
+        )}
       </div>
     );
-  }, [orderProduct, selectedOrderStatus]);
+  }, [orderProduct, selectedOrderStatus, orderLoading]);
 
   const renderSnapContainer = useMemo(() => {
     return (
@@ -137,7 +146,9 @@ export default function OrderListPage() {
                 <DrawerHeader>
                   <DrawerTitle>Order Review</DrawerTitle>
                 </DrawerHeader>
-                {orderDataId ? renderOrderReview : null}
+                <div className='h-[calc(100vh-230px)]'>
+                  {orderDataId ? renderOrderReview : null}
+                </div>
               </DrawerContent>
             </Drawer>
           )}

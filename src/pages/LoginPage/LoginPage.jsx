@@ -30,7 +30,7 @@ export default function LoginPage() {
       const body = { input: val.input, password: val.password };
       const response = await login(body).unwrap();
 
-      Cookies.set("token", response?.result?.token, { expires: "1h" });
+      Cookies.set("token", response?.result?.token);
       navigate("/all-product");
     } catch (err) {
       console.error("Error saat login:", err);
