@@ -21,7 +21,7 @@ export default function DeliveryAddressModal({
 }) {
   const dispatch = useDispatch();
   const { data, isLoading } = useGetAdressQuery();
-  const addresses = data?.result || [];
+  const addresses = data || [];
   const [selectedAddressId, setSelectedAddressId] = useState(
     selectedAddress?.id || null
   );
@@ -35,8 +35,8 @@ export default function DeliveryAddressModal({
     try {
       const createdAddress = await createAddress(formData).unwrap();
       const primaryAddress =
-        addresses.find((addr) => addr.isPrimary) || createdAddress;
-      setSelectedAddressId(primaryAddress.id);
+        addresses.find((addr) => addr?.isPrimary) || createdAddress;
+      setSelectedAddressId(primaryAddress?.id);
       onSelectAddress(primaryAddress);
       reset();
       onClose();

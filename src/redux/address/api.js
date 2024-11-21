@@ -23,6 +23,10 @@ export const addressApi = createApi({
         method: "POST",
         body,
       }),
+      transformResponse: (response) => {
+        console.log(response?.result, "ini responseny");
+        return response?.result;
+      },
       invalidatesTags: ["ADDRESS_LIST"],
     }),
     getAdress: builder.query({
@@ -30,6 +34,10 @@ export const addressApi = createApi({
         url: "/findAll",
         body,
       }),
+      transformResponse: (response) => {
+        console.log(response?.result, "ini responseny");
+        return response?.result;
+      },
       providesTags: ["ADDRESS_LIST"],
     }),
     deleteAddress: builder.mutation({
