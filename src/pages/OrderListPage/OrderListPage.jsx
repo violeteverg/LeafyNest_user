@@ -19,10 +19,11 @@ import { useMemo, useState } from "react";
 
 export default function OrderListPage() {
   const { snapEmbed } = useSnap();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
+  const [orderName, setOrderName] = useState(null);
   const { data: orderData, isLoading, isFetching } = useGetOrderQuery();
   const {
     data: orderDataId,
@@ -34,8 +35,10 @@ export default function OrderListPage() {
   const orderProduct = orderDataId?.products;
 
   const [isSnapVisible, setIsSnapVisible] = useState(false);
+  console.log(orderName, "ini order id");
 
-  const handleReviewClick = (orderId, orderStatus) => {
+  const handleReviewClick = (orderId, orderStatus, orderName) => {
+    setOrderName(orderName);
     setSelectedOrderStatus(orderStatus);
     setSelectedOrderId(orderId);
     setIsSnapVisible(true);
@@ -62,11 +65,13 @@ export default function OrderListPage() {
 
   const handleCloseButton = () => {
     setIsSnapVisible(false);
+    setSelectedOrderId(null);
+    setOrderName(null);
   };
 
   const renderOrderReview = useMemo(() => {
     return (
-      <div className='h-full  overflow-auto rounded-lg p-3 space-y-6'>
+      <div className='h-full overflow-auto rounded-lg p-3 space-y-6'>
         {orderLoading ? (
           <CardOrderReviewLoading />
         ) : (
@@ -105,10 +110,21 @@ export default function OrderListPage() {
     <WidthWrapper className='flex justify-center lg:h-[88vh] py-6'>
       <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3 overflow-hidden'>
         <div className='lg:w-[70%] flex flex-col'>
-          <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
-            <ClipboardList className='mr-2' />
-            My Orders
-          </h1>
+          <div className='flex justify-between'>
+            <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
+              <ClipboardList className='mr-2' />
+              My Orders
+            </h1>
+            {orderName && (
+              <p
+                className='p-6 hidden text-lg lg:flex flex-col font-semibold text-teal-800'
+                style={{ textTransform: "uppercase", letterSpacing: "0.1rem" }}
+              >
+                {`:${orderName}`}
+              </p>
+            )}
+          </div>
+
           <div className='w-full flex flex-col px-1 lg:px-3 h-[calc(100vh-230px)] lg:h-[70vh] overflow-y-auto my-2 space-y-4'>
             {loading ? (
               Array.from({ length: 3 }).map((_, i) => (
@@ -117,14 +133,18 @@ export default function OrderListPage() {
             ) : orderData && orderData.length > 0 ? (
               orderData.map((item) => (
                 <CardOrderList
-                  key={item.id}
+                  key={item?.id}
                   orderId={item?.orderId}
                   orderDate={item?.orderDate}
                   orderStatus={item?.orderStatus}
                   onReviewClick={() =>
-                    handleReviewClick(item.id, item.orderStatus)
+                    handleReviewClick(
+                      item?.id,
+                      item?.orderStatus,
+                      item?.orderId
+                    )
                   }
-                  onStatusClick={() => handleOpenMidtrans(item.paymentId)}
+                  onStatusClick={() => handleOpenMidtrans(item?.paymentId)}
                 />
               ))
             ) : (
@@ -144,7 +164,7 @@ export default function OrderListPage() {
             <Drawer open={isSnapVisible} onOpenChange={setIsSnapVisible}>
               <DrawerContent>
                 <DrawerHeader>
-                  <DrawerTitle>Order Review</DrawerTitle>
+                  <DrawerTitle className='p-6 text-lg lg:flex flex-col font-semibold text-teal-800 uppercase'>{`order: ${orderName}`}</DrawerTitle>
                 </DrawerHeader>
                 <div className='h-[calc(100vh-230px)]'>
                   {orderDataId ? renderOrderReview : null}
