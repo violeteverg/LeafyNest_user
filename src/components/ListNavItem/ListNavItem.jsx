@@ -63,25 +63,32 @@ export default function ListNavItem({
                       key={item.name}
                       className='group relative text-base sm:text-sm'
                     >
-                      <div className='relative aspect-video overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75'>
+                      <div className='relative aspect-video overflow-hidden rounded-lg bg-gray-100'>
                         <img
                           src={item.imageSrc}
                           alt='product category image'
                           className='object-cover object-center w-full h-full'
                         />
-                      </div>
+                        <div className='absolute bottom-0 left-0 right-0 overflow-hidden w-full h-0 transition-all duration-500 ease-in-out group-hover:h-full'>
+                          <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80'></div>
 
-                      <p className='mt-6 block font-medium text-gray-900'>
-                        {item.name}
-                      </p>
-                      <Link
-                        to={item.href}
-                        className='mt-1'
-                        aria-hidden='true'
-                        onClick={openhandler}
-                      >
-                        Shop now
-                      </Link>
+                          <div className='text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full'>
+                            <p className='text-3xl font-semibold tracking-wide'>
+                              {item.name}
+                            </p>
+                            <div className='flex justify-center items-center gap-3 mt-2'>
+                              <Link
+                                to={item.href}
+                                className='mt-1'
+                                aria-hidden='true'
+                                onClick={openhandler}
+                              >
+                                Shop now
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
