@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { formatPrice } from "@/lib/functions/formatPrice";
+
 import useSnap from "@/hooks/useSnap";
 import { useCreateOrderMutation } from "@/redux/order/api";
 import { useSelector } from "react-redux";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 
 export default function CheckoutSummary({
   summary,

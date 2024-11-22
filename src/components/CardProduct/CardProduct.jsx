@@ -1,22 +1,9 @@
-import { formatPrice } from "@/lib/functions/formatPrice";
+import { formatPrice } from "@/lib/utils";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-export default function CardProduct({
-  id,
-  title,
-  price,
-  image,
-  discount,
-  additional,
-}) {
+export default function CardProduct({ id, title, price, image, discount }) {
   const navigate = useNavigate();
-
-  const priceNumber = typeof price === "string" ? parseFloat(price) : price;
-  const totalDiskon =
-    discount && additional ? (priceNumber * additional) / 100 : 0;
-  const finalPrice = priceNumber - totalDiskon;
-  const HargaFixBanget = parseFloat(finalPrice.toFixed(3));
 
   const cardClickHandler = (id) => {
     navigate(`/detail/${id}`);
@@ -36,9 +23,6 @@ export default function CardProduct({
           <div className='flex flex-col justify-start items-start w-full group-hover:bg-[#ffffff] px-3 py-1 rounded-xl group-hover:shadow-md'>
             <h1 className='text-[16px] font-[400] text-[#454545]'>{title}</h1>
             <div className='flex gap-3 justify-between'>
-              <p className='text-xl font-[800] font-serif '>
-                {formatPrice(HargaFixBanget)}
-              </p>
               <p className='text-sm font-[800] opacity-50 font-serif line-through pt-1'>
                 {formatPrice(price)}
               </p>

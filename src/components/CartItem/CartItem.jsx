@@ -3,8 +3,9 @@ import { checkQuantity } from "@/lib/functions/checkQuantity";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { formatPrice } from "@/lib/functions/formatPrice";
+
 import { useRemoveCartMutation, useUpdateCartMutation } from "@/redux/cart/api";
+import { formatPrice } from "@/lib/utils";
 
 export default function CartItem({
   id,

@@ -111,3 +111,13 @@ export function formatDate(isoDate) {
 export function generateAvatar(username) {
   return username ? username.slice(0, 2).toUpperCase() : "US";
 }
+export function formatPrice(price) {
+  const numericPrice = typeof price === "string" ? parseInt(price) : price;
+
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+
+    maximumFractionDigits: 0,
+  }).format(numericPrice);
+}
