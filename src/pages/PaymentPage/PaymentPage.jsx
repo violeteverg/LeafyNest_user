@@ -33,16 +33,18 @@ export default function PaymentPage() {
           productName: productData.title,
           quantity: buyNowProductQuantity,
           price: productData.price,
+          image: productData.image,
         },
       ];
     }
 
     return (
       cartData?.map((item) => ({
-        productId: item.productId,
-        productName: item.Product.title,
-        quantity: item.quantity,
-        price: item.Product.price,
+        productId: item?.productId,
+        productName: item?.Product?.title,
+        quantity: item?.quantity,
+        price: item?.Product?.price,
+        image: item?.Product.image,
       })) || []
     );
   }, [cartData, productData, isBuyNow, buyNowProductQuantity]);

@@ -25,6 +25,7 @@ export default function OrderListPage() {
   const [selectedOrderStatus, setSelectedOrderStatus] = useState(null);
   const [orderName, setOrderName] = useState(null);
   const { data: orderData, isLoading, isFetching } = useGetOrderQuery();
+
   const {
     data: orderDataId,
     isLoading: isOrderLoading,
@@ -107,8 +108,8 @@ export default function OrderListPage() {
   }, []);
 
   return (
-    <WidthWrapper className='flex justify-center lg:h-[88vh] py-6'>
-      <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3 overflow-hidden'>
+    <WidthWrapper className='flex justify-center lg:h-full py-6'>
+      <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3'>
         <div className='lg:w-[70%] flex flex-col'>
           <div className='flex justify-between'>
             <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
@@ -125,7 +126,7 @@ export default function OrderListPage() {
             )}
           </div>
 
-          <div className='w-full flex flex-col px-1 lg:px-3 h-[calc(100vh-230px)] lg:h-[70vh] overflow-y-auto my-2 space-y-4'>
+          <div className='w-full flex flex-col px-1 lg:px-3 my-2 space-y-4'>
             {loading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <CardOrderLoading key={i} />
@@ -137,6 +138,8 @@ export default function OrderListPage() {
                   orderId={item?.orderId}
                   orderDate={item?.orderDate}
                   orderStatus={item?.orderStatus}
+                  addressName={item?.addressName}
+                  orderProduct={item?.orderProduct}
                   onReviewClick={() =>
                     handleReviewClick(
                       item?.id,

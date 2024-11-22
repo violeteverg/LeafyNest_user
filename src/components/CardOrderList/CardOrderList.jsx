@@ -1,4 +1,6 @@
-import { CircleCheckBigIcon, CircleX, Cuboid } from "lucide-react";
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import { CircleCheckBigIcon, CircleX, Cuboid, ShoppingBag } from "lucide-react";
 import { Button } from "../ui/button";
 import PropTypes from "prop-types";
 import { cn, formatDate } from "@/lib/utils";
@@ -7,11 +9,18 @@ import ConfirmModal from "../ComfirmModal/ComfirmModal";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useCancelOrderMutation } from "@/redux/order/api";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 export default function CardOrderList({
   orderId,
   orderDate,
   orderStatus,
+  orderProduct,
   onStatusClick,
   onReviewClick,
 }) {
@@ -70,55 +79,115 @@ export default function CardOrderList({
     }
   };
 
+  const hasMultipleProducts = orderProduct && orderProduct.length > 1;
+
   return (
     <>
-      <div className='w-full h-[20vh] my-3 text-white bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg shadow-xl'>
-        <div className='w-full h-fit py-1 px-2'>
-          <div className='flex flex-col h-full gap-2'>
-            <div className='flex justify-between items-center h-[80%] flex-grow py-4'>
-              <div className='flex items-center gap-2'>
-                <Cuboid />
-                <p className='font-semibold italic'>{orderId}</p>
-              </div>
+      <div className='w-full h-fit bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg shadow-xl text-white p-4 space-y-4'>
+        <div className='flex flex-col gap-3 text-white relative'>
+          <div className='flex items-center gap-2'>
+            <ShoppingBag className='h-4 w-4' />
+            <p className='text-sm'>{`Belanja: ${formatDate(orderDate)}`}</p>
+          </div>
 
-              <Badge className={`${getBadgeColor(orderStatus)} px-2 py-1`}>
-                {orderStatus}
-              </Badge>
-            </div>
+          <p className='text-sm font-medium'>Order ID: {orderId}</p>
 
-            <div className='flex justify-between items-center h-[20%] py-2'>
-              <p>{formatDate(orderDate)}</p>
-              <div>
-                {orderStatus === "pending" ? (
-                  <div className='flex justify-center gap-2'>
-                    <Button
-                      className='w-fit bg-white text-teal-700 hover:bg-teal-100'
-                      onClick={onStatusClick}
-                    >
-                      Status
-                    </Button>
+          <Badge
+            className={`${getBadgeColor(
+              orderStatus
+            )} px-3 py-1 rounded-md absolute right-0 top-0`}
+          >
+            {orderStatus}
+          </Badge>
+        </div>
 
-                    <Button
-                      className='w-fit bg-rose-700 text-white hover:bg-rose-800'
-                      onClick={handleOpenModal}
-                    >
-                      Cancel
-                    </Button>
+        {orderProduct && orderProduct.length > 0 ? (
+          hasMultipleProducts ? (
+            <Accordion type='single' collapsible className='w-full '>
+              <AccordionItem value='products'>
+                <AccordionTrigger className='text-white text-lg hover:text-white hover:no-underline'>
+                  <div className='flex items-center gap-2 w-full'>
+                    <img
+                      src={orderProduct[0].image}
+                      alt={orderProduct[0].productName}
+                      className='w-16 h-16 object-cover rounded'
+                    />
+                    <div className='flex flex-col'>
+                      <p className=' line-clamp-1 text-left'>
+                        {orderProduct[0].productName}
+                      </p>
+                      <p className='text-sm'>
+                        {orderProduct[0].quantity}x ${orderProduct[0].price}
+                      </p>
+                    </div>
                   </div>
-                ) : (
-                  <Button
-                    className='w-fit bg-amber-500 text-white hover:bg-amber-600'
-                    onClick={onReviewClick}
-                  >
-                    Review
-                  </Button>
-                )}
+                </AccordionTrigger>
+                <AccordionContent>
+                  {orderProduct.slice(1).map((product) => (
+                    <div
+                      key={product.id}
+                      className='flex items-center text-lg gap-2 w-full bg-white/10 rounded  mt-2'
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.productName}
+                        className='w-16 h-16 object-cover rounded'
+                      />
+                      <div className='flex flex-col'>
+                        <p className=' line-clamp-1'>{product.productName}</p>
+                        <p className='text-sm'>
+                          {product.quantity}x ${product.price}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ) : (
+            <div className='flex items-center gap-2 w-full bg-white/10 rounded p-2'>
+              <img
+                src={orderProduct[0].image}
+                alt={orderProduct[0].productName}
+                className='w-16 h-16 object-cover rounded'
+              />
+              <div className='flex flex-col'>
+                <p className='font-medium line-clamp-1'>
+                  {orderProduct[0].productName}
+                </p>
+                <p className='text-sm'>
+                  {orderProduct[0].quantity}x ${orderProduct[0].price}
+                </p>
               </div>
             </div>
+          )
+        ) : (
+          <p>No products</p>
+        )}
+
+        <div className='flex flex-wrap justify-end items-center gap-2'>
+          <div className='flex gap-2'>
+            {orderStatus === "pending" ? (
+              <>
+                <Button variant='secondary' size='sm' onClick={onStatusClick}>
+                  Status
+                </Button>
+                <Button
+                  variant='destructive'
+                  size='sm'
+                  onClick={handleOpenModal}
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : (
+              <Button variant='secondary' size='sm' onClick={onReviewClick}>
+                Review
+              </Button>
+            )}
           </div>
         </div>
       </div>
-
       <ConfirmModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
@@ -134,6 +203,7 @@ CardOrderList.propTypes = {
   orderId: PropTypes.string,
   orderDate: PropTypes.string,
   orderStatus: PropTypes.string,
+  addressName: PropTypes.string,
   onReviewClick: PropTypes.func,
   onStatusClick: PropTypes.func,
 };
