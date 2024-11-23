@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { CircleCheckBigIcon, CircleX, Cuboid, ShoppingBag } from "lucide-react";
+import { CircleCheckBigIcon, CircleX, ShoppingBag } from "lucide-react";
 import { Button } from "../ui/button";
 import PropTypes from "prop-types";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, formatPrice } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import ConfirmModal from "../ComfirmModal/ComfirmModal";
 import { useState } from "react";
@@ -21,6 +20,7 @@ export default function CardOrderList({
   orderDate,
   orderStatus,
   orderProduct,
+  totalAmount,
   onStatusClick,
   onReviewClick,
 }) {
@@ -79,91 +79,80 @@ export default function CardOrderList({
     }
   };
 
-  const hasMultipleProducts = orderProduct && orderProduct.length > 1;
+  const renderProductItem = (product) => (
+    <div
+      key={product.id}
+      className='flex items-center text-lg gap-2 w-full bg-white/10 rounded mt-2 p-2'
+    >
+      <img
+        src={product.image}
+        alt={product.productName}
+        className='w-16 h-16 object-cover rounded'
+      />
+      <div className='flex flex-col'>
+        <p className='line-clamp-1'>{product.productName}</p>
+        <p className='text-sm'>
+          {product.quantity}x ${product.price}
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderProducts = () => {
+    if (!orderProduct || orderProduct.length === 0) {
+      return <p>No products</p>;
+    }
+
+    if (orderProduct.length === 1) {
+      return renderProductItem(orderProduct[0]);
+    }
+
+    return (
+      <Accordion type='single' collapsible className='w-full'>
+        <AccordionItem value='products'>
+          <AccordionTrigger className='text-white text-lg hover:text-white hover:no-underline'>
+            {renderProductItem(orderProduct[0])}
+          </AccordionTrigger>
+          <AccordionContent>
+            {orderProduct.slice(1).map(renderProductItem)}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  };
 
   return (
     <>
       <div className='w-full h-fit bg-gradient-to-br from-teal-600 to-teal-800 rounded-lg shadow-xl text-white p-4 space-y-4'>
-        <div className='flex flex-col gap-3 text-white relative'>
-          <div className='flex items-center gap-2'>
-            <ShoppingBag className='h-4 w-4' />
-            <p className='text-sm'>{`Belanja: ${formatDate(orderDate)}`}</p>
+        <div className='w-full p-4 rounded-lg shadow-lg text-white'>
+          <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
+            <div className='flex flex-col gap-2 w-full sm:w-auto'>
+              <div className='flex items-center gap-2'>
+                <ShoppingBag className='h-4 w-4' />
+                <p className='text-sm font-medium'>{`Belanja: ${formatDate(
+                  orderDate
+                )}`}</p>
+              </div>
+              <p className='text-sm'>Order ID: {orderId}</p>
+            </div>
+
+            <div className='flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto sm:justify-end'>
+              <Badge
+                className={cn(
+                  getBadgeColor(orderStatus),
+                  "px-3 py-1 text-xs font-semibold rounded-full"
+                )}
+              >
+                {orderStatus}
+              </Badge>
+              <p className='font-medium text-sm sm:text-base'>{`Total: ${formatPrice(
+                totalAmount
+              )}`}</p>
+            </div>
           </div>
-
-          <p className='text-sm font-medium'>Order ID: {orderId}</p>
-
-          <Badge
-            className={`${getBadgeColor(
-              orderStatus
-            )} px-3 py-1 rounded-md absolute right-0 top-0`}
-          >
-            {orderStatus}
-          </Badge>
         </div>
 
-        {orderProduct && orderProduct.length > 0 ? (
-          hasMultipleProducts ? (
-            <Accordion type='single' collapsible className='w-full '>
-              <AccordionItem value='products'>
-                <AccordionTrigger className='text-white text-lg hover:text-white hover:no-underline'>
-                  <div className='flex items-center gap-2 w-full'>
-                    <img
-                      src={orderProduct[0].image}
-                      alt={orderProduct[0].productName}
-                      className='w-16 h-16 object-cover rounded'
-                    />
-                    <div className='flex flex-col'>
-                      <p className=' line-clamp-1 text-left'>
-                        {orderProduct[0].productName}
-                      </p>
-                      <p className='text-sm'>
-                        {orderProduct[0].quantity}x ${orderProduct[0].price}
-                      </p>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  {orderProduct.slice(1).map((product) => (
-                    <div
-                      key={product.id}
-                      className='flex items-center text-lg gap-2 w-full bg-white/10 rounded  mt-2'
-                    >
-                      <img
-                        src={product.image}
-                        alt={product.productName}
-                        className='w-16 h-16 object-cover rounded'
-                      />
-                      <div className='flex flex-col'>
-                        <p className=' line-clamp-1'>{product.productName}</p>
-                        <p className='text-sm'>
-                          {product.quantity}x ${product.price}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          ) : (
-            <div className='flex items-center gap-2 w-full bg-white/10 rounded p-2'>
-              <img
-                src={orderProduct[0].image}
-                alt={orderProduct[0].productName}
-                className='w-16 h-16 object-cover rounded'
-              />
-              <div className='flex flex-col'>
-                <p className='font-medium line-clamp-1'>
-                  {orderProduct[0].productName}
-                </p>
-                <p className='text-sm'>
-                  {orderProduct[0].quantity}x ${orderProduct[0].price}
-                </p>
-              </div>
-            </div>
-          )
-        ) : (
-          <p>No products</p>
-        )}
+        {renderProducts()}
 
         <div className='flex flex-wrap justify-end items-center gap-2'>
           <div className='flex gap-2'>
@@ -204,6 +193,7 @@ CardOrderList.propTypes = {
   orderDate: PropTypes.string,
   orderStatus: PropTypes.string,
   addressName: PropTypes.string,
+  totalAmount: PropTypes.number,
   onReviewClick: PropTypes.func,
   onStatusClick: PropTypes.func,
 };

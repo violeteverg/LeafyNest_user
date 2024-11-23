@@ -1,9 +1,15 @@
+/* eslint-disable no-unused-vars */
 import DetailProductLoading from "@/components/Loading/DetailProductLoading";
 import Review from "@/components/Review/Review";
 import { Button } from "@/components/ui/button";
 import WidthWrapper from "@/components/WidthWrapper";
 import { useToast } from "@/hooks/use-toast";
-import { cn, formatPrice, setSessionStorage } from "@/lib/utils";
+import {
+  calculateAverageRating,
+  cn,
+  formatPrice,
+  setSessionStorage,
+} from "@/lib/utils";
 import { decrement, increment, resetCount } from "@/redux/app/slice";
 import { useAddCartMutation } from "@/redux/cart/api";
 import { useGetProductIdQuery } from "@/redux/product/api";
@@ -13,6 +19,7 @@ import {
   Minus,
   Plus,
   ShoppingCart,
+  Star,
 } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +39,9 @@ export default function DetailProductPage() {
     isLoading,
     isFetching,
   } = useGetProductIdQuery({ id: productId });
+  const reviews = productDetails?.Reviews;
+
+  console.log(productDetails, "ini product detailsnya");
 
   const [addCart] = useAddCartMutation();
 
@@ -74,7 +84,10 @@ export default function DetailProductPage() {
         description: (
           <div className='flex gap-2 font-bold'>
             <CircleX />
-            <p>{error.data?.message || "Failed to add product to cart"}</p>
+            <p>
+              Sorry, we couldn&apos;t add the product to your cart. Please log
+              in first to continue.
+            </p>
           </div>
         ),
         className: cn(
@@ -149,13 +162,22 @@ export default function DetailProductPage() {
                         <Plus className='h-4 w-4' />
                       </Button>
                     </div>
+                    <div className='flex items-center gap-2'>
+                      <Star className='text-yellow-400 fill-yellow-400' />
+                      <p className='text-white text-lg font-semibold'>
+                        {calculateAverageRating(productDetails.Reviews)} / 5
+                      </p>
+                    </div>
+                  </div>
+                  <div className='flex justify-between items-center'>
+                    <p className='text-teal-200 text-sm'>
+                      Stock: {productDetails?.quantity} available
+                    </p>
                     <p className='text-2xl font-bold text-white'>
                       {formatPrice(productDetails?.price)}
                     </p>
                   </div>
-                  <p className='text-teal-200 text-sm'>
-                    Stock: {productDetails?.quantity} available
-                  </p>
+
                   <div className='flex gap-4'>
                     <Button
                       className='flex-1 bg-white text-teal-800 hover:bg-teal-100 transition-colors'

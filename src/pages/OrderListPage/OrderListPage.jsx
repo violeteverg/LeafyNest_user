@@ -36,7 +36,6 @@ export default function OrderListPage() {
   const orderProduct = orderDataId?.products;
 
   const [isSnapVisible, setIsSnapVisible] = useState(false);
-  console.log(orderName, "ini order id");
 
   const handleReviewClick = (orderId, orderStatus, orderName) => {
     setOrderName(orderName);
@@ -72,7 +71,7 @@ export default function OrderListPage() {
 
   const renderOrderReview = useMemo(() => {
     return (
-      <div className='h-full overflow-auto rounded-lg p-3 space-y-6'>
+      <div className='h-full overflow-auto rounded-lg p-2 space-y-4'>
         {orderLoading ? (
           <CardOrderReviewLoading />
         ) : (
@@ -109,17 +108,17 @@ export default function OrderListPage() {
 
   return (
     <WidthWrapper className='flex justify-center lg:h-full py-6'>
-      <div className='flex flex-col lg:flex-row lg:w-[80%] w-full border p-2 rounded-lg shadow-xl lg:gap-3'>
-        <div className='lg:w-[70%] flex flex-col'>
-          <div className='flex justify-between'>
+      <div className='flex flex-col lg:flex-row lg:w-[90%] w-full border p-2 rounded-lg shadow-xl lg:gap-3'>
+        <div className='lg:w-[70%] flex flex-col overflow-y-auto'>
+          <div className='flex justify-between items-center'>
             <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
               <ClipboardList className='mr-2' />
               My Orders
             </h1>
             {orderName && (
               <p
-                className='p-6 hidden text-lg lg:flex flex-col font-semibold text-teal-800'
-                style={{ textTransform: "uppercase", letterSpacing: "0.1rem" }}
+                className='p-6 hidden lg:flex text-lg font-semibold text-teal-800 uppercase'
+                style={{ letterSpacing: "0.1rem" }}
               >
                 {`:${orderName}`}
               </p>
@@ -140,6 +139,7 @@ export default function OrderListPage() {
                   orderStatus={item?.orderStatus}
                   addressName={item?.addressName}
                   orderProduct={item?.orderProduct}
+                  totalAmount={item?.totalAmount}
                   onReviewClick={() =>
                     handleReviewClick(
                       item?.id,
@@ -156,18 +156,22 @@ export default function OrderListPage() {
           </div>
         </div>
 
-        <div className='lg:w-[30%]'>
+        <div className='lg:w-[30%] sticky '>
           {isDesktop ? (
             isSnapVisible && orderDataId ? (
-              renderOrderReview
+              <div className='fixed right-[7%] inset-y-[7rem] my-2 h-[80%] w-[24%] border rounded-lg shadow-md p-4'>
+                {renderOrderReview}
+              </div>
             ) : (
-              renderSnapContainer
+              <div className='fixed right-[10%] top-[80px] w-[24%]'>
+                {renderSnapContainer}
+              </div>
             )
           ) : (
             <Drawer open={isSnapVisible} onOpenChange={setIsSnapVisible}>
               <DrawerContent>
                 <DrawerHeader>
-                  <DrawerTitle className='p-6 text-lg lg:flex flex-col font-semibold text-teal-800 uppercase'>{`order: ${orderName}`}</DrawerTitle>
+                  <DrawerTitle className='p-6 text-lg font-semibold text-teal-800 uppercase'>{`order: ${orderName}`}</DrawerTitle>
                 </DrawerHeader>
                 <div className='h-[calc(100vh-230px)]'>
                   {orderDataId ? renderOrderReview : null}
@@ -176,6 +180,7 @@ export default function OrderListPage() {
             </Drawer>
           )}
         </div>
+
         {!isDesktop && renderSnapContainer}
       </div>
     </WidthWrapper>
