@@ -8,11 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "@/hooks/use-toast";
 import { CircleX } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addressSchema } from "@/schemas/SchemaCreateAddress";
 
 export default function CreateAddressModal() {
   const dispatch = useDispatch();
   const { toast } = useToast();
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(addressSchema),
+  });
   const [createAddress] = useCreateAddressMutation();
   const { isAddrOpen } = useSelector((state) => state.app);
 
@@ -55,44 +64,72 @@ export default function CreateAddressModal() {
         <div className='border shadow-xl p-2 space-y-1 rounded-md'>
           <h3 className='text-lg font-semibold'>Add New Address</h3>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
-            <Input
-              type='text'
-              placeholder='Full Address'
-              {...register("fullAddress", {
-                required: "Full address is required",
-              })}
-              className='border p-2 rounded w-full'
-            />
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+            <div>
               <Input
                 type='text'
-                placeholder='City'
-                {...register("city", { required: "City is required" })}
+                placeholder='Full Address'
+                {...register("fullAddress")}
                 className='border p-2 rounded w-full'
               />
-              <Input
-                type='text'
-                placeholder='State'
-                {...register("state", { required: "State is required" })}
-                className='border p-2 rounded w-full'
-              />
+              {errors.fullAddress && (
+                <p className='text-red-500 text-sm'>
+                  {errors.fullAddress.message}
+                </p>
+              )}
             </div>
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-              <Input
-                type='text'
-                placeholder='Postal Code'
-                {...register("postalCode", {
-                  required: "Postal code is required",
-                })}
-                className='border p-2 rounded w-full'
-              />
-              <Input
-                type='text'
-                placeholder='Country'
-                {...register("country", { required: "Country is required" })}
-                className='border p-2 rounded w-full'
-              />
+              <div>
+                <Input
+                  type='text'
+                  placeholder='City'
+                  {...register("city")}
+                  className='border p-2 rounded w-full'
+                />
+                {errors.city && (
+                  <p className='text-red-500 text-sm'>{errors.city.message}</p>
+                )}
+              </div>
+              <div>
+                <Input
+                  type='text'
+                  placeholder='State'
+                  {...register("state")}
+                  className='border p-2 rounded w-full'
+                />
+                {errors.state && (
+                  <p className='text-red-500 text-sm'>{errors.state.message}</p>
+                )}
+              </div>
+            </div>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+              <div>
+                <Input
+                  type='text'
+                  placeholder='Postal Code'
+                  {...register("postalCode")}
+                  className='border p-2 rounded w-full'
+                />
+                {errors.postalCode && (
+                  <p className='text-red-500 text-sm'>
+                    {errors.postalCode.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Input
+                  type='text'
+                  placeholder='Country'
+                  {...register("country")}
+                  className='border p-2 rounded w-full'
+                />
+                {errors.country && (
+                  <p className='text-red-500 text-sm'>
+                    {errors.country.message}
+                  </p>
+                )}
+              </div>
             </div>
 
             <Button type='submit' className='mt-4 w-full'>

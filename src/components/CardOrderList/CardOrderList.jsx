@@ -89,10 +89,10 @@ export default function CardOrderList({
         alt={product.productName}
         className='w-16 h-16 object-cover rounded'
       />
-      <div className='flex flex-col'>
+      <div className='flex flex-col w-[10vw] text-start'>
         <p className='line-clamp-1'>{product.productName}</p>
         <p className='text-sm'>
-          {product.quantity}x ${product.price}
+          {product.quantity} x {formatPrice(product.price)}
         </p>
       </div>
     </div>
@@ -129,7 +129,7 @@ export default function CardOrderList({
             <div className='flex flex-col gap-2 w-full sm:w-auto'>
               <div className='flex items-center gap-2'>
                 <ShoppingBag className='h-4 w-4' />
-                <p className='text-sm font-medium'>{`Belanja: ${formatDate(
+                <p className='text-sm font-medium'>{`Shopping : ${formatDate(
                   orderDate
                 )}`}</p>
               </div>

@@ -8,7 +8,7 @@ import {
 } from "@/redux/address/api";
 import { Bookmark, XIcon } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { setAddress } from "@/redux/app/slice";
+import { setAddress, setIsAddrOpen } from "@/redux/app/slice";
 
 export default function DeliveryAddressModal({
   isOpen,
@@ -43,6 +43,11 @@ export default function DeliveryAddressModal({
     }
   };
 
+  const handleCreateAddress = () => {
+    dispatch(setIsAddrOpen(true));
+    onClose();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className='rounded-lg shadow-lg'>
@@ -73,7 +78,7 @@ export default function DeliveryAddressModal({
                     <p className='font-semibold'>{addr.fullAddress}</p>
                   </div>
                   <p>
-                    {addr.city}, {addr.state}, {addr.postalCode}
+                    {addr?.city}, {addr?.state}, {addr?.postalCode}
                   </p>
                   <p>{addr.country}</p>
                   <div className='flex'>
@@ -92,23 +97,32 @@ export default function DeliveryAddressModal({
           </div>
         )}
 
-        {addresses?.length < 1 && <p>create address</p>}
-        <div className='flex gap-2 justify-end'>
-          <Button
-            variant='outline'
-            onClick={onClose}
-            className='w-full  sm:w-auto'
-          >
-            Close
-          </Button>
+        {addresses?.length < 1 ? (
           <Button
             variant='primary'
-            onClick={handleConfirmSelection}
+            onClick={handleCreateAddress}
             className='w-full bg-teal-500 text-white hover:bg-teal-600 sm:w-auto'
           >
-            Confirm
+            Create Address
           </Button>
-        </div>
+        ) : (
+          <div className='flex gap-2 justify-end'>
+            <Button
+              variant='outline'
+              onClick={onClose}
+              className='w-full sm:w-auto'
+            >
+              Close
+            </Button>
+            <Button
+              variant='primary'
+              onClick={handleConfirmSelection}
+              className='w-full bg-teal-500 text-white hover:bg-teal-600 sm:w-auto'
+            >
+              Confirm
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );
