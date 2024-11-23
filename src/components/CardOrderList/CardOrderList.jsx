@@ -41,7 +41,7 @@ export default function CardOrderList({
           </div>
         ),
         className: cn(
-          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          "top-0 right-0 border bg-white border-green-500  flex fixed !z-[99999] bg-white md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
     } catch (error) {

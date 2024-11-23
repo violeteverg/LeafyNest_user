@@ -30,13 +30,13 @@ export default function ListNavItem({
         }`}
       >
         <Button
-          className='gap-1.5'
+          className='gap-1.5 text-base text-slate-950'
           onClick={openhandler}
-          variant={isOpen ? "secondary" : "ghost"}
+          variant={"ghost"}
         >
           {category.label}
           <ChevronDown
-            className={cn("h-4 w-4 transition-all text-muted-foreground", {
+            className={cn("h-4 w-4 text-slate-950 transition-all ", {
               "-rotate-180": isOpen,
             })}
           />

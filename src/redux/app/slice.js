@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   count: 1,
   isOpen: false,
+  isAddrOpen: false,
   isDelete: false,
   productId: 0,
   type: "create",
@@ -27,6 +28,9 @@ const appSlice = createSlice({
 
     setIsOpen: (state, action) => {
       state.isOpen = action.payload;
+    },
+    setIsAddrOpen: (state, action) => {
+      state.isAddrOpen = action.payload;
     },
     setIsDelete: (state, action) => {
       state.isDelete = action.payload;
@@ -56,6 +60,7 @@ export const {
   decrement,
   resetCount,
   setIsOpen,
+  setIsAddrOpen,
   setIsDelete,
   setProductId,
   setType,

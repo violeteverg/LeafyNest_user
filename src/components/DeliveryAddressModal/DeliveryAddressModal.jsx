@@ -2,13 +2,10 @@
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import {
-  useCreateAddressMutation,
   useDeleteAddressMutation,
   useGetAdressQuery,
 } from "@/redux/address/api";
-import { Input } from "../ui/input";
 import { Bookmark, XIcon } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { setAddress } from "@/redux/app/slice";
@@ -25,25 +22,9 @@ export default function DeliveryAddressModal({
   const [selectedAddressId, setSelectedAddressId] = useState(
     selectedAddress?.id || null
   );
-  const [createAddress] = useCreateAddressMutation();
   const [deleteAddress] = useDeleteAddressMutation();
-  const { register, handleSubmit, reset } = useForm();
 
   const handleAddressSelection = (id) => setSelectedAddressId(id);
-
-  const onSubmit = async (formData) => {
-    try {
-      const createdAddress = await createAddress(formData).unwrap();
-      const primaryAddress =
-        addresses.find((addr) => addr?.isPrimary) || createdAddress;
-      setSelectedAddressId(primaryAddress?.id);
-      onSelectAddress(primaryAddress);
-      reset();
-      onClose();
-    } catch (error) {
-      console.error("Failed to create address:", error);
-    }
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -111,56 +92,7 @@ export default function DeliveryAddressModal({
           </div>
         )}
 
-        {addresses?.length < 3 && (
-          <div className='border shadow-xl p-2 space-y-1 rounded-md'>
-            <h3 className='text-lg font-semibold'>Add New Address</h3>
-            <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
-              <Input
-                type='text'
-                placeholder='Full Address'
-                {...register("fullAddress", {
-                  required: "Full address is required",
-                })}
-                className='border p-2 rounded w-full'
-              />
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                <Input
-                  type='text'
-                  placeholder='City'
-                  {...register("city", { required: "City is required" })}
-                  className='border p-2 rounded w-full'
-                />
-                <Input
-                  type='text'
-                  placeholder='State'
-                  {...register("state", { required: "State is required" })}
-                  className='border p-2 rounded w-full'
-                />
-              </div>
-
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
-                <Input
-                  type='text'
-                  placeholder='Postal Code'
-                  {...register("postalCode", {
-                    required: "Postal code is required",
-                  })}
-                  className='border p-2 rounded w-full'
-                />
-                <Input
-                  type='text'
-                  placeholder='Country'
-                  {...register("country", { required: "Country is required" })}
-                  className='border p-2 rounded w-full'
-                />
-              </div>
-
-              <Button type='submit' className='mt-4 w-full'>
-                Add Address
-              </Button>
-            </form>
-          </div>
-        )}
+        {addresses?.length < 1 && <p>create address</p>}
         <div className='flex gap-2 justify-end'>
           <Button
             variant='outline'

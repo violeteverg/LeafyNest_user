@@ -8,8 +8,11 @@ import { useOnClickOutside } from "@/hooks/useClickOutside";
 import { Separator } from "../ui/separator";
 import { useLogoutMutation } from "@/redux/auth/api";
 import { FileStack, LogIn, LogOut } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { setIsAddrOpen } from "@/redux/app/slice";
 
 export default function MobileNav({ user }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
   const [isOpen, setIsOpen] = useState(true);
@@ -19,6 +22,10 @@ export default function MobileNav({ user }) {
   const handleLogout = async () => {
     await logout();
     navigate(0);
+  };
+
+  const handleaddaddress = () => {
+    dispatch(setIsAddrOpen(true));
   };
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -70,6 +77,7 @@ export default function MobileNav({ user }) {
               ))}
             </div>
             <Separator />
+
             {!user ? (
               <>
                 <Link
@@ -88,10 +96,18 @@ export default function MobileNav({ user }) {
                 </Link>
               </>
             ) : (
-              <Button onClick={handleLogout}>
-                <LogOut />
-                Logout
-              </Button>
+              <div className='flex flex-col space-y-2'>
+                <Button
+                  className='bg-white border  border-black text-black text-start hover:bg-white  justify-start'
+                  onClick={handleaddaddress}
+                >
+                  +Address
+                </Button>
+                <Button onClick={handleLogout}>
+                  <LogOut />
+                  Logout
+                </Button>
+              </div>
             )}
           </div>
         </div>

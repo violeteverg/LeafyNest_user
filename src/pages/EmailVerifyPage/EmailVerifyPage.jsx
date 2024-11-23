@@ -33,7 +33,7 @@ export default function EmailVerifyPage() {
           </div>
         ),
         className: cn(
-          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          "top-0 right-0 border border-green-500 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
     } catch (err) {

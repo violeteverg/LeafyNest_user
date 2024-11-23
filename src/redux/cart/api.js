@@ -11,7 +11,7 @@ export const cartApi = createApi({
     prepareHeaders: (headers) => {
       const token = getToken();
       if (token) {
-        headers.set("token", `${token}`);
+        headers.set("_UserTkn", `${token}`);
       }
       return headers;
     },

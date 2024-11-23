@@ -9,7 +9,7 @@ export const productApi = createApi({
     baseUrl: `${baseUrl}/product`,
     prepareHeaders: (headers, { endpoint }) => {
       if (endpoint === "createComment") {
-        headers.set("token", `${Cookies.get("token")}`);
+        headers.set("_UserTkn", `${Cookies.get("token")}`);
       }
       return headers;
     },

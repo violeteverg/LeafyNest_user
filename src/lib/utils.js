@@ -16,11 +16,11 @@ export const getJwtSecretKey = () => {
   return secret;
 };
 export const getToken = () => {
-  return Cookies.get("token");
+  return Cookies.get("_UserTkn");
 };
 
 export const checkToken = async () => {
-  const token = Cookies.get("token");
+  const token = Cookies.get("_UserTkn");
 
   if (!token) {
     return null;
@@ -41,7 +41,7 @@ export const checkToken = async () => {
 
 export const getUser = async () => {
   try {
-    const token = Cookies.get("token");
+    const token = Cookies.get("_UserTkn");
 
     if (!token) {
       return null;
