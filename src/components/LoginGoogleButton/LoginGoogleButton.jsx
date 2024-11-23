@@ -35,7 +35,7 @@ export default function LoginGoogleButton() {
       const login = await loginGoogle(idToken).unwrap();
 
       if (login) {
-        Cookies.set("token", login?.result?.token);
+        Cookies.set("_UserTkn", login?.result?.token);
         navigate("/all-product");
       }
     } catch (error) {
