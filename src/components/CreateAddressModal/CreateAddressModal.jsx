@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { setIsAddrOpen } from "@/redux/app/slice";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "@/hooks/use-toast";
-import { CircleX } from "lucide-react";
+import { CircleCheckBigIcon, CircleX } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addressSchema } from "@/schemas/SchemaCreateAddress";
@@ -30,6 +30,18 @@ export default function CreateAddressModal() {
       await createAddress(formData).unwrap();
       reset();
       dispatch(setIsAddrOpen(false));
+      toast({
+        variant: "success",
+        description: (
+          <div className='flex gap-2 font-bold'>
+            <CircleCheckBigIcon className='text-green-600' />
+            <p>successfully add address</p>
+          </div>
+        ),
+        className: cn(
+          "top-0 right-0 border border-green-500 bg-white flex fixed md:max-w-[420px] md:top-4 md:right-4"
+        ),
+      });
     } catch (error) {
       console.error("Failed to create address:", error);
       dispatch(setIsAddrOpen(false));
