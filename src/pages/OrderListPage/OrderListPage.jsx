@@ -140,6 +140,7 @@ export default function OrderListPage() {
                   addressName={item?.addressName}
                   orderProduct={item?.orderProduct}
                   totalAmount={item?.totalAmount}
+                  vaNumber={item?.vaNumber}
                   onReviewClick={() =>
                     handleReviewClick(
                       item?.id,

@@ -66,11 +66,16 @@ export default function Navbar() {
 
   return (
     <div
-      className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
-        isRootPath ? "fixed" : "sticky top-0 shadow-xl"
-      } z-50 inset-x-0 h-[80px] ${
-        scrollPosition > 10 ? Style.blurredBackground : "text-white"
-      }`}
+      className={cn(
+        "bg-transparent z-50 inset-x-0 h-[80px] transition-all",
+        isRootPath ? "fixed" : "sticky top-0 shadow-xl",
+        visible ? Style.fadeIn : Style.fadeOut,
+        {
+          [Style.blurredBackground]: scrollPosition > 10,
+          "text-black": scrollPosition > 10 && !isRootPath,
+          "text-white": isRootPath && scrollPosition <= 10,
+        }
+      )}
     >
       <header className='relative h-full bg-transparent lg:mx-4 mt-2'>
         <WidthWrapper>
@@ -110,11 +115,7 @@ export default function Navbar() {
             <div className='hidden ml-auto lg:flex items-center'>
               <div className='md:mr-6 flex items-center space-x-6'>
                 <div className='ml-4 flow-root lg:ml-6'>
-                  <Button
-                    variant='tranparant'
-                    // size='icon'
-                    onClick={handleOpenSheet}
-                  >
+                  <Button variant='tranparant' onClick={handleOpenSheet}>
                     <ShoppingCart className={`h-6 w-6 flex-shrink-0 `} />
                     <span className='ml-2 text-sm font-medium text-black '>
                       {data?.totalQuantity}

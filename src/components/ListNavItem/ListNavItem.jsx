@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Style from "./ListNavItem.module.css";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function ListNavItem({
   category,
@@ -14,7 +14,8 @@ export default function ListNavItem({
   isOpen,
 }) {
   const [scrollY, setScrollY] = useState(0);
-
+  const location = useLocation();
+  const isRootPath = location.pathname === "/";
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
 
@@ -26,18 +27,22 @@ export default function ListNavItem({
     <div className='flex'>
       <div className={`relative flex items-center text-white`}>
         <Button
-          className={`gap-1.5 text-[1.1rem]  ${
-            scrollY > 10 ? "text-black" : "text-white"
-          } `}
+          className={cn(
+            `gap-1.5 text-[1.1rem] ${
+              scrollY > 10 && isRootPath && "!text-black"
+            } transition-all`,
+            !isRootPath ? "text-black" : "text-white"
+          )}
           onClick={openhandler}
           variant={"ghost"}
         >
           {category.label}
           <ChevronDown
             className={cn(
-              "h-4 w-4 transition-all",
-              scrollY > 10 ? "text-black" : "text-white",
-              { "-rotate-180": isOpen }
+              `gap-1.5 text-[1.1rem] ${
+                scrollY > 10 && isRootPath && "!text-black"
+              } transition-all`,
+              !isRootPath ? "text-black" : "text-white"
             )}
           />
         </Button>

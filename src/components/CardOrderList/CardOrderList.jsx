@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import { InvoiceButton } from "../InvoiceButton/InvoiceButton";
 
 export default function CardOrderList({
   orderId,
@@ -21,6 +22,7 @@ export default function CardOrderList({
   orderStatus,
   orderProduct,
   totalAmount,
+  vaNumber,
   onStatusClick,
   onReviewClick,
 }) {
@@ -170,9 +172,20 @@ export default function CardOrderList({
                 </Button>
               </>
             ) : (
-              <Button variant='secondary' size='sm' onClick={onReviewClick}>
-                Review
-              </Button>
+              <div className='flex justify-center gap-2'>
+                <InvoiceButton
+                  orderData={{
+                    orderProduct,
+                    orderId,
+                    orderDate,
+                    totalAmount,
+                    vaNumber,
+                  }}
+                />
+                <Button variant='secondary' size='sm' onClick={onReviewClick}>
+                  Review
+                </Button>
+              </div>
             )}
           </div>
         </div>
