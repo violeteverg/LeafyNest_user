@@ -49,7 +49,7 @@ export default function MobileNav({ user }) {
   if (!isOpen) return null;
 
   return (
-    <div className='relative z-50'>
+    <div className='relative z-50 text-black'>
       <div
         ref={ref}
         className='relative lg:hidden bg-white p-4 mt-4 rounded-lg shadow-lg z-50'

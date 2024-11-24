@@ -24,21 +24,21 @@ export default function ListNavItem({
 
   return (
     <div className='flex'>
-      <div
-        className={`relative flex items-center ${
-          scrollY > 80 ? "text-black" : "text-gray-900"
-        }`}
-      >
+      <div className={`relative flex items-center text-white`}>
         <Button
-          className='gap-1.5 text-base text-slate-950'
+          className={`gap-1.5 text-[1.1rem]  ${
+            scrollY > 10 ? "text-black" : "text-white"
+          } `}
           onClick={openhandler}
           variant={"ghost"}
         >
           {category.label}
           <ChevronDown
-            className={cn("h-4 w-4 text-slate-950 transition-all ", {
-              "-rotate-180": isOpen,
-            })}
+            className={cn(
+              "h-4 w-4 transition-all",
+              scrollY > 10 ? "text-black" : "text-white",
+              { "-rotate-180": isOpen }
+            )}
           />
         </Button>
       </div>

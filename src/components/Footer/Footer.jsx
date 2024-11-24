@@ -6,53 +6,66 @@ import {
 } from "@/lib/mock/DummyFooter";
 import WidthWrapper from "../WidthWrapper";
 import { Link } from "react-router-dom";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 export default function Footer() {
   return (
-    <WidthWrapper>
-      <footer className='bg-softblue text-slate-800 py-8'>
-        <div className='container mx-auto px-4'>
-          <div className='flex flex-col md:flex-row justify-between space-y-8 md:space-y-0'>
-            <div className='md:w-1/4'>
-              <h2 className='text-lg font-bold mb-4'>Our Store</h2>
+    <footer className='bg-teal-900 text-teal-100'>
+      <WidthWrapper>
+        <div className='py-12 px-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+            <div>
+              <h2 className='text-xl font-semibold mb-4 text-teal-300'>
+                Our Store
+              </h2>
               {DummyFooter.map((item, i) => (
                 <div key={i} className='flex flex-row gap-2 mb-2'>
-                  <p className='font-medium'>{`${item?.type}:`}</p>
-                  <p>{item?.value}</p>
+                  <p className='font-medium text-teal-300'>{`${item.type}:`}</p>
+                  <p>{item.value}</p>
                 </div>
               ))}
             </div>
-            <div className='md:w-1/4'>
-              <h2 className='text-lg font-bold mb-4'>Opening Hours</h2>
+            <div>
+              <h2 className='text-xl font-semibold mb-4 text-teal-300'>
+                Opening Hours
+              </h2>
               {DummyOpening.map((item, i) => (
                 <div key={i} className='flex flex-row gap-2 mb-2'>
-                  <p className='font-medium'>{`${item?.type}:`}</p>
-                  <p>{item?.value}</p>
+                  <p className='font-medium text-teal-300'>{`${item.type}:`}</p>
+                  <p>{item.value}</p>
                 </div>
               ))}
             </div>
-            <div className='md:w-1/4'>
-              <h2 className='text-lg font-bold mb-4'>Help</h2>
+            <div>
+              <h2 className='text-xl font-semibold mb-4 text-teal-300'>Help</h2>
               {DummyHelp.map((item, i) => (
-                <div key={i} className='hover:underline mb-2'>
-                  <Link href={item?.href}>{item?.name}</Link>
+                <div key={i} className='mb-2'>
+                  <Link
+                    href={item.href}
+                    className='hover:text-teal-300 transition-colors'
+                  >
+                    {item.name}
+                  </Link>
                 </div>
               ))}
             </div>
-            <div className='md:w-1/4'>
-              <h2 className='text-lg font-bold mb-4'>Stay Connected</h2>
-              <form className='mb-4'>
-                <input
+            <div>
+              <h2 className='text-xl font-semibold mb-4 text-teal-300'>
+                Stay Connected
+              </h2>
+              <form className='mb-4 space-y-2'>
+                <Input
                   type='email'
                   placeholder='Enter your email'
-                  className='w-full px-2 py-1 text-gray-800'
+                  className='bg-teal-800 border-teal-700 text-teal-100 placeholder-teal-400'
                 />
-                <button
+                <Button
                   type='submit'
-                  className='w-full bg-blue-500 hover:bg-blue-600 text-white py-1 mt-2'
+                  className='w-full bg-teal-600 hover:bg-teal-700 text-white'
                 >
                   Subscribe
-                </button>
+                </Button>
               </form>
               <div className='flex space-x-4'>
                 {DummySocialMedia.map((item, i) => (
@@ -68,14 +81,13 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className='border-t border-gray-700 mt-8 pt-4'>
-            <p className='text-center text-sm'>
-              &copy; {new Date().getFullYear()} Lala Company. All rights
-              reserved.
-            </p>
-          </div>
         </div>
-      </footer>
-    </WidthWrapper>
+        <div className='border-t border-teal-800 py-4'>
+          <p className='text-center text-sm text-teal-400'>
+            &copy; {new Date().getFullYear()} Lala Company. All rights reserved.
+          </p>
+        </div>
+      </WidthWrapper>
+    </footer>
   );
 }

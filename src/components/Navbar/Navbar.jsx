@@ -69,7 +69,7 @@ export default function Navbar() {
       className={`bg-transparent ${visible ? Style.fadeIn : Style.fadeOut} ${
         isRootPath ? "fixed" : "sticky top-0 shadow-xl"
       } z-50 inset-x-0 h-[80px] ${
-        scrollPosition > 10 ? Style.blurredBackground : ""
+        scrollPosition > 10 ? Style.blurredBackground : "text-white"
       }`}
     >
       <header className='relative h-full bg-transparent lg:mx-4 mt-2'>
@@ -96,9 +96,7 @@ export default function Navbar() {
                   variant='tranparant'
                   onClick={handleOpenSheet}
                 >
-                  <ShoppingCart
-                    className={`h-6 w-6 flex-shrink-0 text-black`}
-                  />
+                  <ShoppingCart className={`h-6 w-6 flex-shrink-0 `} />
                   <span className='ml-2 text-sm font-medium text-white'>
                     {data?.totalQuantity}
                   </span>
@@ -117,9 +115,7 @@ export default function Navbar() {
                     // size='icon'
                     onClick={handleOpenSheet}
                   >
-                    <ShoppingCart
-                      className={`h-6 w-6 flex-shrink-0 text-black`}
-                    />
+                    <ShoppingCart className={`h-6 w-6 flex-shrink-0 `} />
                     <span className='ml-2 text-sm font-medium text-black '>
                       {data?.totalQuantity}
                     </span>

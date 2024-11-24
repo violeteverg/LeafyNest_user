@@ -2,7 +2,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function CardLoading() {
   return (
-    <div className='w-[16vw] h-fit text-black justify-center items-center'>
+    <div className='lg:w-[16vw] h-fit text-black justify-center items-center'>
       <div className='bg-[#ffffff] border border-[#f1eded] p-3 flex flex-col items-center cursor-pointer shadow-lg border-opacity-20'>
         <div className='flex items-center justify-between w-full mb-3'>
           <Skeleton className='w-20 h-6 rounded-md' />

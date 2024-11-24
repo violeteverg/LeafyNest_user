@@ -10,14 +10,23 @@ export default function ListCard({ title, image, link }) {
   };
 
   return (
-    <div className='lg:w-[35vw] md:w-[45vw] h-fit mx-2 text-white justify-center items-center'>
-      <div className='bg-[#bdc3c7] rounded-xl m-3 p-3 flex flex-col items-center'>
-        <h1 className='text-4xl mt-4'>{title}</h1>
-        <hr className='w-[200px] my-2' />
-        <Button variant='secondary' className='mt-4' onClick={onClickHandler}>
-          <span>Shop Collection</span>
-        </Button>
+    <div className='lg:w-[35vw] md:w-[45vw] h-fit mx-4 text-white justify-center items-center'>
+      <div className='bg-white border flex flex-col justify-center items-center border-teal-200 rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg hover:border-teal-400'>
         <img src={image} alt='plant' className='w-[50%]' />
+
+        <div className='p-4 w-full'>
+          <h2 className='text-xl font-semibold text-center text-teal-900 mb-2'>
+            {title}
+          </h2>
+          <Button
+            asChild
+            variant='default'
+            className='w-full bg-teal-600 hover:bg-teal-700 text-white'
+            onClick={onClickHandler}
+          >
+            <span>Shop Collection</span>
+          </Button>
+        </div>
       </div>
     </div>
   );

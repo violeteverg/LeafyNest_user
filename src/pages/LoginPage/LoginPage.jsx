@@ -8,7 +8,7 @@ import { useLoginMutation } from "@/redux/auth/api";
 import { loginSchema } from "@/schemas/SchemaLoginForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Cookies from "js-cookie";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -106,15 +106,26 @@ export default function LoginPage() {
           <Separator />
           <div className='w-full space-y-2'>
             <LoginGoogleButton />
-            <Link
-              to='/Register'
-              className={buttonVariants({
-                variant: "link",
-                className: "gap-1.5 w-full",
-              })}
-            >
-              Don&apos;t have an account? <ArrowRight className='h-4 w-4' />
-            </Link>
+            <div className='flex justify-between'>
+              <Link
+                to='/Register'
+                className={buttonVariants({
+                  variant: "link",
+                  className: "gap-1.5 w-[50%]",
+                })}
+              >
+                Don&apos;t have an account? <ArrowRight className='h-4 w-4' />
+              </Link>
+              <Link
+                to='/all-product'
+                className={buttonVariants({
+                  variant: "link",
+                  className: "p-0",
+                })}
+              >
+                <ArrowLeft className='h-4 w-4' /> back
+              </Link>
+            </div>
           </div>
         </div>
       </div>
