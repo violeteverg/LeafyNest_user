@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Style from "./ListNavItem.module.css";
 import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function ListNavItem({
   category,
@@ -16,6 +16,7 @@ export default function ListNavItem({
   const [scrollY, setScrollY] = useState(0);
   const location = useLocation();
   const isRootPath = location.pathname === "/";
+  const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
 
@@ -33,18 +34,26 @@ export default function ListNavItem({
             } transition-all`,
             !isRootPath ? "text-black" : "text-white"
           )}
-          onClick={openhandler}
+          onClick={() => {
+            if (category.featured) {
+              openhandler();
+            } else if (category.href) {
+              navigate(category.href);
+            }
+          }}
           variant={"ghost"}
         >
           {category.label}
-          <ChevronDown
-            className={cn(
-              `gap-1.5 text-[1.1rem] ${
-                scrollY > 10 && isRootPath && "!text-black"
-              } transition-all`,
-              !isRootPath ? "text-black" : "text-white"
-            )}
-          />
+          {category.featured && (
+            <ChevronDown
+              className={cn(
+                `gap-1.5 text-[1.1rem] ${
+                  scrollY > 10 && isRootPath && "!text-black"
+                } transition-all`,
+                !isRootPath ? "text-black" : "text-white"
+              )}
+            />
+          )}
         </Button>
       </div>
 
@@ -109,6 +118,7 @@ export default function ListNavItem({
 ListNavItem.propTypes = {
   category: PropTypes.shape({
     label: PropTypes.string,
+    href: PropTypes.string,
     featured: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,

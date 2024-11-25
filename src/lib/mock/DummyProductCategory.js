@@ -1,5 +1,9 @@
 export const ProductCategory = [
   {
+    label: "All product",
+    href: "/all-product",
+  },
+  {
     label: "Plants",
     value: "plants",
     featured: [
