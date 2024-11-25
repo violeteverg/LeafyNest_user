@@ -7,7 +7,6 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 export function InvoiceButton({ orderData }) {
-  console.log(orderData);
   const handleDownload = () => {
     const doc = new jsPDF();
 

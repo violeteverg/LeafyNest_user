@@ -41,8 +41,6 @@ export default function DetailProductPage() {
   } = useGetProductIdQuery({ id: productId });
   const reviews = productDetails?.Reviews;
 
-  console.log(productDetails, "ini product detailsnya");
-
   const [addCart] = useAddCartMutation();
 
   const loading = isLoading || isFetching;

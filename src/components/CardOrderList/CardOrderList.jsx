@@ -172,20 +172,22 @@ export default function CardOrderList({
                 </Button>
               </>
             ) : (
-              <div className='flex justify-center gap-2'>
-                <InvoiceButton
-                  orderData={{
-                    orderProduct,
-                    orderId,
-                    orderDate,
-                    totalAmount,
-                    vaNumber,
-                  }}
-                />
-                <Button variant='secondary' size='sm' onClick={onReviewClick}>
-                  Review
-                </Button>
-              </div>
+              orderStatus === "completed" && (
+                <div className='flex justify-center gap-2'>
+                  <InvoiceButton
+                    orderData={{
+                      orderProduct,
+                      orderId,
+                      orderDate,
+                      totalAmount,
+                      vaNumber,
+                    }}
+                  />
+                  <Button variant='secondary' size='sm' onClick={onReviewClick}>
+                    Review
+                  </Button>
+                </div>
+              )
             )}
           </div>
         </div>

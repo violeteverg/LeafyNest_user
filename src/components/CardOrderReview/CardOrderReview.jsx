@@ -1,8 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Button } from "../ui/button";
-import { Star } from "lucide-react";
+import { CircleCheckBigIcon, Star } from "lucide-react";
 import { useCreateCommentMutation } from "@/redux/product/api";
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export default function CardOrderReview({
   id,
@@ -14,6 +16,7 @@ export default function CardOrderReview({
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [createComment] = useCreateCommentMutation();
+  const { toast } = useToast();
 
   const handleStarClick = (value) => {
     setRating(value);
@@ -26,13 +29,24 @@ export default function CardOrderReview({
     }
 
     try {
-      console.log(comment, rating, "rating");
       await createComment({
         id: id,
         body: { comment, rating },
       });
       setComment("");
       setRating(0);
+      toast({
+        variant: "success",
+        description: (
+          <div className='flex gap-2 font-bold'>
+            <CircleCheckBigIcon className='text-green-600' />
+            <p>{`success comment product ${title}`}</p>
+          </div>
+        ),
+        className: cn(
+          "top-0 right-0 border bg-white border-green-500 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+        ),
+      });
     } catch (error) {
       console.error("Failed to submit comment:", error);
     }

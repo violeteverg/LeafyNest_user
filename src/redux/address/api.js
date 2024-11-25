@@ -24,7 +24,6 @@ export const addressApi = createApi({
         body,
       }),
       transformResponse: (response) => {
-        console.log(response?.result, "ini responseny");
         return response?.result;
       },
       invalidatesTags: ["ADDRESS_LIST"],
@@ -35,7 +34,6 @@ export const addressApi = createApi({
         body,
       }),
       transformResponse: (response) => {
-        console.log(response?.result, "ini responseny");
         return response?.result;
       },
       providesTags: ["ADDRESS_LIST"],
