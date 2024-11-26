@@ -118,9 +118,9 @@ export default function OrderListPage() {
   }, []);
 
   return (
-    <WidthWrapper className='flex justify-center lg:h-full py-6'>
-      <div className='flex flex-col lg:flex-row lg:w-[90%] w-full border p-2 rounded-lg shadow-xl lg:gap-3'>
-        <div className='lg:w-[70%] flex flex-col overflow-y-auto'>
+    <WidthWrapper className='flex justify-center space-x-2 lg:w-[85%] mx-auto lg:h-full py-6'>
+      <div className='flex flex-col justify-between lg:flex-row w-full border p-2 rounded-lg shadow-xl lg:gap-3'>
+        <div className='lg:w-[100%] flex flex-col overflow-y-auto'>
           <div className='flex justify-between items-center'>
             <h1 className='p-6 text-2xl font-bold text-teal-800 flex items-center'>
               <ClipboardList className='mr-2' />
@@ -168,31 +168,31 @@ export default function OrderListPage() {
           </div>
         </div>
 
-        <div className='lg:w-[30%] sticky '>
-          {isDesktop ? (
-            isSnapVisible && orderDataId ? (
-              <div className='fixed right-[7%] inset-y-[7rem] my-2 h-[80%] w-[24%] border rounded-lg shadow-md p-4'>
-                {renderOrderReview}
-              </div>
-            ) : isMidtransOpen ? (
-              <div className='fixed lg:w-[25%]'>{renderSnapContainer}</div>
-            ) : null
-          ) : (
-            <Drawer open={isSnapVisible}>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle className='p-6 text-lg font-semibold text-teal-800 uppercase'>
-                    {isSnapVisible ? `Order: ${orderName}` : "Payment"}
-                  </DrawerTitle>
-                </DrawerHeader>
-                <div className='h-[calc(100vh-230px)]'>
-                  {isSnapVisible && renderOrderReview}
-                </div>
-              </DrawerContent>
-            </Drawer>
-          )}
-        </div>
         {!isDesktop && isMidtransOpen && renderSnapContainer}
+      </div>
+      <div className='lg:w-[30%] overflow-auto sticky '>
+        {isDesktop ? (
+          isSnapVisible && orderDataId ? (
+            <div className='fixed  inset-y-[7rem] my-2 h-[80%] w-[24%] border rounded-lg shadow-md p-4'>
+              {renderOrderReview}
+            </div>
+          ) : isMidtransOpen ? (
+            <div className='fixed lg:w-[25%]'>{renderSnapContainer}</div>
+          ) : null
+        ) : (
+          <Drawer open={isSnapVisible}>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle className='p-6 text-lg font-semibold text-teal-800 uppercase'>
+                  {isSnapVisible ? `Order: ${orderName}` : "Payment"}
+                </DrawerTitle>
+              </DrawerHeader>
+              <div className='h-[calc(100vh-230px)]'>
+                {isSnapVisible && renderOrderReview}
+              </div>
+            </DrawerContent>
+          </Drawer>
+        )}
       </div>
     </WidthWrapper>
   );
