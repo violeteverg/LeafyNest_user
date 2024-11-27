@@ -31,7 +31,7 @@ export default function CardProduct({ id, title, price, image, discount }) {
         ) : (
           <div className='flex flex-col justify-start items-start w-full group-hover:bg-[#ffffff] px-3 py-1 rounded-xl group-hover:shadow-md'>
             <h1 className='text-[16px] font-[400] text-[#454545]'>
-              {title.length > 25 ? `${title.substring(0, 25)}...` : title}
+              {title.length > 25 ? `${title.substring(0, 20)}...` : title}
             </h1>
 
             <p className='text-xl font-[800] font-serif'>
