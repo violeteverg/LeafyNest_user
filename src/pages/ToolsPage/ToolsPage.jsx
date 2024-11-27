@@ -15,7 +15,7 @@ export default function ToolsPage() {
 
   const { data, isLoading, isFetching } = useGetProductQuery({
     page: page,
-    categoryName: "utils",
+    categoryName: "tools",
   });
 
   const productData = data?.data;
