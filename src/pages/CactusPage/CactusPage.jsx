@@ -15,7 +15,7 @@ export default function CactusPage() {
 
   const { data, isLoading, isFetching } = useGetProductQuery({
     page: page,
-    categoryName: "Cactus",
+    categoryName: "cactus",
   });
 
   const productData = data?.data;
