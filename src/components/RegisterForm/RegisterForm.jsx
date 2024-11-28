@@ -25,7 +25,7 @@ export default function RegisterForm() {
   const passwordValue = watch("password");
   const emailValue = watch("email");
 
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const onSubmit = async (val) => {
     try {
@@ -197,7 +197,9 @@ export default function RegisterForm() {
                   </span>
                 )}
               </div>
-              <Button type='submit'>Sign Up</Button>
+              <Button type='submit' disabled={isLoading}>
+                {isLoading ? "Loading..." : "Sign up"}
+              </Button>
             </div>
           </form>
           <Link
