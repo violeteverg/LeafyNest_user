@@ -9,6 +9,8 @@ export default function Layoutpage({
   currentPage,
   onPageChange,
   isHasData,
+  review,
+  handleReviewChange,
 }) {
   return (
     <div className='flex-1 overflow-y-auto'>
@@ -31,8 +33,20 @@ export default function Layoutpage({
             </div>
           </div>
         </div>
+
         {isHasData ? (
           <>
+            <div className='w-[80vw] mb-2 flex justify-end items-center'>
+              <select
+                value={review}
+                onChange={handleReviewChange}
+                className='border border-black rounded-lg p-2'
+              >
+                <option>Sort by Review</option>
+                <option value='ASC'>Low to High</option>
+                <option value='DESC'>High to Low</option>
+              </select>
+            </div>
             <div className='rounded-[5px] mb-2 border overflow-hidden'>
               <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 m-2'>
                 {children}
@@ -62,4 +76,6 @@ Layoutpage.propTypes = {
   currentPage: PropTypes.number,
   isHasData: PropTypes.bool,
   onPageChange: PropTypes.func,
+  review: PropTypes.any,
+  handleReviewChange: PropTypes.any,
 };

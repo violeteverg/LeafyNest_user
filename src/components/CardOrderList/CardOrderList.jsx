@@ -2,7 +2,7 @@
 import { CircleCheckBigIcon, CircleX, ShoppingBag } from "lucide-react";
 import { Button } from "../ui/button";
 import PropTypes from "prop-types";
-import { cn, formatDate, formatPrice } from "@/lib/utils";
+import { cn, formatDate, formatPrice, setSessionStorage } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import ConfirmModal from "../ComfirmModal/ComfirmModal";
 import { useState } from "react";
@@ -15,6 +15,8 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { InvoiceButton } from "../InvoiceButton/InvoiceButton";
+import { useNavigate } from "react-router-dom";
+// import { useAddCartMutation } from "@/redux/cart/api";
 
 export default function CardOrderList({
   orderId,
@@ -27,8 +29,11 @@ export default function CardOrderList({
   onReviewClick,
 }) {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
   const [cancelOrder] = useCancelOrderMutation();
+  // const [addCart] = useAddCartMutation();
+  console.log(orderProduct, "ini order product");
 
   const handleCancelOrder = async () => {
     try {
@@ -60,6 +65,27 @@ export default function CardOrderList({
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
+    }
+  };
+  const result = orderProduct.map(
+    ({ productId, quantity, image, price, productName }) => ({
+      productId,
+      productName,
+      quantity,
+      price,
+      image,
+    })
+  );
+
+  console.log(result, "ini resultnya");
+
+  const handleBuyNow = async () => {
+    try {
+      console.log(result, "ini result di handel buy again");
+      setSessionStorage("_buyagain", { result: result, buyagain: true });
+      navigate("/payment");
+    } catch (error) {
+      console.error(error, "ini error");
     }
   };
 
@@ -158,21 +184,22 @@ export default function CardOrderList({
 
         <div className='flex flex-wrap justify-end items-center gap-2'>
           <div className='flex gap-2'>
-            {orderStatus === "pending" ? (
-              <>
-                <Button variant='secondary' size='sm' onClick={onStatusClick}>
-                  Status
-                </Button>
-                <Button
-                  variant='destructive'
-                  size='sm'
-                  onClick={handleOpenModal}
-                >
-                  Cancel
-                </Button>
-              </>
-            ) : (
-              orderStatus === "completed" && (
+            <>
+              {orderStatus === "pending" && (
+                <>
+                  <Button variant='secondary' size='sm' onClick={onStatusClick}>
+                    Status
+                  </Button>
+                  <Button
+                    variant='destructive'
+                    size='sm'
+                    onClick={handleOpenModal}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              )}
+              {orderStatus === "completed" && (
                 <div className='flex justify-center gap-2'>
                   <InvoiceButton
                     orderData={{
@@ -187,8 +214,15 @@ export default function CardOrderList({
                     Review
                   </Button>
                 </div>
-              )
-            )}
+              )}
+              {orderStatus === "expire" && (
+                <div className='text-red-500'>
+                  <Button variant='secondary' size='sm' onClick={handleBuyNow}>
+                    Buy Again
+                  </Button>
+                </div>
+              )}
+            </>
           </div>
         </div>
       </div>

@@ -40,6 +40,7 @@ export default function DetailProductPage() {
     isFetching,
   } = useGetProductIdQuery({ id: productId });
   const reviews = productDetails?.Reviews;
+  const isBuyAgain = sessionStorage?.getItem("_buyagain");
 
   const [addCart] = useAddCartMutation();
 
@@ -96,6 +97,9 @@ export default function DetailProductPage() {
   };
 
   const handleBuyNow = async () => {
+    if (isBuyAgain) {
+      sessionStorage.removeItem("_buyagain");
+    }
     setSessionStorage("__Ttemp", {
       index: productId,
       isBuyNow: true,
@@ -115,7 +119,7 @@ export default function DetailProductPage() {
               <img
                 src={productDetails?.image}
                 alt={productDetails?.title}
-                className='drop-shadow-xl mb-4 lg:mb-0 lg:w-[45%] w-full object-cover rounded-lg'
+                className='drop-shadow-xl h-[50vh] lg:h-full mb-4 lg:mb-0 lg:w-[45%] w-full object-cover rounded-lg'
                 loading='lazy'
               />
 

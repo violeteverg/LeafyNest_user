@@ -87,7 +87,10 @@ export function setSessionStorage(key, value) {
 export function getSessionStorageItem(key, _isBuyNow) {
   const itemStr = sessionStorage?.getItem(key);
   if (!itemStr) return null;
-
+  if (key === "_buyagain") {
+    const data = JSON.parse(itemStr);
+    return data;
+  }
   const { index: productId, isBuyNow, quantity, expired } = JSON.parse(itemStr);
   if (Date.now() > expired || _isBuyNow) {
     sessionStorage.removeItem(key);

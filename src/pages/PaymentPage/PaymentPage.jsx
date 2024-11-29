@@ -8,12 +8,20 @@ import { calculateTotalSummary, getSessionStorageItem } from "@/lib/utils";
 import { useGetCartQuery } from "@/redux/cart/api";
 import { useGetProductIdQuery } from "@/redux/product/api";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function PaymentPage() {
+  const navigate = useNavigate();
   const getSessionData = getSessionStorageItem("__Ttemp", false);
+  const buyAgainData = getSessionStorageItem("_buyagain");
   const isBuyNow = getSessionData?.isBuyNow || false;
+  const isBuyAgain = buyAgainData?.buyagain || false;
   const productId = getSessionData?.productId;
   const buyNowProductQuantity = getSessionData?.quantity || 1;
+
+  if (isBuyAgain) {
+    sessionStorage.removeItem("__Ttemp");
+  }
 
   const { data: cartData, isLoading, isFetching } = useGetCartQuery();
 
@@ -23,7 +31,9 @@ export default function PaymentPage() {
     },
     { skip: !isBuyNow }
   );
+
   const loading = isLoading || isFetching;
+  console.log(buyAgainData?.result, "ini buy again data");
 
   const paymentDetails = useMemo(() => {
     if (isBuyNow && productData) {
@@ -38,6 +48,10 @@ export default function PaymentPage() {
       ];
     }
 
+    if (isBuyAgain && buyAgainData?.result) {
+      return buyAgainData.result;
+    }
+
     return (
       cartData?.map((item) => ({
         productId: item?.productId,
@@ -47,7 +61,14 @@ export default function PaymentPage() {
         image: item?.Product.image,
       })) || []
     );
-  }, [cartData, productData, isBuyNow, buyNowProductQuantity]);
+  }, [
+    cartData,
+    productData,
+    isBuyNow,
+    isBuyAgain,
+    buyNowProductQuantity,
+    buyAgainData,
+  ]);
 
   const totalSummary = useMemo(() => {
     if (isBuyNow && productData) {
@@ -55,10 +76,22 @@ export default function PaymentPage() {
         { ...productData, quantity: buyNowProductQuantity },
       ]);
     }
+
+    if (isBuyAgain && buyAgainData?.result) {
+      return calculateTotalSummary(buyAgainData.result);
+    }
+
     return cartData
       ? calculateTotalSummary(cartData)
       : { totalQuantity: 0, totalPrice: 0 };
-  }, [cartData, productData, isBuyNow, buyNowProductQuantity]);
+  }, [
+    cartData,
+    productData,
+    isBuyNow,
+    isBuyAgain,
+    buyNowProductQuantity,
+    buyAgainData,
+  ]);
 
   const renderPaymentItems = () => {
     if (loading) {
@@ -66,6 +99,7 @@ export default function PaymentPage() {
         <CardCartLoading key={i} />
       ));
     }
+
     if (isBuyNow && productData) {
       return (
         <CartItem
@@ -75,6 +109,18 @@ export default function PaymentPage() {
           price={productData.price}
         />
       );
+    }
+
+    if (isBuyAgain && buyAgainData?.result) {
+      return buyAgainData.result.map((item, index) => (
+        <CartItem
+          key={`buyagain-${index}`}
+          title={item.productName || `Product ${item.productId}`}
+          quantity={item.quantity}
+          image={item.image}
+          price={item.price}
+        />
+      ));
     }
 
     return cartData?.map((item) => (
@@ -95,8 +141,8 @@ export default function PaymentPage() {
   }
 
   return (
-    <WidthWrapper className='flex justify-center items-center my-10 lg:mt-10 lg:mb-0 '>
-      {cartData || productData ? (
+    <WidthWrapper className='flex justify-center items-center my-10 lg:mt-10 lg:mb-0'>
+      {cartData || productData || (isBuyAgain && buyAgainData?.result) ? (
         <div className='flex flex-col lg:flex-row lg:w-[80%] lg:gap-3 lg:p-2'>
           <div className='lg:w-[70%] flex flex-col justify-center h-full items-center'>
             <DeliveryAddress />
@@ -109,13 +155,14 @@ export default function PaymentPage() {
               summary={totalSummary}
               isPaymentPage
               isBuyNow={isBuyNow}
+              isBuyAgain={isBuyAgain}
               paymentDetails={paymentDetails}
             />
           </div>
         </div>
       ) : (
         <div>
-          <Button>Shop Now</Button>
+          <Button onClick={() => navigate("/products")}>Shop Now</Button>
         </div>
       )}
     </WidthWrapper>

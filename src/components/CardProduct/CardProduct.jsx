@@ -1,8 +1,16 @@
-import { formatPrice } from "@/lib/utils";
+import { calculateAverageRating, formatPrice } from "@/lib/utils";
+import { Star } from "lucide-react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-export default function CardProduct({ id, title, price, image, discount }) {
+export default function CardProduct({
+  id,
+  title,
+  price,
+  image,
+  discount,
+  review,
+}) {
   const navigate = useNavigate();
 
   const cardClickHandler = (id) => {
@@ -37,6 +45,11 @@ export default function CardProduct({ id, title, price, image, discount }) {
             <p className='text-xl font-[800] font-serif'>
               {formatPrice(price)}
             </p>
+            <div className='flex space-x-2'>
+              <Star className='text-yellow-400 fill-yellow-400' />
+
+              <p>{calculateAverageRating(review)}/5</p>
+            </div>
           </div>
         )}
       </div>
@@ -50,6 +63,7 @@ CardProduct.propTypes = {
   title: PropTypes.string,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   image: PropTypes.string,
+  review: PropTypes.any,
   additional: PropTypes.number,
   discount: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf([null])]),
 };

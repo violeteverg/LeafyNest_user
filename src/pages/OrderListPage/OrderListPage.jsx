@@ -28,6 +28,7 @@ export default function OrderListPage() {
   const [isMidtransOpen, setIsMidtransOpen] = useState(false);
 
   const { data: orderData, isLoading, isFetching } = useGetOrderQuery();
+  console.log(orderData, "ini order data order lists");
   const {
     data: orderDataId,
     isLoading: isOrderLoading,

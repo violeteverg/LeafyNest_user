@@ -16,9 +16,10 @@ export const productApi = createApi({
   }),
   endpoints: (builder) => ({
     getProduct: builder.query({
-      query: ({ page, categoryName, search }) => {
+      query: ({ page, review, categoryName, search }) => {
         const params = {
           page,
+          ...(review && { review }),
           ...(categoryName && { categoryName }),
           ...(search && { search }),
         };

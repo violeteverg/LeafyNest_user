@@ -24,6 +24,8 @@ export default function CheckoutSummary({
   const [searchParams] = useSearchParams();
   const paramsToken = searchParams.get("token");
   const [isSnapVisible, setSnapVisible] = useState(false);
+  const isBuyNows = sessionStorage?.getItem("__Ttemp");
+  const isBuyAgain = sessionStorage?.getItem("_buyagain");
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -45,6 +47,10 @@ export default function CheckoutSummary({
 
   const handleBuyButton = async () => {
     if (!isPaymentPage) {
+      if (isBuyAgain || isBuyNows) {
+        sessionStorage.removeItem("__Ttemp");
+        sessionStorage.removeItem("_buyagain");
+      }
       navigate("/payment");
       return;
     }

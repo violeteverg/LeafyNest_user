@@ -13,8 +13,13 @@ export default function ProductPages() {
   const currentPage = Number(queryParams.get("page")) || 1;
   const search = queryParams.get("search") || "";
   const [page, setPage] = useState(currentPage);
+  const [review, setReview] = useState("");
 
-  const { data, isLoading, isFetching } = useGetProductQuery({ page, search });
+  const { data, isLoading, isFetching } = useGetProductQuery({
+    page,
+    review,
+    search,
+  });
 
   const productData = data?.data;
   const pagination = data?.pagination;
@@ -27,6 +32,7 @@ export default function ProductPages() {
     navigate(`?page=${newPage}&search=${search}`);
   };
 
+  const handleReviewChange = (e) => setReview(e.target.value);
   useEffect(() => {
     setPage(currentPage);
   }, [currentPage]);
@@ -39,6 +45,8 @@ export default function ProductPages() {
       currentPage={pagination?.currentPage}
       onPageChange={handlePageChange}
       isHasData={isHasData}
+      handleReviewChange={handleReviewChange}
+      review={review}
     >
       {loading
         ? Array.from({ length: 5 }).map((_, i) => <CardLoading key={i} />)
@@ -49,6 +57,7 @@ export default function ProductPages() {
               title={item.title}
               price={item.price}
               image={item.image}
+              review={item.Reviews}
             />
           ))}
     </Layoutpage>
