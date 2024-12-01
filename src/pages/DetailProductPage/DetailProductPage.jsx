@@ -59,6 +59,7 @@ export default function DetailProductPage() {
     dispatch(increment());
   };
 
+  const quantityProduct = productDetails?.quantity;
   const buttoAddCartHandler = async () => {
     try {
       await addCart({
@@ -184,6 +185,7 @@ export default function DetailProductPage() {
                     <Button
                       className='flex-1 bg-white text-teal-800 hover:bg-teal-100 transition-colors'
                       onClick={buttoAddCartHandler}
+                      disabled={quantityProduct === 0}
                     >
                       <ShoppingCart className='mr-2 h-5 w-5' />
                       Add to Cart
@@ -191,6 +193,7 @@ export default function DetailProductPage() {
                     <Button
                       className='flex-1 bg-teal-600 text-white hover:bg-teal-700 transition-colors'
                       onClick={handleBuyNow}
+                      disabled={quantityProduct === 0}
                     >
                       Buy Now
                     </Button>

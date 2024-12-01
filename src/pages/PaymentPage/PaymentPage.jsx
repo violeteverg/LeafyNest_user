@@ -33,7 +33,6 @@ export default function PaymentPage() {
   );
 
   const loading = isLoading || isFetching;
-  console.log(buyAgainData?.result, "ini buy again data");
 
   const paymentDetails = useMemo(() => {
     if (isBuyNow && productData) {

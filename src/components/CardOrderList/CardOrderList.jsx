@@ -16,7 +16,6 @@ import {
 } from "../ui/accordion";
 import { InvoiceButton } from "../InvoiceButton/InvoiceButton";
 import { useNavigate } from "react-router-dom";
-// import { useAddCartMutation } from "@/redux/cart/api";
 
 export default function CardOrderList({
   orderId,
@@ -33,7 +32,6 @@ export default function CardOrderList({
   const [isModalOpen, setModalOpen] = useState(false);
   const [cancelOrder] = useCancelOrderMutation();
   // const [addCart] = useAddCartMutation();
-  console.log(orderProduct, "ini order product");
 
   const handleCancelOrder = async () => {
     try {
@@ -77,11 +75,8 @@ export default function CardOrderList({
     })
   );
 
-  console.log(result, "ini resultnya");
-
   const handleBuyNow = async () => {
     try {
-      console.log(result, "ini result di handel buy again");
       setSessionStorage("_buyagain", { result: result, buyagain: true });
       navigate("/payment");
     } catch (error) {
@@ -221,6 +216,13 @@ export default function CardOrderList({
                     Buy Again
                   </Button>
                 </div>
+              )}
+              {orderStatus === "rejected" && (
+                <p className='italic text-red-500'>
+                  Your order was rejected because the product is out of stock.
+                  The refund process has been initiated. If you encounter any
+                  issues, please contact our support team for assistance.
+                </p>
               )}
             </>
           </div>
