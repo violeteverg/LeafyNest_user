@@ -89,3 +89,8 @@ Create a .env file at the root directory and configure Firebase, Midtrans, and o
 npm run dev
 ```
 Open http://localhost:5173 with your browser to see the result.
+
+## Demo Project
+You can view the demo of the project by following this link: 👉 [Demo Vidio](https://www.loom.com/share/6c175a39d9c64deeb551055d25781d89?sid=0f336ae4-2c6f-42d1-bd60-1c750f03d0a4).
+
+
