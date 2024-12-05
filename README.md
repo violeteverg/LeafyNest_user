@@ -7,6 +7,23 @@
 
 LeafyNest is an online marketplace for plant lovers, offering convenient options for local pickup or home delivery. Our standout features include personalized plant care recommendations and seamless delivery fee calculation based on your location.
 
+## 📑 Table of Contents
+1. [Tech Stack](#tech-stack)
+2. [🌿 Features](#-features)
+   - [Authentication](#authentication)
+   - [Search Products](#search-products)
+   - [My Cart](#my-cart)
+   - [My Orders](#my-orders)
+3. [👨‍💼 Admin Dashboard](#-admin-dashboard)
+4. [🌐 Environment Variables](#-enviroment)
+5. [🚀 Getting Started](#getting-started)
+   - [Prerequisites](#prerequisites)
+   - [Clone Repository](#1-clone-repository)
+   - [Install Dependencies](#2-install-dependencies)
+   - [Setup Environment](#3-setup-enviroment)
+   - [Running Apps](#4-running-apps)
+6. [🎥 Demo Project](#demo-project)
+
 # Tech Stack
 
 ![Picture](https://res.cloudinary.com/dmjd9rohb/image/upload/v1733375230/Teks_paragraf_Anda_tvmpo7.jpg)
@@ -62,7 +79,7 @@ VITE_FIREBASE_MESSAGING_SENDER_ID="your_firebase_messaging_sender_id"
 VITE_FIREBASE_APP_ID="your_firebase_app_id"
   ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - You need to have **Firebase** account & **midtrans** account
@@ -90,7 +107,7 @@ npm run dev
 ```
 Open http://localhost:5173 with your browser to see the result.
 
-## Demo Project
+## 🎥 Demo Project
 You can view the demo of the project by following this link: 👉 [Demo Vidio](https://www.loom.com/share/6c175a39d9c64deeb551055d25781d89?sid=0f336ae4-2c6f-42d1-bd60-1c750f03d0a4).
 
 
