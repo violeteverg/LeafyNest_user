@@ -1,7 +1,7 @@
 
 # LeafyNest
 
-![Gif](https://res.cloudinary.com/dmjd9rohb/image/upload/v1733378526/Animated-web-screens-_remix_q8c3cg.gif)
+![Picture](https://res.cloudinary.com/dmjd9rohb/image/upload/v1733378526/Animated-web-screens-_remix_q8c3cg.gif)
 
 LeafyNest is an online marketplace for plant lovers, offering convenient options for local pickup or home delivery. Our standout features include personalized plant care recommendations and seamless delivery fee calculation based on your location.
 
